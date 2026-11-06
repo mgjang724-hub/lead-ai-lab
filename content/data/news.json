@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "note": "수동 입력 소식입니다. isSample: true 인 항목은 레이아웃 확인용 예시이며 화면에 '예시'로 표시됩니다. 실제 소식이 들어오면 예시 항목을 지우세요. 실적·경력 데이터에서 자동 생성되는 소식(연구 성과·구성원 소식)은 lib/content.ts 의 getNews() 가 합칩니다.",
+    "categories": {
+      "notice": "연구실 공지",
+      "conference": "학술대회",
+      "publication": "연구 성과",
+      "award": "수상·선정",
+      "event": "연구실 행사",
+      "member": "구성원 소식"
+    }
+  },
+  "items": [
+    {
+      "slug": "sample-seminar-notice",
+      "date": "2026-03",
+      "category": "notice",
+      "title": "[예시] 연구실 정기 세미나 안내",
+      "excerpt": "[예시 콘텐츠] 세미나 주제·일시·장소를 적습니다. 실제 소식이 등록되면 이 항목을 삭제하세요.",
+      "body": [
+        "[예시 콘텐츠] 이 항목은 News 레이아웃과 상세 페이지 전환을 확인하기 위한 예시입니다.",
+        "실제 소식은 content/data/news.json 에 { slug, date, category, title, excerpt, body[] } 형식으로 추가합니다."
+      ],
+      "image": null,
+      "imageLabel": "세미나 사진",
+      "isSample": true,
+      "source": "manual"
+    },
+    {
+      "slug": "sample-recruiting",
+      "date": "2026-02",
+      "category": "notice",
+      "title": "[예시] 대학원 신입생·연구원 모집 안내",
+      "excerpt": "[예시 콘텐츠] 모집 분야·지원 방법·일정을 적습니다. 확정 전에는 Contact 페이지의 참여 안내를 참고하세요.",
+      "body": [
+        "[예시 콘텐츠] 모집 요강이 확정되면 본문을 교체하고 isSample 값을 지우세요."
+      ],
+      "image": null,
+      "imageLabel": "연구실 전경",
+      "isSample": true,
+      "source": "manual"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+node_modules
+.next
+out
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+npm-debug.log*
+
+# 로컬 환경 변수
+.env*.local
+
+# 연구실 원본 자료(개인정보·원문) — 저장소에 올리지 않음. 필요하면 아래 줄을 지우세요
+/이현우 교수 논문·실적 목록.docx
+/이현우_교수_논문_저자.xlsx
+/교수님 사진.png

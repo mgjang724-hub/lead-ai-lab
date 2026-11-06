@@ -1,0 +1,28 @@
+{
+  "name": "lab-website",
+  "private": true,
+  "version": "0.1.0",
+  "description": "상명대학교 교육학과 이현우 교수 연구실 홈페이지 — Learning Lab 디자인 시스템 기반",
+  "scripts": {
+    "dev": "next dev",
+    "build": "npm run tokens && next build",
+    "start": "npx serve out",
+    "tokens": "node scripts/build-tokens.mjs",
+    "typecheck": "tsc --noEmit",
+    "check:data": "node scripts/check-data.mjs",
+    "prebuild": "node scripts/clean.mjs",
+    "predev": "node scripts/clean.mjs --next",
+    "clean": "node scripts/clean.mjs"
+  },
+  "dependencies": {
+    "next": "^15.5.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "typescript": "^5.6.0"
+  }
+}

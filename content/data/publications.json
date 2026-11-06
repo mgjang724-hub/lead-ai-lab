@@ -1,0 +1,1463 @@
+{
+  "meta": {
+    "source": "이현우 교수 논문·실적 목록.docx",
+    "sourceDate": "2026-11-05",
+    "sourceNote": "상명대학교 교육학과(서울) 교수소개 페이지 기준. 제목·학술지명·연도는 원문 표기 그대로입니다. 논문(journal)의 저자·DOI·URL 은 연구실이 정리한 검증표(아래 authorsSource)에서 가져왔고, 저역서·학술발표의 저자·DOI·URL·권호는 자료가 없어 비워 둡니다.",
+    "classificationNote": "areas 필드는 제목 키워드 기반 임시 분류입니다. 연구실 확인 후 수정하세요.",
+    "authorsSource": "이현우_교수_논문_저자.xlsx (2026-11-06, 1차 검증표: 저자·DOI 확인 38편, 저자만 확인 23편, 미검증 1편)",
+    "authorsNote": "authors 는 검증표의 제1저자 + 공동저자(원본 순서). doi 는 검증표에 DOI 가 있는 항목만, url 은 DOI 가 없는 항목의 학술정보(KCI·RISS 등) 논문 페이지만 넣었습니다(검색 결과·기관 페이지 URL 은 제외). DOI 미확인 항목의 DOI 는 임의로 채우지 않습니다."
+  },
+  "counts": {
+    "journal": 62,
+    "book": 9,
+    "conference": 23
+  },
+  "items": [
+    {
+      "id": "j01",
+      "type": "journal",
+      "title": "LLM 기반 교수·학습 과정안 평가 시스템의 적용 가능성 탐색",
+      "venue": "교육정보미디어연구",
+      "date": "2026.08",
+      "year": 2026,
+      "sortKey": "20260800",
+      "authors": "이헌영, 이현우",
+      "doi": "10.15833/kaeim.2026.32.4.027",
+      "lang": "ko",
+      "areas": [
+        "ai-in-education",
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j02",
+      "type": "journal",
+      "title": "초등학생의 자기조절학습 지원을 위한 생성형 AI 활용에 대한 초등교사의 요구 분석",
+      "venue": "교육연구",
+      "date": "2026.07",
+      "year": 2026,
+      "sortKey": "20260700",
+      "authors": "한종열, 이현우",
+      "url": "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART003365625",
+      "lang": "ko",
+      "areas": [
+        "ai-in-education",
+        "teacher-competency"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j03",
+      "type": "journal",
+      "title": "TAM·UTAUT·VAM 통합모형을 활용한 직업계고 교사의 AI·에듀테크 활용 의도 분석",
+      "venue": "대한공업교육학회지",
+      "date": "2026.06",
+      "year": 2026,
+      "sortKey": "20260600",
+      "authors": "문미진, 이현우",
+      "doi": "10.35140/kiiedu.2026.51.2.1",
+      "lang": "ko",
+      "areas": [
+        "ai-in-education",
+        "teacher-competency"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j04",
+      "type": "journal",
+      "title": "교사의 문제기반학습(PBL) 수업 설계를 지원하는 스캐폴딩 기반 생성형 AI 챗봇 개발",
+      "venue": "교육방법연구",
+      "date": "2025.08",
+      "year": 2025,
+      "sortKey": "20250800",
+      "authors": "장민경, 이헌영, 이현우",
+      "doi": "10.17927/tkjems.2025.37.3.247",
+      "lang": "ko",
+      "areas": [
+        "ai-in-education",
+        "instructional-design",
+        "teacher-competency"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j05",
+      "type": "journal",
+      "title": "교원의 AI․디지털 역량에 대한 교육요구 분석",
+      "venue": "교육정보미디어연구",
+      "date": "2024.06",
+      "year": 2024,
+      "sortKey": "20240600",
+      "authors": "이현우, 장민경, 임규연, 서정희, 허희옥",
+      "doi": "10.15833/KAFEIAM.30.3.955",
+      "lang": "ko",
+      "areas": [
+        "ai-in-education",
+        "teacher-competency"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j06",
+      "type": "journal",
+      "title": "Using topic modeling-based network visualization and generative AI in online discussions, how learners' perception of usability affects their reflection on feedback",
+      "venue": "Educational Technology International",
+      "date": "2024.04",
+      "year": 2024,
+      "sortKey": "20240400",
+      "authors": "장민경, 이현우",
+      "doi": "10.23095/ETI.2024.25.1.001",
+      "lang": "en",
+      "areas": [
+        "ai-in-education",
+        "learning-analytics"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j07",
+      "type": "journal",
+      "title": "교원의 AI⋅디지털 역량 측정 도구 개발과 타당화",
+      "venue": "교육정보미디어연구",
+      "date": "2024.04",
+      "year": 2024,
+      "sortKey": "20240400",
+      "authors": "허희옥, 서정희, 임규연, 임경희, 이현우, 강신천",
+      "doi": "10.15833/KAFEIAM.30.2.497",
+      "lang": "ko",
+      "areas": [
+        "ai-in-education",
+        "teacher-competency"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j08",
+      "type": "journal",
+      "title": "이러닝 환경에서 디지털 휴먼 교수자의 유형이 학습자의 교수실재감 인식 및 학습에 미치는 영향",
+      "venue": "교육정보미디어연구",
+      "date": "2024.04",
+      "year": 2024,
+      "sortKey": "20240400",
+      "authors": "장민경, 이현우",
+      "doi": "10.15833/KAFEIAM.30.2.429",
+      "lang": "ko",
+      "areas": [
+        "ai-in-education",
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j09",
+      "type": "journal",
+      "title": "대학생의 팀 프로젝트 기반 학습에서 갈등을 감지하는 ChatGPT 기반의 챗봇 개발",
+      "venue": "교육공학연구",
+      "date": "2024.03",
+      "year": 2024,
+      "sortKey": "20240300",
+      "authors": "전신영, 이현우",
+      "doi": "10.17232/KSET.40.1.141",
+      "lang": "ko",
+      "areas": [
+        "ai-in-education",
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j10",
+      "type": "journal",
+      "title": "인공지능 교육을 위한 디지털 교육 콘텐츠 디자인",
+      "venue": "차세대컨버전스정보서비스기술논문지",
+      "date": "2024.02",
+      "year": 2024,
+      "sortKey": "20240200",
+      "authors": "권지은, 이현우",
+      "url": "https://m.riss.kr/search/detail/DetailView.do?control_no=34ef89b382ec700ed18150b21a227875&p_mat_type=1a0202e37d52c72d",
+      "lang": "ko",
+      "areas": [
+        "ai-in-education",
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j11",
+      "type": "journal",
+      "title": "Pre-service Teachers' Education Needs for AI-Based Education Competency",
+      "venue": "Educational Technology International",
+      "date": "2023.10",
+      "year": 2023,
+      "sortKey": "20231000",
+      "authors": "장민경, 이현우",
+      "doi": "10.23095/ETI.2023.24.2.143",
+      "lang": "en",
+      "areas": [
+        "ai-in-education",
+        "teacher-competency"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j12",
+      "type": "journal",
+      "title": "ARCS모델 기반 히라가나 학습에 있어서의 연상법의 수업흥미도와 효과에 관한 분석― S대학 교양일본어 수업 수강생을 대상으로 ―",
+      "venue": "일본어교육연구",
+      "date": "2023.08",
+      "year": 2023,
+      "sortKey": "20230800",
+      "authors": "이이호시 카즈야, 이현우, 김효선",
+      "url": "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002992643",
+      "lang": "ko",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j13",
+      "type": "journal",
+      "title": "토픽 모델링 기반의 시각적 피드백에 대한 학습자의 사용의도 분석: 온라인 토론 학습에서 성찰 활동을 중심으로",
+      "venue": "교육방법연구",
+      "date": "2023.02",
+      "year": 2023,
+      "sortKey": "20230200",
+      "authors": "장민경, 이현우",
+      "doi": "10.17927/tkjems.2023.35.1.155",
+      "lang": "ko",
+      "areas": [
+        "learning-analytics",
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j14",
+      "type": "journal",
+      "title": "대학생의 직업가치관-전공 일치도와 전공적응도가 학업성취도에 미치는 영향",
+      "venue": "직업교육연구",
+      "date": "2022.12",
+      "year": 2022,
+      "sortKey": "20221200",
+      "authors": "조명희, 차윤미, 이현우",
+      "doi": "10.37210/JVER.2022.41.6.27",
+      "lang": "ko",
+      "areas": [],
+      "scope": "professor"
+    },
+    {
+      "id": "j15",
+      "type": "journal",
+      "title": "The Effects of Digital Written Feedback on Paper-based Tests for College Students",
+      "venue": "ASIA-PACIFIC EDUCATION RESEARCHER",
+      "date": "2022.08",
+      "year": 2022,
+      "sortKey": "20220800",
+      "authors": "Hyeon Woo Lee, Yoon Mi Cha",
+      "doi": "10.1007/s40299-021-00592-8",
+      "lang": "en",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j16",
+      "type": "journal",
+      "title": "원격수업 유형에 따른 몽골 중학생의 학습실재감과 학습몰입의 차이 분석",
+      "venue": "교육혁신연구",
+      "date": "2022.06",
+      "year": 2022,
+      "sortKey": "20220600",
+      "authors": "Ariunaa Garamhand, 이현우, 차윤미",
+      "doi": "10.21024/pnuedi.32.2.202206.125",
+      "lang": "ko",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j17",
+      "type": "journal",
+      "title": "머신러닝 기반의 학업성취 예측 모형 탐색: 대학의 오프라인 수업을 중심으로",
+      "venue": "교육방법연구",
+      "date": "2021.02",
+      "year": 2021,
+      "sortKey": "20210200",
+      "authors": "이현우, 이종문, 차윤미",
+      "doi": "10.17927/tkjems.2021.33.1.29",
+      "lang": "ko",
+      "areas": [
+        "learning-analytics"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j18",
+      "type": "journal",
+      "title": "교직이론과목이 예비교사의 역량에 미치는 영향: 『교육방법 및 교육공학』을 중심으로",
+      "venue": "교육방법연구",
+      "date": "2020.08",
+      "year": 2020,
+      "sortKey": "20200800",
+      "authors": "조명희, 이현우",
+      "doi": "10.17927/tkjems.2020.32.3.339",
+      "lang": "ko",
+      "areas": [
+        "instructional-design",
+        "teacher-competency"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j19",
+      "type": "journal",
+      "title": "An analysis of the trends of undergraduates' academic achievement based on their admission type in Korea",
+      "venue": "Higher Education Quarterly",
+      "date": "2020.01",
+      "year": 2020,
+      "sortKey": "20200100",
+      "authors": "Hyeon Woo Lee, Hye Yeon Lee, Eun Jin Kim",
+      "doi": "10.1111/HEQU.12233",
+      "lang": "en",
+      "areas": [
+        "learning-analytics"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j20",
+      "type": "journal",
+      "title": "학습관리시스템(LMS) 데이터를 활용한 기술수용모형의 사용의도와 실제사용 간의 관계 분석",
+      "venue": "교육공학연구",
+      "date": "2019.06",
+      "year": 2019,
+      "sortKey": "20190600",
+      "authors": "김기범, 차윤미, 이현우",
+      "doi": "10.17232/KSET.35.2.139",
+      "lang": "ko",
+      "areas": [
+        "learning-analytics"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j21",
+      "type": "journal",
+      "title": "오프라인 강좌에서 대학생의 학업성취에 따른 학습관리시스템 활동의 차이 분석",
+      "venue": "교육정보미디어연구",
+      "date": "2019.03",
+      "year": 2019,
+      "sortKey": "20190300",
+      "authors": "이현우, 이종문, 차윤미",
+      "doi": "10.15833/KAFEIAM.25.1.201",
+      "lang": "ko",
+      "areas": [
+        "learning-analytics"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j22",
+      "type": "journal",
+      "title": "대학교육에서 Active Learning Classroom의 효과에 관한 사례 연구",
+      "venue": "교육정보미디어연구",
+      "date": "2018.12",
+      "year": 2018,
+      "sortKey": "20181200",
+      "authors": "이현우, 차윤미, 김기범",
+      "doi": "10.15833/KAFEIAM.24.4.733",
+      "lang": "ko",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j23",
+      "type": "journal",
+      "title": "학사경고자 예측을 위한 학습분석학적 모형 탐색",
+      "venue": "교육공학연구",
+      "date": "2018.12",
+      "year": 2018,
+      "sortKey": "20181200",
+      "authors": "조명희, 김은진, 이현우",
+      "doi": "10.17232/KSET.34.4.877",
+      "lang": "ko",
+      "areas": [
+        "learning-analytics"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j24",
+      "type": "journal",
+      "title": "의사소통능력과 진로준비행동이 예비교사의 역량에 미치는 영향: 교사효능감과 학교현장실습만족도의 매개효과를 중심으로",
+      "venue": "교육방법연구",
+      "date": "2018.11",
+      "year": 2018,
+      "sortKey": "20181100",
+      "authors": "김은진, 이현우",
+      "doi": "10.17927/tkjems.2018.30.4.537",
+      "lang": "ko",
+      "areas": [
+        "teacher-competency"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j25",
+      "type": "journal",
+      "title": "대학의 교과, 비교과 및 현장실습이 대학생의 역량 향상에 미치는 영향: 예비 청소년교육 전문 인력을 중심으로",
+      "venue": "교육방법연구",
+      "date": "2018.08",
+      "year": 2018,
+      "sortKey": "20180800",
+      "authors": "김광선, 이현우",
+      "doi": "10.17927/tkjems.2018.30.3.283",
+      "lang": "ko",
+      "areas": [
+        "hrd"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j26",
+      "type": "journal",
+      "title": "The effects of cross-modality and level of self-regulated learning on knowledge acquisition with smartpads",
+      "venue": "ETRD-EDUCATIONAL TECHNOLOGY RESEARCH AND DEVELOPMENT",
+      "date": "2018.04",
+      "year": 2018,
+      "sortKey": "20180400",
+      "authors": "Hye Yeon Lee, Hyeon Woo Lee",
+      "doi": "10.1007/s11423-017-9543-0",
+      "lang": "en",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j27",
+      "type": "journal",
+      "title": "교수들이 인식하는 대입전형별 입학생의 학업, 대학생활적응, 진로준비행동의 차이에 대한 연구",
+      "venue": "취업진로연구",
+      "date": "2018.03",
+      "year": 2018,
+      "sortKey": "20180300",
+      "authors": "이현우, 김효선",
+      "doi": "10.35273/jec.2018.8.1.007",
+      "lang": "ko",
+      "areas": [],
+      "scope": "professor"
+    },
+    {
+      "id": "j28",
+      "type": "journal",
+      "title": "학교현장실습을 통한 예비교사의 역량향상도와 예비교사와 지도교사의 인식차이 분석",
+      "venue": "교원교육",
+      "date": "2017.10",
+      "year": 2017,
+      "sortKey": "20171000",
+      "authors": "이현우, 김은진",
+      "doi": "10.14333/KJTE.2017.33.4.147",
+      "lang": "ko",
+      "areas": [
+        "teacher-competency"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j29",
+      "type": "journal",
+      "title": "성인 암환자들의 학습공동체 참여를 통한전환학습 과정에 대한 탐색",
+      "venue": "평생교육 · HRD연구",
+      "date": "2017.04",
+      "year": 2017,
+      "sortKey": "20170400",
+      "authors": "전신영, 이현우",
+      "doi": "10.35637/klehrd.2017.13.2.002",
+      "lang": "ko",
+      "areas": [
+        "hrd"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j30",
+      "type": "journal",
+      "title": "예비 청소년교육 전문 인력의 역량 및 교육요구도 분석",
+      "venue": "교육방법연구",
+      "date": "2017.02",
+      "year": 2017,
+      "sortKey": "20170200",
+      "authors": "이현우, 김광선, 홍세진, 김효선, 이정민",
+      "doi": "10.17927/tkjems.2017.29.1.143",
+      "lang": "ko",
+      "areas": [
+        "hrd"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j31",
+      "type": "journal",
+      "title": "교원양성에서 예비교사의 역량 변화 연구",
+      "venue": "평생교육 · HRD연구",
+      "date": "2017.01",
+      "year": 2017,
+      "sortKey": "20170100",
+      "authors": "이현우, 이정민, 정정교",
+      "url": "https://www.kci.go.kr/kciportal/landing/article.kci?arti_id=ART002192606",
+      "lang": "ko",
+      "areas": [
+        "teacher-competency"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j32",
+      "type": "journal",
+      "title": "교육요구분석에서 예비교사와 현직교사의중요도 인식 차이에 따른 모델 수정에 관한 연구",
+      "venue": "교원교육",
+      "date": "2016.07",
+      "year": 2016,
+      "sortKey": "20160700",
+      "authors": "조명희, 이현우",
+      "url": "https://www.kci.go.kr/kciportal/landing/article.kci?arti_id=ART002129908",
+      "lang": "ko",
+      "areas": [
+        "teacher-competency"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j33",
+      "type": "journal",
+      "title": "대학입학전형에 따른 고교 학생부성적, 대학수학능력시험 성적, 대학학업성취도 간의 관계: A대학의 사례를 중심으로",
+      "venue": "進路敎育硏究",
+      "date": "2016.06",
+      "year": 2016,
+      "sortKey": "20160600",
+      "authors": "이혜연, 조명희, 이현우",
+      "url": "https://www.riss.or.kr/search/detail/DetailView.do?control_no=282ef5d94409bb8a4884a65323211ff0&p_mat_type=1a0202e37d52c72d",
+      "lang": "ko",
+      "areas": [
+        "learning-analytics"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j34",
+      "type": "journal",
+      "title": "Comparing social network analysis of posts with counting of posts as a measurement of learners’ participation in facebook discussions",
+      "venue": "Turkish Online Journal of Educational Technology",
+      "date": "2016",
+      "year": 2016,
+      "sortKey": "20160000",
+      "authors": "Hye Yeon Lee, Hyeon Woo Lee",
+      "url": "https://www.tojet.net/articles/v15i1/1512.pdf",
+      "lang": "en",
+      "areas": [
+        "learning-analytics"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j35",
+      "type": "journal",
+      "title": "Does Touch-based Interaction in Learning with Interactive Images Improve Students' Learning?",
+      "venue": "ASIA-PACIFIC EDUCATION RESEARCHER",
+      "date": "2015.12",
+      "year": 2015,
+      "sortKey": "20151200",
+      "authors": "Hyeon Woo Lee",
+      "doi": "10.1007/s40299-014-0197-y",
+      "lang": "en",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j36",
+      "type": "journal",
+      "title": "Does Mentoring Program have Impact on the Structural Relationship regarding Job Satisfaction in HRD field?",
+      "venue": "East West Education",
+      "date": "2014.12",
+      "year": 2014,
+      "sortKey": "20141200",
+      "lang": "en",
+      "areas": [
+        "hrd"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j37",
+      "type": "journal",
+      "title": "대학입학전형 유형에 따른 전공계열별 신입생의 학습역량 차이 분석",
+      "venue": "진로교육연구",
+      "date": "2014.09",
+      "year": 2014,
+      "sortKey": "20140900",
+      "authors": "조명희, 이현우",
+      "url": "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART001915467",
+      "lang": "ko",
+      "areas": [
+        "learning-analytics"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j38",
+      "type": "journal",
+      "title": "Integrating user interface and personal innovativeness into the TAM for mobile learning in Cyber University",
+      "venue": "Journal of Computing in Higher Education",
+      "date": "2014.08",
+      "year": 2014,
+      "sortKey": "20140800",
+      "authors": "Young Ju Joo, Hyeon Woo Lee, Yoo-Kyoung Ham",
+      "doi": "10.1007/s12528-014-9081-2",
+      "lang": "en",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j39",
+      "type": "journal",
+      "title": "사범대학 재학생의 교수역량: S대학 사례를 중심으로",
+      "venue": "교원교육",
+      "date": "2014.07",
+      "year": 2014,
+      "sortKey": "20140700",
+      "authors": "조명희, 이혜연, 이현우",
+      "doi": "10.14333/KJTE.2014.30.3.239",
+      "lang": "ko",
+      "areas": [
+        "teacher-competency"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j40",
+      "type": "journal",
+      "title": "국내 대기업 사내강사의 역량 및 교육 요구 분석",
+      "venue": "기업교육연구",
+      "date": "2014.06",
+      "year": 2014,
+      "sortKey": "20140600",
+      "authors": "박용호, 이현우, 유기웅, 이진구",
+      "url": "https://www.kci.go.kr/kciportal/landing/article.kci?arti_id=ART001896335",
+      "lang": "ko",
+      "areas": [
+        "hrd"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j41",
+      "type": "journal",
+      "title": "지역화 기반 스마트교육 정책 방안 모색: 전라남도를 중심으로",
+      "venue": "디지털융복합연구",
+      "date": "2014.05",
+      "year": 2014,
+      "sortKey": "20140500",
+      "authors": "허희옥, 이현우, 강의성, 김현진, 임규연",
+      "doi": "10.14400/JDC.2014.12.5.25",
+      "lang": "ko",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j42",
+      "type": "journal",
+      "title": "스마트교육을 위한 교원의 교육요구도 분석",
+      "venue": "교원교육",
+      "date": "2014.01",
+      "year": 2014,
+      "sortKey": "20140100",
+      "authors": "허희옥, 임규연, 이현우, 김현진",
+      "doi": "10.14333/KJTE.2014.30.1.93",
+      "lang": "ko",
+      "areas": [
+        "instructional-design",
+        "teacher-competency"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j43",
+      "type": "journal",
+      "title": "Does Digital Handwriting of Instructors Using the iPad Enhance Student Learning?",
+      "venue": "ASIA-PACIFIC EDUCATION RESEARCHER",
+      "date": "2013.08",
+      "year": 2013,
+      "sortKey": "20130800",
+      "authors": "Hyeon Woo Lee, Kyu Yon Lim",
+      "doi": "10.1007/s40299-012-0016-2",
+      "lang": "en",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j44",
+      "type": "journal",
+      "title": "스마트교육을 위한 교원역량 진단 도구 개발",
+      "venue": "교육정보미디어연구",
+      "date": "2013.06",
+      "year": 2013,
+      "sortKey": "20130600",
+      "authors": "허희옥, 임규연, 김현진, 이현우",
+      "url": "https://kci.go.kr/kciportal/landing/article.kci?arti_id=ART001782365",
+      "lang": "ko",
+      "areas": [
+        "instructional-design",
+        "teacher-competency"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j45",
+      "type": "journal",
+      "title": "대학 토론 수업에서 Facebookⓡ 활용 시 학습자의 자기조절학습 수준과 교수자의 피드백이 성취도와 참여도에 미치는 영향",
+      "venue": "교육정보미디어연구",
+      "date": "2013.06",
+      "year": 2013,
+      "sortKey": "20130600",
+      "authors": "박은솔, 이현우",
+      "url": "https://www.kci.go.kr/kciportal/landing/article.kci?arti_id=ART001782402",
+      "lang": "ko",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j46",
+      "type": "journal",
+      "title": "고교생의 진로발달, 학교생활만족도, 학업성취도의 종단적 변화와 구조적 관계",
+      "venue": "進路敎育硏究",
+      "date": "2013.06",
+      "year": 2013,
+      "sortKey": "20130600",
+      "authors": "조명희, 이혜연, 이현우",
+      "url": "https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE02409870",
+      "lang": "ko",
+      "areas": [],
+      "scope": "professor"
+    },
+    {
+      "id": "j47",
+      "type": "journal",
+      "title": "사범대학 재학생의 학년별 교수자 역량 진단 및 교육요구도 분석",
+      "venue": "한국교원교육연구",
+      "date": "2012.12",
+      "year": 2012,
+      "sortKey": "20121200",
+      "authors": "이현우, 조명희",
+      "doi": "10.24211/TJKTE.2012.29.4.521",
+      "lang": "ko",
+      "areas": [
+        "teacher-competency"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j48",
+      "type": "journal",
+      "title": "시·도 교육청 고급관리자의 역량모델링에 따른 교육요구 분석*",
+      "venue": "기업교육연구",
+      "date": "2012.12",
+      "year": 2012,
+      "sortKey": "20121200",
+      "authors": "이현우, 임규연",
+      "url": "https://www.kci.go.kr/kciportal/landing/article.kci?arti_id=ART001732670",
+      "lang": "ko",
+      "areas": [
+        "hrd"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j49",
+      "type": "journal",
+      "title": "User-Design Approach in Problem Development and its Effects on Authenticity, Performance, and Satisfaction in Problem-Based Learning",
+      "venue": "ASIA-PACIFIC EDUCATION RESEARCHER",
+      "date": "2012.11",
+      "year": 2012,
+      "sortKey": "20121100",
+      "authors": "Hyeon Woo Lee",
+      "url": "https://ejournals.ph/article.php?id=4516",
+      "lang": "en",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j50",
+      "type": "journal",
+      "title": "수학교육을 위한 ICT 활용에 대한 수학교사의 인식 및 태도 조사",
+      "venue": "교원교육",
+      "date": "2012.10",
+      "year": 2012,
+      "sortKey": "20121000",
+      "authors": "조명희, 김화경, 이현우",
+      "url": "https://www.earticle.net/Article/A221843",
+      "lang": "ko",
+      "areas": [
+        "instructional-design",
+        "teacher-competency"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j51",
+      "type": "journal",
+      "title": "대학 강의평가에서 실시 방식이 학생들의 불성실한 응답에 미치는 영향에 관한 연구",
+      "venue": "교육방법연구",
+      "date": "2012.08",
+      "year": 2012,
+      "sortKey": "20120800",
+      "authors": "이원석, 이현우, 정영근",
+      "doi": "10.17927/tkjems.2012.24.3.547",
+      "lang": "ko",
+      "areas": [],
+      "scope": "professor"
+    },
+    {
+      "id": "j52",
+      "type": "journal",
+      "title": "과제기반 협력학습에서 소집단 구성원의 자기조절학습 수준이 집단자기조절, 소집단 성과 및 활동 만족도에 미치는 영향",
+      "venue": "교육방법연구",
+      "date": "2012.02",
+      "year": 2012,
+      "sortKey": "20120200",
+      "authors": "이현우",
+      "doi": "10.17927/tkjems.2012.24.1.171",
+      "lang": "ko",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j53",
+      "type": "journal",
+      "title": "청소년 문화활동의 참여동기, 참여태도, 참여빈도 및 자기효능감의 구조적 관계 분석",
+      "venue": "미래청소년학회지",
+      "date": "2011.06",
+      "year": 2011,
+      "sortKey": "20110600",
+      "authors": "김미현, 이현우, 정영근",
+      "lang": "ko",
+      "areas": [],
+      "scope": "professor"
+    },
+    {
+      "id": "j54",
+      "type": "journal",
+      "title": "AN APPLICATION OF LATENT VARIABLE STRUCTURAL EQUATION MODELING FOR EXPERIMENTAL RESEARCH IN EDUCATIONAL TECHNOLOGY",
+      "venue": "TURKISH ONLINE JOURNAL OF EDUCATIONAL TECHNOLOGY",
+      "date": "2011.01",
+      "year": 2011,
+      "sortKey": "20110100",
+      "authors": "Hyeon Woo Lee",
+      "url": "https://www.tojet.net/articles/v10i1/1012.pdf",
+      "lang": "en",
+      "areas": [],
+      "scope": "professor"
+    },
+    {
+      "id": "j55",
+      "type": "journal",
+      "title": "Improving self-regulation, learning strategy use, and achievement with metacognitive feedback",
+      "venue": "ETRD-EDUCATIONAL TECHNOLOGY RESEARCH AND DEVELOPMENT",
+      "date": "2010.12",
+      "year": 2010,
+      "sortKey": "20101200",
+      "authors": "Hyeon Woo Lee, Kyu Yon Lim, Barbara L. Grabowski",
+      "doi": "10.1007/s11423-010-9153-6",
+      "lang": "en",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j56",
+      "type": "journal",
+      "title": "The Effects of Group Composition of Self-Regulation on Project-based Group Performance",
+      "venue": "Educational Technology International",
+      "date": "2010.10",
+      "year": 2010,
+      "sortKey": "20101000",
+      "authors": "이현우",
+      "url": "https://kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART001492529",
+      "lang": "en",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j57",
+      "type": "journal",
+      "title": "Factors Influencing Teachers' Use of Technology and PBL in Middle School Science Classrooms",
+      "venue": "Educational Technology International",
+      "date": "2010.04",
+      "year": 2010,
+      "sortKey": "20100400",
+      "authors": "임규연, 이현우, Hien NGUYEN, Barbara GRABOWSKI",
+      "url": "https://www.kci.go.kr/kciportal/landing/article.kci?arti_id=ART001445250",
+      "lang": "en",
+      "areas": [
+        "instructional-design",
+        "teacher-competency"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j58",
+      "type": "journal",
+      "title": "청소년의 문화활동 참여와 자기효능감 간의 관계 분석",
+      "venue": "교육연구",
+      "date": "2010.02.28",
+      "year": 2010,
+      "sortKey": "20100228",
+      "authors": "김미현, 이현우",
+      "url": "https://kiss.kstudy.com/Detail/Ar?key=2831296",
+      "lang": "ko",
+      "areas": [],
+      "scope": "professor"
+    },
+    {
+      "id": "j59",
+      "type": "journal",
+      "title": "웹 블렌디드(Web-blended) 과제수행에서 학습동기, 학습자 간 피드백, 그리고 학습성과의 구조적 관계",
+      "venue": "교육정보미디어연구",
+      "date": "2009.12",
+      "year": 2009,
+      "sortKey": "20091200",
+      "authors": "이현우",
+      "url": "https://kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART001405992",
+      "lang": "ko",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j60",
+      "type": "journal",
+      "title": "Does concept-mapping strategy work for everyone? The levels of generativity and learners' self-regulated learning skills",
+      "venue": "BRITISH JOURNAL OF EDUCATIONAL TECHNOLOGY",
+      "date": "2009.07.01",
+      "year": 2009,
+      "sortKey": "20090701",
+      "authors": "Kyu Yon Lim, Hyeon Woo Lee, Barbara Grabowski",
+      "doi": "10.1111/j.1467-8535.2008.00872.x",
+      "lang": "en",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j61",
+      "type": "journal",
+      "title": "Generative Learning Strategies and Metacognitive Feedback to Facilitate Comprehension of Complex Science Topics and Self-Regulation",
+      "venue": "Journal of Educational Multimedia and Hypermedia",
+      "date": "2009.01",
+      "year": 2009,
+      "sortKey": "20090100",
+      "authors": "Hyeon Woo Lee, Barbara Grabowski, Kyu Yon Lim",
+      "url": "https://www.researchgate.net/publication/263929768_Generative_Learning_Strategies_and_Metacognitive_Feedback_to_Facilitate_comprehension_of_Complex_Science_Topics_and_Self-Regulation",
+      "lang": "en",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "j62",
+      "type": "journal",
+      "title": "GBS+ 설계 모델을 적용한 e-learning 코스웨어 개발 연구",
+      "venue": "기업교육연구",
+      "date": "2002.06",
+      "year": 2002,
+      "sortKey": "20020600",
+      "authors": "조일현, 임규연, 이현우",
+      "lang": "ko",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "b01",
+      "type": "book",
+      "title": "HRD 담당자를 위한 ROI의 기초",
+      "venue": "박영스토리",
+      "date": "2022.08.22",
+      "year": 2022,
+      "sortKey": "20220822",
+      "authors": "Patricia Pulliam Phillips · Jack J. Phillips 지음, 이현우 옮김",
+      "lang": "ko",
+      "areas": [
+        "hrd"
+      ],
+      "scope": "professor",
+      "cover": "/images/books/b01.jpg",
+      "coverAlt": "『HRD 담당자를 위한 ROI의 기초』(ROI Basics, 2nd Edition) 표지 — 박영스토리, 2022"
+    },
+    {
+      "id": "b02",
+      "type": "book",
+      "title": "학습자중심 수업을 위한 교육방법 및 교육공학",
+      "venue": "문음사",
+      "date": "2020.08.28",
+      "year": 2020,
+      "sortKey": "20200828",
+      "authors": "이인숙 · 한승연 · 임병노 · 이지연 · 이현우 · 이은배 지음",
+      "lang": "ko",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor",
+      "cover": "/images/books/b02.jpg",
+      "coverAlt": "『학습자중심 수업을 위한 교육방법 및 교육공학』 표지 — 문음사, 2020"
+    },
+    {
+      "id": "b03",
+      "type": "book",
+      "title": "교육공학 용어해설",
+      "venue": "학지사",
+      "date": "2020.05.20",
+      "year": 2020,
+      "sortKey": "20200520",
+      "authors": "Rita C. Richey 편, 이현우 · 임규연 · 정재삼 · 허희옥 공역",
+      "lang": "ko",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor",
+      "cover": "/images/books/b03.jpg",
+      "coverAlt": "『교육공학 용어해설』 표지 — 학지사, 2020"
+    },
+    {
+      "id": "b04",
+      "type": "book",
+      "title": "서비스-러닝의 본질 : 질문, 답, 그리고 깨달음",
+      "venue": "박영story : 피와이메이트",
+      "date": "2018.01",
+      "year": 2018,
+      "sortKey": "20180100",
+      "lang": "ko",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "b05",
+      "type": "book",
+      "title": "교수의 으뜸원리 : 효과적, 효율적, 매력적 교수설계",
+      "venue": "학지사",
+      "date": "2014.12.30",
+      "year": 2014,
+      "sortKey": "20141230",
+      "lang": "ko",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "b06",
+      "type": "book",
+      "title": "교육공학",
+      "venue": "문음사",
+      "date": "2014.08.28",
+      "year": 2014,
+      "sortKey": "20140828",
+      "lang": "ko",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "b07",
+      "type": "book",
+      "title": "상명학습전략",
+      "venue": "와이즈북스",
+      "date": "2014.02.25",
+      "year": 2014,
+      "sortKey": "20140225",
+      "lang": "ko",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "b08",
+      "type": "book",
+      "title": "교육공학 : 통학적 접근과 학제적 관점",
+      "venue": "교육과학사",
+      "date": "2013.09.10",
+      "year": 2013,
+      "sortKey": "20130910",
+      "lang": "ko",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "b09",
+      "type": "book",
+      "title": "교수설계 지식기반",
+      "venue": "학지사",
+      "date": "2012.08.30",
+      "year": 2012,
+      "sortKey": "20120830",
+      "lang": "ko",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "c01",
+      "type": "conference",
+      "title": "Assessing Learners' Knowledge Representation Using Concept Mapping: Reliability and Validity",
+      "venue": "American Educational Research Association",
+      "date": "—",
+      "year": null,
+      "sortKey": null,
+      "lang": "en",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "c02",
+      "type": "conference",
+      "title": "What vs. How: Structural Equation Modeling in Experimental Research",
+      "venue": "한국교육공학회",
+      "date": "—",
+      "year": null,
+      "sortKey": null,
+      "lang": "en",
+      "areas": [],
+      "scope": "professor"
+    },
+    {
+      "id": "c03",
+      "type": "conference",
+      "title": "Exploring a Model for Predicting Achievement with LMS Activities",
+      "venue": "AECT",
+      "date": "2019.10.24",
+      "year": 2019,
+      "sortKey": "20191024",
+      "lang": "en",
+      "areas": [
+        "learning-analytics"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "c04",
+      "type": "conference",
+      "title": "Does Behavioral Intention to use of LMS really predict Actual Usage in higher education?",
+      "venue": "AECT",
+      "date": "2019.10.24",
+      "year": 2019,
+      "sortKey": "20191024",
+      "lang": "en",
+      "areas": [
+        "learning-analytics"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "c05",
+      "type": "conference",
+      "title": "학습관리시스템 활동 데이터기반의 학습자 성취예측 모형 탐색",
+      "venue": "한국교육정보미디어학회",
+      "date": "2019.05.31",
+      "year": 2019,
+      "sortKey": "20190531",
+      "lang": "ko",
+      "areas": [
+        "learning-analytics"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "c06",
+      "type": "conference",
+      "title": "학습관리시스템(LMS)의 인터렉션 데이터를 활용한 대학생의 학업성취도 예측 가능성 탐색",
+      "venue": "한국교육정보미디어학회한국교육공학회",
+      "date": "2018.11.10",
+      "year": 2018,
+      "sortKey": "20181110",
+      "lang": "ko",
+      "areas": [
+        "learning-analytics"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "c07",
+      "type": "conference",
+      "title": "학습관리시스템(LMS)에 대한 대학생의 인지된 용이성, 유용성이 실제 사용 여부에 미치는 영향",
+      "venue": "한국교육정보미디어학회한국교육공학회",
+      "date": "2018.11.10",
+      "year": 2018,
+      "sortKey": "20181110",
+      "lang": "ko",
+      "areas": [
+        "learning-analytics"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "c08",
+      "type": "conference",
+      "title": "대학에서 지필시험에 대한 디지털 첨삭의 효과성 연구",
+      "venue": "한국교육정보미디어학회한국교육공학회",
+      "date": "2018.11.10",
+      "year": 2018,
+      "sortKey": "20181110",
+      "lang": "ko",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "c09",
+      "type": "conference",
+      "title": "Integrative analog-to-digital feedback system",
+      "venue": "AACE",
+      "date": "2018.06.25",
+      "year": 2018,
+      "sortKey": "20180625",
+      "lang": "en",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "c10",
+      "type": "conference",
+      "title": "창의융합교육을 위한 산학연계 교육모델 개발",
+      "venue": "한국대학교육협의회",
+      "date": "2016.05.27",
+      "year": 2016,
+      "sortKey": "20160527",
+      "lang": "ko",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "c11",
+      "type": "conference",
+      "title": "새로운 고등교육 교수-학습 모델 수용을 위한 S대학의 강의실 구축 사례",
+      "venue": "한국교육공학회",
+      "date": "2015.11.21",
+      "year": 2015,
+      "sortKey": "20151121",
+      "lang": "ko",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "c12",
+      "type": "conference",
+      "title": "교육요구분석에서 미경험학습자의 중요도 판정은 타당한가?",
+      "venue": "한국인력개발학회",
+      "date": "2015.06.05",
+      "year": 2015,
+      "sortKey": "20150605",
+      "lang": "ko",
+      "areas": [
+        "teacher-competency"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "c13",
+      "type": "conference",
+      "title": "스마트패드를 활용한 학습에서 교차양상 및 자기조절학습 수준이 지식습득에 미치는 영향",
+      "venue": "한국교육공학회",
+      "date": "2015.05.02",
+      "year": 2015,
+      "sortKey": "20150502",
+      "lang": "ko",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "c14",
+      "type": "conference",
+      "title": "스마트교육을 위한 교원역량진단도구 개발",
+      "venue": "한국교육공학회",
+      "date": "2013.05.11",
+      "year": 2013,
+      "sortKey": "20130511",
+      "lang": "ko",
+      "areas": [
+        "instructional-design",
+        "teacher-competency"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "c15",
+      "type": "conference",
+      "title": "The Impact of Mentoring Programs on Team Support, Communication, Commitment, and Job Satisfaction",
+      "venue": "AERA",
+      "date": "2013.05.01",
+      "year": 2013,
+      "sortKey": "20130501",
+      "lang": "en",
+      "areas": [
+        "hrd"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "c16",
+      "type": "conference",
+      "title": "The Impact of iPad Use on Students' Learning",
+      "venue": "AERA",
+      "date": "2013.04.29",
+      "year": 2013,
+      "sortKey": "20130429",
+      "lang": "en",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "c17",
+      "type": "conference",
+      "title": "과제기반 협동학습에서 학습자의 자기조절학습을 고려한 효과적인 집단자기조절을 위한 팀 구성 방법 설계",
+      "venue": "한국교육학회",
+      "date": "2011.10.22",
+      "year": 2011,
+      "sortKey": "20111022",
+      "lang": "ko",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "c18",
+      "type": "conference",
+      "title": "The effects of learners' participation in writing problems of PBL on Task Performance",
+      "venue": "한국교육학회",
+      "date": "2010.10.30",
+      "year": 2010,
+      "sortKey": "20101030",
+      "lang": "en",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "c19",
+      "type": "conference",
+      "title": "Assessing learners' overt use of learning strategies with multimedia using generalization theory",
+      "venue": "AACE",
+      "date": "2010.06.30",
+      "year": 2010,
+      "sortKey": "20100630",
+      "lang": "en",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "c20",
+      "type": "conference",
+      "title": "ICT in Education Indicators: Analysis on ICT in Education Readiness",
+      "venue": "교육과학기술부",
+      "date": "2009.11.11",
+      "year": 2009,
+      "sortKey": "20091111",
+      "lang": "en",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "c21",
+      "type": "conference",
+      "title": "Do we know how learners use our instructional strategies?",
+      "venue": "AECT (Association for Educational Communication and Technology)",
+      "date": "2009.10.29",
+      "year": 2009,
+      "sortKey": "20091029",
+      "lang": "en",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    },
+    {
+      "id": "c22",
+      "type": "conference",
+      "title": "What vs. How: Structural Equation Modeling in Experimental Research",
+      "venue": "한국교육공학회",
+      "date": "2009.05.16",
+      "year": 2009,
+      "sortKey": "20090516",
+      "lang": "en",
+      "areas": [],
+      "scope": "professor"
+    },
+    {
+      "id": "c23",
+      "type": "conference",
+      "title": "Assessing learners' knowledge representation using concept mapping: reliability and validity",
+      "venue": "AERA (American Educational Research Association)",
+      "date": "2009.04.16",
+      "year": 2009,
+      "sortKey": "20090416",
+      "lang": "en",
+      "areas": [
+        "instructional-design"
+      ],
+      "scope": "professor"
+    }
+  ]
+}

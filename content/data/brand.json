@@ -1,0 +1,60 @@
+{
+  "meta": {
+    "status": "proposal",
+    "note": "홈페이지 제작용 브랜드 제안안입니다. 대학의 공식 승인 여부가 확인되지 않았으므로 공식 기관 명칭(content/site.ts 의 university/department)과 구분해 관리합니다. 승인되면 status 를 \"approved\" 로 바꾸세요. intro·pillars 문구는 초안이며 연구실 공식 비전이 아닙니다.",
+    "updated": "2026-11-06"
+  },
+  "name": "LEAD AI Lab",
+  "wordmark": "LEAD AI LAB.",
+  "shortWordmark": "LEAD.",
+  "acronym": "LEAD",
+  "meaning": "Learning Experience, Analytics & Design",
+  "nameKo": "AI 학습경험·분석·설계 연구실",
+  "affiliation": "Sangmyung University",
+  "fields": [
+    "Educational Technology",
+    "Artificial Intelligence in Education",
+    "Learning Analytics",
+    "Instructional Design",
+    "Learning Sciences",
+    "HRD"
+  ],
+  "tagline": "Designing Better Learning with AI.",
+  "taglineLines": ["Designing Better", "Learning with AI."],
+  "secondary": "Learning Experience. Analytics. Design. AI.",
+  "sloganKo": "AI로 학습을 이해하고, 더 나은 학습경험을 설계합니다.",
+  "intro": [
+    "LEAD AI Lab은 교육공학을 기반으로 인공지능, 학습분석, 교수설계 및 학습경험에 관한 연구를 탐색합니다.",
+    "학습자의 경험과 학습 과정을 이해하고, 데이터와 AI 기술을 활용하여 효과적인 교수·학습 환경을 설계하는 것을 지향합니다."
+  ],
+  "pillars": [
+    {
+      "key": "experience",
+      "label": "Learning Experience",
+      "ko": "학습경험",
+      "text": "학습자가 실제로 겪는 경험과 학습 과정에서 출발합니다. 자기조절학습, 학습 동기, 피드백 경험을 이해하는 것이 설계의 첫 단계입니다.",
+      "areas": ["instructional-design"]
+    },
+    {
+      "key": "analytics",
+      "label": "Analytics",
+      "ko": "학습분석",
+      "text": "학습관리시스템 데이터와 토픽 모델링, 예측 모형으로 학습 과정을 읽습니다. 데이터가 말해 주는 것에서 설계를 시작합니다.",
+      "areas": ["learning-analytics"]
+    },
+    {
+      "key": "design",
+      "label": "Design",
+      "ko": "교수설계",
+      "text": "문제기반학습, 스마트교육, 교원 역량 개발까지 — 이해한 것을 효과적인 교수·학습 환경으로 설계합니다.",
+      "areas": ["instructional-design", "teacher-competency", "hrd"]
+    },
+    {
+      "key": "ai",
+      "label": "AI",
+      "ko": "교육 인공지능",
+      "text": "생성형 AI와 LLM 기반 도구를 학습자의 자기조절과 교사의 수업 설계를 돕는 방향으로 연구합니다. 도구가 학습을 대신하는 것이 아니라 더 나은 학습을 설계하도록 돕습니다.",
+      "areas": ["ai-in-education"]
+    }
+  ]
+}

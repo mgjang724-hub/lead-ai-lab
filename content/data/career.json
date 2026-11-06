@@ -1,0 +1,107 @@
+{
+  "meta": {
+    "source": "이현우 교수 논문·실적 목록.docx",
+    "sourceDate": "2026-11-05"
+  },
+  "items": [
+    {
+      "id": "career-01",
+      "role": "서울캠퍼스 교무처장",
+      "org": "상명대학교",
+      "period": "2026.07~",
+      "start": "2026.07",
+      "end": null,
+      "current": true
+    },
+    {
+      "id": "career-02",
+      "role": "입학처장",
+      "org": "상명대학교",
+      "period": "2025.09~2026.06",
+      "start": "2025.09",
+      "end": "2026.06",
+      "current": false
+    },
+    {
+      "id": "career-03",
+      "role": "교육학과 학과장",
+      "org": "상명대학교",
+      "period": "2024.02~2025.01",
+      "start": "2024.02",
+      "end": "2025.01",
+      "current": false
+    },
+    {
+      "id": "career-04",
+      "role": "대학혁신추진단장",
+      "org": "상명대학교",
+      "period": "2021.03~2021.09",
+      "start": "2021.03",
+      "end": "2021.09",
+      "current": false
+    },
+    {
+      "id": "career-05",
+      "role": "교육혁신원부원장",
+      "org": "상명대학교",
+      "period": "2020.09~2021.09",
+      "start": "2020.09",
+      "end": "2021.09",
+      "current": false
+    },
+    {
+      "id": "career-06",
+      "role": "교정정책자문위원",
+      "org": "법무부",
+      "period": "2018.01~2021.12",
+      "start": "2018.01",
+      "end": "2021.12",
+      "current": false
+    },
+    {
+      "id": "career-07",
+      "role": "MOOC지원센터장",
+      "org": "상명대학교",
+      "period": "2016.07~2018.02",
+      "start": "2016.07",
+      "end": "2018.02",
+      "current": false
+    },
+    {
+      "id": "career-08",
+      "role": "교수학습개발센터장",
+      "org": "상명대학교",
+      "period": "2015.12~2019.01",
+      "start": "2015.12",
+      "end": "2019.01",
+      "current": false
+    },
+    {
+      "id": "career-09",
+      "role": "학과장",
+      "org": "상명대 교육학과",
+      "period": "2014~2015",
+      "start": "2014",
+      "end": "2015",
+      "current": false
+    },
+    {
+      "id": "career-10",
+      "role": "이사",
+      "org": "한국교육공학회, 한국교육정보미디어학회",
+      "period": "2010.01~",
+      "start": "2010.01",
+      "end": null,
+      "current": true
+    },
+    {
+      "id": "career-11",
+      "role": "정교수",
+      "org": "상명대학교",
+      "period": "2009.03~",
+      "start": "2009.03",
+      "end": null,
+      "current": true
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+/**
+ * 콘텐츠 데이터 타입 — content/data/*.json 과 content/*.ts 가 이 계약을 따릅니다.
+ * 데이터를 추가할 때 컴포넌트 코드를 고칠 필요가 없도록, 화면은 전부 이 타입만 읽습니다.
+ */
+
+export type AreaId =
+  | 'ai-in-education'
+  | 'learning-analytics'
+  | 'instructional-design'
+  | 'teacher-competency'
+  | 'hrd';
+
+export type PublicationType = 'journal' | 'book' | 'conference';
+
+/** 실적의 귀속 — 교수 개인 실적과 연구실(구성원 공동) 실적을 화면에서 구분해 표시합니다. */
+export type Scope = 'professor' | 'lab';
+
+export interface Publication {
+  id: string;
+  type: PublicationType;
+  title: string;
+  /** 학술지명 · 출판사 · 학회/기관 (원문 표기 그대로) */
+  venue: string;
+  /** 원문 날짜 표기 (예: "2026.08", "2016", "2010.02.28", "—") */
+  date: string;
+  year: number | null;
+  /** 정렬용 YYYYMMDD (월·일이 없으면 00) */
+  sortKey: string | null;
+  lang: 'ko' | 'en';
+  /** 임시 분류 — 제목 키워드 기반. 비어 있으면 '분야 미분류' */
+  areas: AreaId[];
+  scope: Scope;
+  /* 논문(journal)의 authors·doi·url 은 연구실 검증표(이현우_교수_논문_저자.xlsx, 2026-11-06)에서 가져왔습니다.
+     저역서·학술발표는 자료가 없어 비워 둡니다. DOI 가 확인되지 않은 항목은 비워 두고 url(학술정보 논문 페이지)만 둡니다. */
+  /** 제1저자부터 원본 순서로, 쉼표 구분 */
+  authors?: string;
+  doi?: string | null;
+  /** 학술정보(KCI·RISS 등) 논문 페이지 — DOI 가 없을 때 제목 링크로 사용 */
+  url?: string;
+  abstract?: string;
+  /** 저역서 표지 이미지 경로(public/ 기준, 예: "/images/books/b01.jpg") — 확인된 파일만. 없으면 /books 에서 중립 placeholder */
+  cover?: string;
+  coverAlt?: string;
+}
+
+export interface Project {
+  id: string;
+  title: string;
+  funder: string;
+  period: string;
+  start: string;
+  end: string;
+  startYear: number;
+  endYear: number;
+  status: 'ongoing' | 'completed';
+  areas: AreaId[];
+  scope: Scope;
+  summary: string | null;
+  media: string | null;
+}
+
+export interface CareerEntry {
+  id: string;
+  role: string;
+  org: string;
+  period: string;
+  start: string;
+  end: string | null;
+  current: boolean;
+}
+
+export interface EducationEntry {
+  degree: string;
+  institution: string;
+  program: string;
+  detail?: string;
+  date: string;
+}
+
+export type MemberRole = 'phd' | 'master' | 'researcher' | 'other';
+
+export interface Member {
+  slug: string;
+  /** 카드 링크를 /people/[slug] 대신 다른 곳으로 (지도교수 카드 → /about#professor) */
+  href?: string;
+  name: string;
+  nameEn?: string | null;
+  role: MemberRole;
+  /** 화면 표기 (예: "박사과정", "석사과정 2년차") — 비우면 role 기본 라벨 */
+  roleLabel?: string | null;
+  interests: string[];
+  areas?: AreaId[];
+  email?: string | null;
+  photo?: string | null;
+  bio?: string | null;
+  joined?: string | null;
+  /** 레이아웃 확인용 가상 항목 — 이름 옆에 "예시" 배지를 붙이고, 상세 페이지는 색인·sitemap 에서 제외합니다 */
+  isSample?: boolean;
+}
+
+export interface Alumnus {
+  slug: string;
+  name: string;
+  degree: 'phd' | 'master';
+  graduatedYear: number;
+  thesis?: string | null;
+  areas?: AreaId[];
+  /** 공개 가능한 경우에만 */
+  affiliation?: string | null;
+  /** 초상 사진 경로(public/ 기준). 없으면 중립 placeholder */
+  photo?: string | null;
+  /** 레이아웃 확인용 가상 항목 — 화면에 '예시' 배지를 붙이고 실제 졸업생과 구분합니다 */
+  isSample?: boolean;
+}
+
+export type NewsCategory = 'notice' | 'conference' | 'publication' | 'award' | 'event' | 'member';
+
+export interface NewsItem {
+  slug: string;
+  /** ISO 날짜: "2026-08" 또는 "2026-08-15" */
+  date: string;
+  category: NewsCategory;
+  title: string;
+  excerpt?: string;
+  /** 본문 문단 배열 */
+  body?: string[];
+  image?: string | null;
+  imageLabel?: string;
+  /** 실제 소식이 아닌 예시 콘텐츠 — 화면에 '예시'로 표시됨 */
+  isSample?: boolean;
+  /** 'derived' 는 실적·경력 데이터에서 자동 생성된 항목 */
+  source?: 'manual' | 'derived';
+  /** 연결된 논문·프로젝트·경력 id */
+  relatedIds?: string[];
+  link?: { href: string; label: string } | null;
+}
+
+export interface LabHistoryEntry {
+  year: string;
+  title: string;
+  text?: string;
+}
+
+export interface ResearchArea {
+  id: AreaId;
+  slug: string;
+  title: string;
+  ko: string;
+  summary: string;
+  description: string;
+  keywords: string[];
+  /** 이미지 placeholder 라벨 (실제 사진이 생기면 image 로 교체) */
+  media: string;
+  image?: string | null;
+  provisional: boolean;
+}

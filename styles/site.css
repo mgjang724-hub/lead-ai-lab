@@ -1,0 +1,304 @@
+/* ==========================================================================
+   Site-specific additions — loaded after tokens.css and components.css.
+   Everything here uses the design-system tokens; no new colours or radii.
+   ========================================================================== */
+
+/* ---------- JS-gated reveal initial state (no pre-hydration flash) ----------
+   Elements with [data-reveal] are hidden until the reveal hook has prepared their paused animation
+   (then it sets [data-reveal-ready]). If JS never runs, the fallback animation shows them after 2.5s. */
+html.lab-js [data-reveal]:not([data-reveal-ready]) { opacity: 0; animation: lab-reveal-fallback 1ms linear 2.5s forwards; }
+@keyframes lab-reveal-fallback { to { opacity: 1; } }
+
+/* anchors land below the sticky header */
+[id] { scroll-margin-top: calc(var(--lab-header-h) + 24px); }
+html { scroll-behavior: auto; }
+
+/* curtain + main need a stacking context */
+.lab-main { min-height: 60vh; }
+
+/* ---------- Notices (data provenance · samples · placeholders) ---------- */
+.lab-notice { display: flex; gap: 12px; align-items: flex-start; padding: 16px 20px; border: 1px solid var(--border-hairline); color: var(--text-secondary); font: 400 14px/1.6 var(--font-sans); }
+.lab-notice .lab-icon { flex: none; margin-top: 3px; color: var(--icon); }
+.lab-notice b { color: var(--text-primary); font-weight: 600; }
+.lab-notice--subtle { background: var(--bg-muted); border-color: transparent; }
+.lab-notice--on-brand { border-color: var(--border-on-brand); color: var(--text-on-brand-muted); }
+.lab-notice--on-brand b { color: var(--text-on-brand); }
+.lab-badge { display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border: 1px solid var(--border-control); border-radius: var(--radius-pill); font: 600 11px/1 var(--font-display); letter-spacing: .08em; text-transform: uppercase; color: var(--text-tertiary); vertical-align: middle; }
+.lab-badge--sample { border-style: dashed; }
+.lab-badge--prov { color: var(--accent); border-color: var(--accent); }
+
+/* ---------- Breadcrumb ---------- */
+.lab-crumb { margin-bottom: 28px; }
+.lab-crumb__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font: 500 13px/1.2 var(--font-display); letter-spacing: .02em; color: var(--text-tertiary); }
+.lab-crumb__item { display: inline-flex; align-items: center; gap: 8px; }
+.lab-crumb__link { color: inherit; text-decoration: none; }
+.lab-crumb__link:hover { color: var(--text-primary); }
+.lab-crumb__cur { color: var(--text-primary); }
+.lab-crumb__sep { display: inline-flex; color: var(--icon); }
+
+/* ---------- Stats row (Home / About) ---------- */
+.lab-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px var(--lab-gutter); padding-top: 48px; border-top: 1px solid var(--border-hairline); }
+@media (min-width: 768px) { .lab-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.lab-stat { display: flex; flex-direction: column; gap: 10px; }
+.lab-stat__n { font: 500 var(--lab-fs-h1)/1 var(--font-display); letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
+.lab-stat__l { color: var(--text-tertiary); }
+.lab-stat__ko { color: var(--text-secondary); font-size: 14px; }
+
+/* ---------- Definition lists reused across pages ---------- */
+.lab-dl { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px 24px; margin: 0; }
+@media (min-width: 640px) { .lab-dl { grid-template-columns: max-content minmax(0, 1fr); } }
+.lab-dl dt { font: 600 12px/1.6 var(--font-display); letter-spacing: .12em; text-transform: uppercase; color: var(--text-tertiary); padding-top: 4px; }
+.lab-dl dd { margin: 0; color: var(--text-primary); }
+.lab-dl dd .lab-t-caption { display: block; color: var(--text-tertiary); margin-top: 2px; }
+
+/* ---------- Simple list rows (career, education, selected outputs) ---------- */
+.lab-rows { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border-hairline); }
+.lab-rows > li { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px 24px; padding: 18px 0; border-bottom: 1px solid var(--border-hairline); }
+@media (min-width: 768px) { .lab-rows > li { grid-template-columns: 180px minmax(0, 1fr); } }
+.lab-rows__k { font: 500 13px/1.6 var(--font-display); letter-spacing: .02em; color: var(--text-tertiary); font-variant-numeric: tabular-nums; }
+.lab-rows__k.is-current { color: var(--accent); }
+.lab-rows__v { display: flex; flex-direction: column; gap: 2px; }
+.lab-rows__v .lab-t-caption { color: var(--text-tertiary); }
+
+/* ---------- Research area grid (Research page · About) ---------- */
+.lab-areas { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--lab-gutter); }
+@media (min-width: 640px) { .lab-areas { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .lab-areas { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.lab-areas .lab-rcard { min-height: 100%; }
+.lab-rcard__stat { display: block; margin-top: 18px; color: var(--text-tertiary); font: 500 13px/1.4 var(--font-display); letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+
+/* ---------- Research detail page ---------- */
+.lab-detail { display: grid; grid-template-columns: minmax(0, 1fr); gap: 48px; }
+@media (min-width: 1024px) { .lab-detail { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--lab-gutter); } .lab-detail__main { grid-column: 1 / 8; } .lab-detail__side { grid-column: 9 / 13; } }
+.lab-detail__main { display: flex; flex-direction: column; gap: 40px; max-width: 48em; }
+.lab-detail__side { display: flex; flex-direction: column; gap: 32px; }
+.lab-detail__side .lab-t-label { color: var(--text-tertiary); }
+/* People profile: portrait first in DOM (mobile: on top); desktop puts it in the left third and the text on the right */
+@media (min-width: 1024px) { .lab-detail--photo-first .lab-detail__side { grid-column: 1 / 5; grid-row: 1; } .lab-detail--photo-first .lab-detail__main { grid-column: 6 / 13; grid-row: 1; } }
+.lab-profile__photo { margin: 0; width: 100%; max-width: 420px; }
+.lab-sidelist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.lab-sidelist li { padding: 12px 0; border-bottom: 1px solid var(--border-hairline); }
+.lab-sidelist li:first-child { border-top: 1px solid var(--border-hairline); }
+.lab-sidelist a { color: inherit; text-decoration: none; display: flex; justify-content: space-between; gap: 16px; align-items: baseline; }
+.lab-sidelist a .lab-t-index { color: var(--text-tertiary); flex: none; }
+
+/* ---------- Project timeline (Research · Gantt-like rows) ---------- */
+.lab-ptl { display: flex; flex-direction: column; gap: 0; border-top: 1px solid var(--border-hairline); }
+.lab-ptl__axis { display: none; }
+.lab-ptl__row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; padding: 18px 0; border-bottom: 1px solid var(--border-hairline); }
+.lab-ptl__meta { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; color: var(--text-tertiary); font: 500 13px/1.4 var(--font-display); letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.lab-ptl__title { color: var(--text-primary); }
+.lab-ptl__track { position: relative; height: 10px; }
+.lab-ptl__track::before { content: ""; position: absolute; inset: 50% 0 auto 0; height: 1px; background: var(--border-subtle); }
+.lab-ptl__bar { position: absolute; top: 2px; bottom: 2px; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform var(--dur-slower) var(--ease-in-out); }
+.lab-ptl__row.is-on .lab-ptl__bar { transform: scaleX(1); }
+@media (min-width: 1024px) {
+  .lab-ptl__axis { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); padding: 10px 0; color: var(--text-tertiary); }
+  .lab-ptl__ticks { position: relative; display: flex; justify-content: space-between; font: 500 12px/1 var(--font-display); font-variant-numeric: tabular-nums; }
+  .lab-ptl__row { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: var(--lab-gutter); align-items: center; }
+  .lab-ptl__track { height: 28px; }
+}
+:root[data-motion="reduced"] .lab-ptl__bar { transform: scaleX(1) !important; transition: none; }
+
+/* ---------- Publications page: toolbar & sort ---------- */
+.lab-pubs__tools { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; }
+.lab-pubs__sort { display: inline-flex; align-items: center; gap: 2px; border: 1px solid var(--border-hairline); border-radius: var(--radius-pill); padding: 2px; }
+.lab-pubs__sortbtn { height: 30px; padding: 0 12px; border: 0; background: none; border-radius: var(--radius-pill); color: var(--text-tertiary); font: 500 13px/1 var(--font-display); cursor: pointer; transition: color var(--dur-fast) var(--ease-standard), background var(--dur-fast) var(--ease-standard); }
+.lab-pubs__sortbtn[aria-pressed="true"] { background: var(--chip-selected-bg); color: var(--chip-selected-fg); }
+.lab-pubs__sortbtn:focus-visible { outline-offset: 1px; }
+.lab-pub__meta { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; color: var(--text-tertiary); }
+.lab-pub__area { font: 500 11px/1 var(--font-display); letter-spacing: .06em; text-transform: uppercase; color: var(--text-tertiary); text-decoration: none; }
+.lab-pub__area:hover { color: var(--accent); }
+.lab-pub__detail { display: flex; flex-direction: column; gap: 10px; padding: 8px 0 20px; color: var(--text-secondary); }
+.lab-pub__detail .lab-dl { font-size: 14px; }
+
+/* ---------- People ---------- */
+.lab-prof__dl { margin-top: 8px; }
+.lab-prof__photo .lab-media__img { object-position: 50% 20%; }
+.lab-prof__note { color: var(--text-tertiary); }
+.lab-people-empty { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; padding: 40px 0 8px; max-width: 46em; }
+.lab-people-empty .lab-t-body { color: var(--text-secondary); }
+.lab-alumni { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border-hairline); }
+.lab-alumni li { border-bottom: 1px solid var(--border-hairline); }
+/* whole row links to /people/[slug] */
+.lab-alumni__row { display: grid; grid-template-columns: 48px 64px minmax(0, 1fr); gap: 16px; align-items: start; padding: 16px 0; color: inherit; text-decoration: none; }
+@media (min-width: 768px) { .lab-alumni__row { grid-template-columns: 72px 80px minmax(0, 1fr); gap: 20px; } }
+@media (hover: hover) and (pointer: fine) { .lab-alumni__row:hover .lab-t-h6 { text-decoration: underline; text-underline-offset: 0.2em; } .lab-alumni__row:hover .lab-media__img { transform: scale(1.03); } }
+.lab-alumni .lab-t-index { color: var(--text-tertiary); }
+.lab-alumni__photo { margin: 0; }
+.lab-alumni__photo .lab-media__frame { border-radius: 2px; }
+.lab-alumni__photo .lab-media__img { transition: transform var(--dur-slower) var(--ease-out); }
+.lab-alumni__photo .lab-media__label { display: none; }
+.lab-alumni__badge { margin-left: 8px; vertical-align: middle; }
+.lab-member__badge { margin-left: 8px; vertical-align: middle; }
+
+/* ---------- News ---------- */
+.lab-news__badge { margin-left: 8px; }
+.lab-article { display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; }
+@media (min-width: 1024px) { .lab-article { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--lab-gutter); } .lab-article__body { grid-column: 1 / 8; } .lab-article__side { grid-column: 9 / 13; } }
+.lab-article__body { display: flex; flex-direction: column; gap: 24px; max-width: 42em; }
+.lab-article__body p { color: var(--text-primary); }
+.lab-article__meta { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; color: var(--text-tertiary); }
+.lab-article__side { display: flex; flex-direction: column; gap: 24px; }
+.lab-article__nav { display: flex; justify-content: space-between; gap: 24px; padding-top: 32px; border-top: 1px solid var(--border-hairline); }
+
+/* ---------- Contact ---------- */
+.lab-contact__dl dd a { color: inherit; }
+.lab-contact__map { position: relative; }
+.lab-contact__map .lab-media__cap { color: var(--text-tertiary); }
+.lab-form__status { display: flex; gap: 12px; align-items: flex-start; padding: 16px 20px; border: 1px solid var(--border-control); color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
+.lab-form__status .lab-icon { flex: none; color: var(--icon); margin-top: 3px; }
+.lab-form__status--ok { border-color: var(--accent); }
+.lab-form__status--ok .lab-icon { color: var(--accent); }
+.lab-form__preview { display: flex; flex-direction: column; gap: 10px; padding: 20px; background: var(--bg-muted); }
+.lab-form__preview pre { margin: 0; white-space: pre-wrap; word-break: break-word; font: 400 13px/1.6 var(--font-sans); color: var(--text-primary); }
+.lab-form__actions { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center; }
+
+/* ---------- Not found ---------- */
+.lab-404 { min-height: 60vh; display: flex; flex-direction: column; justify-content: center; gap: 24px; }
+.lab-404 .lab-t-display-l { color: var(--text-decorative); }
+
+/* ---------- Footer: plain links ---------- */
+.lab-footer__plain { color: inherit; text-decoration: none; }
+.lab-footer__plain:hover { color: var(--text-on-brand); }
+
+/* ---------- SubNav (in-page sticky anchors) ---------- */
+.lab-subnav { position: sticky; top: var(--lab-header-h); z-index: var(--z-sticky); background: var(--header-bg-scrolled); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-top: 1px solid var(--border-hairline); border-bottom: 1px solid var(--border-hairline); overflow-x: auto; scrollbar-width: none; }
+.lab-subnav::-webkit-scrollbar { display: none; }
+.lab-subnav__list { list-style: none; margin: 0; padding: 0 var(--lab-margin); display: flex; gap: 4px; width: max-content; min-width: 100%; }
+.lab-subnav__link { position: relative; display: inline-flex; align-items: baseline; gap: 8px; padding: 16px 14px; color: var(--text-tertiary); text-decoration: none; font: 500 14px/1 var(--font-display); letter-spacing: -.005em; white-space: nowrap; transition: color var(--dur-fast) var(--ease-standard); }
+.lab-subnav__ko { font: 400 12px/1 var(--font-sans); color: var(--text-tertiary); }
+.lab-subnav__link:hover, .lab-subnav__link.is-on { color: var(--text-primary); }
+.lab-subnav__ind { position: absolute; left: 0; bottom: -1px; height: 2px; width: 0; background: var(--nav-indicator); opacity: 0; transition: transform var(--dur-base) var(--ease-out), width var(--dur-base) var(--ease-out), opacity var(--dur-fast); pointer-events: none; }
+.lab-subnav { position: sticky; }
+.lab-subnav__list { position: relative; }
+
+/* ---------- Timeline entries (several per year) ---------- */
+.lab-tl__body { display: flex; flex-direction: column; gap: 20px; }
+.lab-tl__entry { display: flex; flex-direction: column; gap: 4px; }
+.lab-tl__label { color: var(--text-tertiary); }
+.lab-tl__entry .lab-t-body { color: var(--text-secondary); }
+
+/* ---------- Print ---------- */
+@media print {
+  .lab-header, .lab-footer, .lab-totop, .lab-curtain, .lab-hero__field, .lab-skip { display: none !important; }
+  [data-reveal] { opacity: 1 !important; }
+}
+
+/* ---------- Research explorer panel link ---------- */
+.lab-rx__link { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; color: inherit; text-decoration: none; font: 500 15px/1.2 var(--font-display); letter-spacing: -.005em; }
+.lab-rx__link::after { content: ""; display: block; width: 28px; height: 1px; background: currentColor; transition: width var(--dur-base) var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .lab-rx__link:hover::after { width: 44px; } }
+.lab-rx__link:focus-visible { outline-offset: 4px; }
+
+/* ---------- Brand: wordmark + mark (components/brand/Logo.tsx) ---------- */
+.lab-logo { display: inline-block; vertical-align: middle; overflow: visible; color: inherit; flex: none; }
+.lab-logo__text { font-family: var(--font-display); fill: currentColor; letter-spacing: 1px; }
+.lab-logo__lead { font-weight: 700; }
+.lab-logo__ai { font-weight: 400; fill: var(--text-tertiary); }
+.lab-logo__lab { font-weight: 600; }
+.lab-logo--light { color: var(--text-primary); }
+.lab-logo--dark { color: var(--text-on-brand); }
+.lab-logo--dark .lab-logo__ai { fill: var(--text-on-brand-subtle); }
+.lab-mark { display: inline-block; vertical-align: middle; flex: none; }
+.lab-mark__bg { fill: var(--navy-700, #16254F); }
+.lab-mark__glyph { fill: #fff; }
+.lab-mark__dot { fill: var(--silver-blue, #ACBBC6); }
+.lab-mark--bare .lab-mark__glyph { fill: currentColor; }
+
+/* 헤더 브랜드: 워드마크 + 보조 문구(모바일은 소속, 데스크톱은 LEAD 의미) */
+.lab-brand__sub--long { display: none; }
+@media (min-width: 1280px) { .lab-brand__sub--long { display: inline; } .lab-brand__sub--short { display: none; } }
+
+/* HTML 타이포 워드마크 (히어로 h1 등) — LEAD 700 · AI 400/보조색 · LAB. 600 */
+.lab-wm__lead { font-weight: 700; }
+.lab-wm__ai { font-weight: 400; color: var(--text-tertiary); }
+.lab-wm__lab { font-weight: 600; }
+.lab-hero--wm .lab-t-display-xl { letter-spacing: -.035em; }
+.lab-hero__tagline { margin-top: clamp(14px, 2vw, 26px); max-width: 14em; color: var(--text-secondary); }
+.lab-footer__brand { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.lab-mmenu__top .lab-logo { color: var(--text-on-brand); }
+
+/* ResearchGrid — Home 연구 분야 에디토리얼 카드 그리드 (네이비 씬 위). 모바일부터 2열 카드(첫 카드는 전폭 강조 행), 768px 이상에서 여백·활자 확대.
+   정적: 같은 네이비 면 + navy-700 헤어라인으로 하나의 그리드처럼. hover/focus: 면이 한 단계 밝아지고(bg-brand-raised) 보더 강조,
+   타이틀 상승·화살표 대각 이동·키워드 밝아짐 — transform/color 만 전환해 레이아웃이 밀리지 않음. */
+.lab-rgrid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
+.lab-rgrid__cell { display: grid; min-width: 0; }
+.lab-rgrid__cell--feature { grid-column: 1 / -1; }
+.lab-rgrid__card {
+  position: relative; display: grid; grid-template-rows: auto 1fr auto; row-gap: var(--space-5); min-width: 0; min-height: 200px;
+  padding: clamp(14px, 4vw, 20px); border: 1px solid var(--navy-700); border-radius: 2px; background: var(--bg-brand);
+  color: var(--text-on-brand); text-decoration: none;
+  transition: background-color var(--dur-base) var(--ease-standard), border-color var(--dur-base) var(--ease-standard), transform var(--dur-base) var(--ease-out);
+}
+.lab-rgrid__top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.lab-rgrid__idx { color: var(--text-on-brand-subtle); }
+.lab-rgrid__arrow { display: inline-flex; color: var(--text-on-brand-muted); transition: transform var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-standard); }
+.lab-rgrid__title {
+  margin: 0; align-self: start; font: 500 clamp(20px, 5.6vw, 26px)/1.08 var(--font-display); letter-spacing: -.03em;
+  text-wrap: balance; overflow-wrap: anywhere; transition: transform var(--dur-base) var(--ease-out);
+}
+.lab-rgrid__foot { display: flex; flex-direction: column; gap: var(--space-2); }
+.lab-rgrid__ko { font: 500 14px/1.4 var(--font-display); letter-spacing: -.005em; }
+.lab-rgrid__kw { font: 400 12px/1.5 var(--font-display); color: var(--text-on-brand-muted); transition: color var(--dur-base) var(--ease-standard); }
+/* 강조 카드(첫 번째): 한 단계 밝은 면 + 큰 타이틀 — 모바일에서도 전폭 행 */
+.lab-rgrid__cell--feature .lab-rgrid__card { background: var(--bg-brand-raised); border-color: var(--navy-600); min-height: 220px; }
+.lab-rgrid__cell--feature .lab-rgrid__title { font-size: clamp(28px, 7.4vw, 36px); }
+.lab-rgrid__card:focus-visible { outline: var(--border-strong-w, 2px) solid var(--focus-ring-on-brand); outline-offset: 2px; }
+/* 강조·활성 상태: hover(정밀 포인터)와 키보드 포커스에 같은 상태를 적용 */
+.lab-rgrid__card:focus-visible, .lab-rgrid__card.is-hover { background: var(--bg-brand-raised); border-color: var(--border-on-brand); transform: translateY(-2px); }
+.lab-rgrid__cell--feature .lab-rgrid__card:focus-visible, .lab-rgrid__cell--feature .lab-rgrid__card.is-hover { background: var(--navy-700); border-color: var(--border-on-brand); }
+.lab-rgrid__card:focus-visible .lab-rgrid__title, .lab-rgrid__card.is-hover .lab-rgrid__title { transform: translateY(-6px); }
+.lab-rgrid__card:focus-visible .lab-rgrid__arrow, .lab-rgrid__card.is-hover .lab-rgrid__arrow { transform: translate(6px, -6px); color: var(--text-on-brand); }
+.lab-rgrid__card:focus-visible .lab-rgrid__kw, .lab-rgrid__card.is-hover .lab-rgrid__kw { color: var(--text-on-brand); }
+@media (hover: hover) and (pointer: fine) {
+  .lab-rgrid__card:hover { background: var(--bg-brand-raised); border-color: var(--border-on-brand); transform: translateY(-2px); }
+  .lab-rgrid__cell--feature .lab-rgrid__card:hover { background: var(--navy-700); border-color: var(--border-on-brand); }
+  .lab-rgrid__card:hover .lab-rgrid__title { transform: translateY(-6px); }
+  .lab-rgrid__card:hover .lab-rgrid__arrow { transform: translate(6px, -6px); color: var(--text-on-brand); }
+  .lab-rgrid__card:hover .lab-rgrid__kw { color: var(--text-on-brand); }
+}
+@media (min-width: 768px) {
+  .lab-rgrid { gap: var(--space-3); }
+  .lab-rgrid__card { min-height: 300px; padding: var(--space-6); row-gap: var(--space-7); }
+  .lab-rgrid__title { font-size: clamp(30px, 3.3vw, 44px); }
+  .lab-rgrid__ko { font-size: 16px; }
+  .lab-rgrid__kw { font-size: 13px; line-height: 1.55; }
+  .lab-rgrid__cell--feature .lab-rgrid__card { min-height: 320px; }
+  .lab-rgrid__cell--feature .lab-rgrid__title { font-size: clamp(40px, 5vw, 64px); max-width: 14em; }
+}
+@media (min-width: 1024px) {
+  .lab-rgrid__card { padding: clamp(32px, 3vw, 44px); min-height: 340px; }
+  .lab-rgrid__cell--feature .lab-rgrid__card { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); grid-template-rows: auto 1fr; column-gap: var(--lab-gutter); min-height: 320px; }
+  .lab-rgrid__cell--feature .lab-rgrid__top { grid-column: 1 / -1; }
+  .lab-rgrid__cell--feature .lab-rgrid__title { grid-column: 1; grid-row: 2; align-self: end; }
+  .lab-rgrid__cell--feature .lab-rgrid__foot { grid-column: 2; grid-row: 2; align-self: end; max-width: 26em; }
+}
+/* 모션 축소: 전환은 전역 규칙으로 즉시 적용되며, 이동 효과는 끔 */
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="full"]) .lab-rgrid__card, :root:not([data-motion="full"]) .lab-rgrid__title, :root:not([data-motion="full"]) .lab-rgrid__arrow, :root:not([data-motion="full"]) .lab-link__arrow { transform: none !important; }
+}
+:root[data-motion="reduced"] .lab-rgrid__card, :root[data-motion="reduced"] .lab-rgrid__title, :root[data-motion="reduced"] .lab-rgrid__arrow, :root[data-motion="reduced"] .lab-link__arrow { transform: none !important; }
+
+/* ResearchFeed — Home 최근 논문·연구 과제 통합 섹션. 칩은 섹션 헤더 바로 아래에 붙이고, 본문 교체는 rise 리빌 */
+.lab-feed__chips { margin-top: calc(-1 * clamp(16px, 2.5vw, 48px)); margin-bottom: clamp(32px, 4vw, 56px); }
+.lab-feed__body { min-height: 200px; }
+
+/* ---- Books — 저역서 표지 카드 그리드 (/books, components/content/Books.tsx) ---- */
+.lab-books { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px var(--lab-gutter); }
+@media (min-width: 768px) { .lab-books { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px var(--lab-gutter); } }
+.lab-book { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.lab-book__cover { margin: 0; }
+.lab-book__cover .lab-media__frame { border: 1px solid var(--border-hairline); }
+.lab-book__cover .lab-media__img { transition: transform var(--dur-slower) var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .lab-book:hover .lab-book__cover .lab-media__img { transform: scale(1.03); } }
+.lab-book__meta { display: flex; flex-direction: column; gap: 6px; }
+.lab-book__top { display: flex; justify-content: space-between; gap: 12px; margin: 0; color: var(--text-tertiary); }
+.lab-book__title { margin: 0; word-break: keep-all; }
+.lab-book__authors { margin: 0; color: var(--text-secondary); }
+.lab-book__venue { margin: 0; color: var(--text-secondary); }
+.lab-book__areas { margin: 0; color: var(--text-tertiary); }
+
+
+/* Research 페이지 분야 카드 — 데스크톱 3열 (feature 없음) */
+@media (min-width: 1024px) { .lab-rgrid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

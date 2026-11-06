@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "note": "실제 구성원·졸업생 명단은 아직 제공되지 않았습니다. 항목을 추가하면 People 페이지와 Home 미리보기에 자동으로 표시됩니다. members/alumni 의 isSample: true 항목은 연구실이 가상 인물 사진을 직접 제공하며 요청해 넣은 레이아웃 확인용 가상 인물(가상 사진·가상 정보)이며, 화면에 '예시' 배지와 안내문이 붙고 예시 구성원의 상세 페이지는 색인·sitemap 에서 제외됩니다. 실제 명단이 확정되면 예시 항목을 지우세요.",
+    "schema": {
+      "members[]": "{ slug, name, nameEn?, role: 'phd'|'master'|'researcher'|'other', roleLabel?, interests: string[], areas?: AreaId[], email?, photo?, bio?, joined?, isSample? }",
+      "alumni[]": "{ slug, name, degree: 'phd'|'master', graduatedYear, thesis?, areas?: AreaId[], affiliation?, photo?, isSample? }"
+    },
+    "example": {
+      "member": { "slug": "hong-gildong", "name": "홍길동", "role": "phd", "roleLabel": "박사과정", "interests": ["Learning Analytics", "Generative AI"], "areas": ["learning-analytics"], "email": null, "photo": null, "bio": null, "joined": "2024.03" },
+      "alumnus": { "slug": "kim-cheolsu", "name": "김철수", "degree": "master", "graduatedYear": 2023, "thesis": null, "areas": ["instructional-design"], "affiliation": null }
+    }
+  },
+  "members": [
+    {
+      "slug": "sample-member-01",
+      "name": "이서연",
+      "nameEn": null,
+      "role": "phd",
+      "roleLabel": "박사과정",
+      "interests": [
+        "Learning Analytics",
+        "Generative AI",
+        "Feedback Design"
+      ],
+      "areas": [
+        "learning-analytics",
+        "ai-in-education"
+      ],
+      "email": null,
+      "photo": "/images/people/sample-member-01.jpg",
+      "bio": "학습분석 데이터로 학습자의 어려움을 조기에 파악하고, 생성형 AI 를 활용한 맞춤형 피드백 설계를 연구합니다. (레이아웃 확인용 예시 프로필)",
+      "joined": "2023.03",
+      "isSample": true
+    },
+    {
+      "slug": "sample-member-02",
+      "name": "정하은",
+      "nameEn": null,
+      "role": "master",
+      "roleLabel": "석사과정",
+      "interests": [
+        "Instructional Design",
+        "Teacher Competency",
+        "AI Literacy"
+      ],
+      "areas": [
+        "instructional-design",
+        "teacher-competency"
+      ],
+      "email": null,
+      "photo": "/images/people/sample-member-02.jpg",
+      "bio": "예비교사의 AI 활용 역량을 기르는 수업 설계 모형과 교육 프로그램을 탐구합니다. (레이아웃 확인용 예시 프로필)",
+      "joined": "2025.03",
+      "isSample": true
+    }
+  ],
+  "alumni": [
+    {
+      "slug": "sample-alumnus-01",
+      "name": "김도윤",
+      "degree": "phd",
+      "graduatedYear": 2024,
+      "thesis": "생성형 AI 피드백이 대학생의 자기조절학습과 과제 수행에 미치는 효과",
+      "areas": ["ai-in-education", "instructional-design"],
+      "affiliation": "교육공학 연구원 (예시)",
+      "photo": "/images/people/sample-alumnus-01.jpg",
+      "isSample": true
+    }
+  ]
+}
