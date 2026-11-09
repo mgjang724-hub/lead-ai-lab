@@ -6,6 +6,7 @@ import '@/styles/site.css';
 import { site } from '@/content/site';
 import { brand } from '@/content/brand';
 import { buildSearchIndex } from '@/lib/search';
+import { withBasePath } from '@/lib/base-path';
 import { TransitionProvider } from '@/components/nav/TransitionProvider';
 import { SiteHeader } from '@/components/nav/SiteHeader';
 import { SiteFooter } from '@/components/nav/SiteFooter';
@@ -51,8 +52,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="ko" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: jsFlag }} />
-        <link rel="preload" href="/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-        <link rel="preload" href="/fonts/InterVariable-latin.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href={withBasePath('/fonts/PretendardVariable.woff2')} as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href={withBasePath('/fonts/InterVariable-latin.woff2')} as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <body>
         <TransitionProvider>
