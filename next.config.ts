@@ -16,6 +16,9 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 const nextConfig: NextConfig = {
   output: 'export',
   basePath,
+  // basePath 가 있을 때 홈("/") 링크가 "/<repo>" 로 정규화되면 클라이언트 라우터가 RSC 페이로드를 "/<repo>.txt" 에서 찾아 404 → 전체 새로고침으로
+  // 떨어집니다. 트레일링 슬래시 정규화를 끄면 "/<repo>/" → "/<repo>/index.txt" 를 요청해 정상적인 클라이언트 전환(커튼 애니메이션)이 됩니다.
+  skipTrailingSlashRedirect: true,
   images: { unoptimized: true },
   reactStrictMode: true,
   poweredByHeader: false,
