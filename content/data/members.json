@@ -2,9 +2,10 @@
   "meta": {
     "note": "실제 구성원·졸업생 명단은 아직 제공되지 않았습니다. 항목을 추가하면 People 페이지와 Home 미리보기에 자동으로 표시됩니다. members/alumni 의 isSample: true 항목은 연구실이 가상 인물 사진을 직접 제공하며 요청해 넣은 레이아웃 확인용 가상 인물(가상 사진·가상 정보)이며, 화면에 '예시' 배지와 안내문이 붙고 예시 구성원의 상세 페이지는 색인·sitemap 에서 제외됩니다. 실제 명단이 확정되면 예시 항목을 지우세요.",
     "schema": {
-      "members[]": "{ slug, name, nameEn?, role: 'phd'|'master'|'undergrad'|'researcher'|'other', roleLabel?, interests: string[], areas?: AreaId[], email?, photo?, bio?, joined?, research?: Entry[], awards?: Entry[], history?: Entry[], isSample? }",
-      "alumni[]": "{ slug, name, nameEn?, degree: 'phd'|'master', graduatedYear, thesis?, areas?: AreaId[], affiliation?, photo?, research?: Entry[], awards?: Entry[], history?: Entry[], isSample? }",
-      "Entry": "{ period: '2025' | '2023.03 – 현재', title, detail? } — 상세 프로필의 연구실적(research)·수상경력(awards)·이력(history) 한 줄. 본인이 확인한 내용만 넣고, 비우면 해당 섹션이 나오지 않습니다. 예시 인물(isSample)의 항목은 모두 가상이며 기관·학회 이름은 ○○ 로 둡니다."
+      "members[]": "{ slug, name, nameEn?, role: 'phd'|'master'|'undergrad'|'researcher'|'other', roleLabel?, interests: string[], areas?: AreaId[], email?, photo?, bio?, joined?, research?: Entry[], projects?: ProjectEntry[], awards?: Entry[], history?: Entry[], isSample? }",
+      "alumni[]": "{ slug, name, nameEn?, degree: 'phd'|'master', graduatedYear, thesis?, areas?: AreaId[], affiliation?, photo?, research?: Entry[], projects?: ProjectEntry[], awards?: Entry[], history?: Entry[], isSample? }",
+      "Entry": "{ period: '2025' | '2023.03 – 현재', title, detail? } — 상세 프로필의 연구실적(research)·수상경력(awards)·이력(history) 한 줄. 본인이 확인한 내용만 넣고, 비우면 해당 섹션이 나오지 않습니다. 예시 인물(isSample)의 항목은 모두 가상이며 기관·학회 이름은 ○○ 로 둡니다.",
+      "ProjectEntry": "{ projectId?: 'p01', period?, title?, role?, detail? } — 상세 프로필의 참여 연구 프로젝트 한 줄. 연구실 과제(projects.json)에 참여했다면 projectId 만 적어도 과제명·기간·지원 기관이 그 항목에서 나오고 Projects 페이지의 해당 과제로 연결됩니다. 연구실 과제가 아니면 period·title 을 직접 적습니다. role 은 맡은 역할(예: 연구보조원). 예시 인물은 실제 과제에 연결하지 않고 가상 항목(○○)으로 둡니다."
     },
     "example": {
       "member": { "slug": "hong-gildong", "name": "홍길동", "role": "phd", "roleLabel": "박사과정", "interests": ["Learning Analytics", "Generative AI"], "areas": ["learning-analytics"], "email": null, "photo": null, "bio": null, "joined": "2024.03" },
@@ -35,6 +36,10 @@
         {"period": "2025", "title": "LMS 로그 데이터를 활용한 학습 지연 조기 탐지 모형 탐색", "detail": "논문 · ○○학회지"},
         {"period": "2024", "title": "생성형 AI 피드백에 대한 대학생의 인식과 활용 양상", "detail": "학술발표 · ○○학회 추계학술대회"},
         {"period": "2024", "title": "학습분석 대시보드의 피드백 설계 원리 도출", "detail": "학술발표 · ○○학회 춘계학술대회"}
+      ],
+      "projects": [
+        {"period": "2024.03 – 현재", "title": "학습분석 기반 맞춤형 피드백 시스템 개발 연구", "role": "연구보조원", "detail": "○○재단"},
+        {"period": "2023.06 – 2023.12", "title": "대학 원격수업 학습 데이터 분석 및 개선 방안 연구", "role": "연구보조원", "detail": "○○대학교"}
       ],
       "awards": [
         {"period": "2024", "title": "우수 발표논문상", "detail": "○○학회 추계학술대회"}
@@ -69,6 +74,9 @@
         {"period": "2025", "title": "예비교사의 생성형 AI 활용 수업 설계 경험에 관한 탐색적 연구", "detail": "학술발표(포스터) · ○○학회 추계학술대회"},
         {"period": "2025", "title": "교직과목에서의 AI 리터러시 교육 프로그램 설계 사례", "detail": "학술발표 · ○○학회 춘계학술대회"}
       ],
+      "projects": [
+        {"period": "2025.06 – 현재", "title": "예비교사 AI 활용 수업 설계 역량 강화 프로그램 개발", "role": "연구보조원", "detail": "○○기관"}
+      ],
       "awards": [
         {"period": "2025", "title": "우수 포스터상", "detail": "○○학회 추계학술대회"}
       ],
@@ -93,6 +101,10 @@
       "research": [
         {"period": "2023", "title": "생성형 AI 피드백 유형에 따른 대학생의 과제 수정 행동 분석", "detail": "학술발표 · ○○학회 추계학술대회"},
         {"period": "2022", "title": "자기조절학습 지원을 위한 피드백 설계 원리 탐색", "detail": "논문 · ○○학회지"}
+      ],
+      "projects": [
+        {"period": "2022.03 – 2024.02", "title": "생성형 AI 피드백의 교육적 효과 검증 연구", "role": "연구원", "detail": "○○재단"},
+        {"period": "2020.09 – 2021.12", "title": "대학생 자기조절학습 진단 도구 개발", "role": "연구보조원", "detail": "○○대학교"}
       ],
       "history": [
         {"period": "2024.09 – 현재", "title": "○○연구소 연구원"},

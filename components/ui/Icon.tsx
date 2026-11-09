@@ -16,6 +16,7 @@ export const ICONS = {
   check: 'M4.5 12.5l4.5 4.5 10.5-10.5',
   alert: 'M12 3l9.5 17h-19zM12 10v4.5M12 17.2v.3',
   copy: 'M8 8h11v11H8zM5 16V5h11',
+  doc: 'M6 3h9l4 4v14H6zM14 3v5h5M9 12h7M9 16h7',
   mail: 'M3 6h18v12H3zM3 6l9 7 9-7',
   pin: 'M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21zM12 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z',
   external: 'M14 4h6v6M20 4l-9 9M18 14v6H4V6h6',

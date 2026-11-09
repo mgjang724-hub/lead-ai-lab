@@ -44,6 +44,7 @@ for (const p of pubs.items) {
   else assert(String(p.year) === String(p.sortKey).slice(0, 4), `${p.id}: year/sortKey 불일치`);
   if (!p.areas?.length) warn.push(`${p.id}: 분야 미분류`);
   if (p.cover && !publicFile(p.cover)) errors.push(p.id + ': cover 파일 없음 "' + p.cover + '"');
+  if (p.abstractImage && !publicFile(p.abstractImage)) errors.push(p.id + ': abstractImage 파일 없음 "' + p.abstractImage + '"');
   if (p.doi && !/^10\./.test(p.doi)) errors.push(`${p.id}: DOI 형식 "${p.doi}"`);
 }
 
@@ -71,6 +72,14 @@ const profileLists = (p) => {
   for (const k of ['research', 'awards', 'history']) {
     if (p[k] == null) continue;
     assert(Array.isArray(p[k]) && p[k].every((e) => e && e.period && e.title), `${p.slug}: ${k} 항목은 { period, title, detail? } 형식이어야 합니다`);
+  }
+  if (p.projects != null) {
+    assert(Array.isArray(p.projects), `${p.slug}: projects 는 배열이어야 합니다`);
+    const ids = new Set(prj.items.map((x) => x.id));
+    for (const e of p.projects || []) {
+      if (e?.projectId) assert(ids.has(e.projectId), `${p.slug}: projects.projectId "${e.projectId}" 가 projects.json 에 없습니다`);
+      else assert(e && e.period && e.title, `${p.slug}: projects 항목은 projectId 또는 { period, title } 가 있어야 합니다`);
+    }
   }
 };
 unique([...members.members, ...members.alumni].map((m) => m.slug), 'members.slug');

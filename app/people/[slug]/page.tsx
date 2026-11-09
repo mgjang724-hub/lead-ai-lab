@@ -2,18 +2,20 @@ import { Fragment } from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { professor } from '@/content/profile';
-import type { ProfileEntry } from '@/content/types';
-import { alumnusDegreeLabels, alumnusDegreeLabelsEn, getAlumni, getAlumnusBySlug, getMemberBySlug, getMembers, memberRoleLabels } from '@/lib/content';
+import type { ProfileEntry, ProfileProject } from '@/content/types';
+import { alumnusDegreeLabels, alumnusDegreeLabelsEn, getAlumni, getAlumnusBySlug, getMemberBySlug, getMembers, getProjects, memberRoleLabels } from '@/lib/content';
 import { PageHero } from '@/components/content/Headers';
 import { Breadcrumb } from '@/components/nav/Breadcrumb';
 import { MediaFrame } from '@/components/motion/MediaFrame';
 import { Reveal } from '@/components/motion/Reveal';
 import { Button, TextLink } from '@/components/ui/Button';
+import { TransitionLink } from '@/components/nav/TransitionLink';
 
 /**
  * 인물 상세 — members.json 의 구성원(members)과 졸업생(alumni) 모두 /people/[slug] 로 생성합니다(slug 는 둘을 합쳐 유일).
  * 레이아웃은 초상이 먼저(lab-detail--photo-first): 모바일에서는 사진이 맨 위, 데스크톱에서는 왼쪽 1/3 에 두고 오른쪽에 정보.
- * 이름 옆에는 영문 이름(nameEn)을 작게 붙이고, 정보 열 아래에 연구실적·수상경력·이력(research/awards/history) 섹션을 값이 있을 때만 보여 줍니다.
+ * 이름 옆에는 영문 이름(nameEn)을 작게 붙이고, 정보 열 아래에 연구실적·참여 연구 프로젝트·수상경력·이력(research/projects/awards/history) 섹션을 값이 있을 때만 보여 줍니다.
+ * 참여 연구 프로젝트는 projectId 가 projects.json 의 과제를 가리키면 과제명·기간·지원 기관을 그 항목에서 가져오고 /projects#<id> 로 연결합니다(2026-11-09 사용자 요청).
  * 이름 hero 는 짧게(lab-phero--profile) 두고, 소개글(bio)은 hero 가 아니라 초상 옆 정보 열 맨 위에 둡니다 — 소개·관심 분야·정보가 한 열(hero 본문과 같은 7열 시작)에 모이도록(2026-11-09).
  * 프로필에는 Areas(연구 분야 링크) 행을 두지 않습니다 — 구성원은 Research interests 와 겹쳐서, 졸업생은 사용자 요청으로(2026-11-09). members.json 의 areas 값은 그대로 유지합니다.
  * 졸업생 프로필 정보는 Thesis · Degree(영문 표기만) · Graduated · Affiliation(현재 소속, 값이 있을 때만) 을 보여 줍니다. hero 의 'YYYY년 ○사 졸업' 문구는 두지 않습니다(2026-11-09 사용자 요청. Affiliation 은 같은 날 뺐다가 사용자 요청으로 다시 추가).
@@ -67,10 +69,40 @@ function nameTitle(name: string, nameEn?: string | null) {
   };
 }
 
-/** 연구실적 · 수상경력 · 이력 — 값이 있는 섹션만. 예시 인물은 섹션마다 '예시' 배지 */
-function ProfileSections({ research, awards, history, sample }: { research?: ProfileEntry[] | null; awards?: ProfileEntry[] | null; history?: ProfileEntry[] | null; sample?: boolean }) {
+type ProfileRow = ProfileEntry & { href?: string };
+
+/** 참여 연구 프로젝트 → 표시용 한 줄. 연구실 과제(projectId)는 과제명·기간·지원 기관을 projects.json 에서 가져오고 Projects 페이지로 연결 */
+function projectRows(list?: ProfileProject[] | null): ProfileRow[] | null {
+  if (!list?.length) return null;
+  const byId = new Map(getProjects().map((p) => [p.id, p]));
+  return list.flatMap((e) => {
+    const p = e.projectId ? byId.get(e.projectId) : undefined;
+    const title = p?.title ?? e.title;
+    /* 과제 기간 표기("2020.07~2022.06")를 프로필의 다른 기간 표기("2023.03 – 현재")와 맞춤 */
+    const period = p ? p.period.replace(/\s*~\s*/, ' – ') : e.period;
+    if (!title || !period) return [];
+    const detail = [e.role, p?.funder, e.detail].filter(Boolean).join(' · ') || null;
+    return [{ period, title, detail, href: p ? `/projects#${p.id}` : undefined }];
+  });
+}
+
+/** 연구실적 · 참여 연구 프로젝트 · 수상경력 · 이력 — 값이 있는 섹션만. 예시 인물은 섹션마다 '예시' 배지 */
+function ProfileSections({
+  research,
+  projects,
+  awards,
+  history,
+  sample,
+}: {
+  research?: ProfileRow[] | null;
+  projects?: ProfileRow[] | null;
+  awards?: ProfileRow[] | null;
+  history?: ProfileRow[] | null;
+  sample?: boolean;
+}) {
   const groups = [
     { key: 'research', en: 'Research', ko: '연구실적', items: research },
+    { key: 'projects', en: 'Projects', ko: '참여 연구 프로젝트', items: projects },
     { key: 'awards', en: 'Awards', ko: '수상경력', items: awards },
     { key: 'history', en: 'Education & Career', ko: '이력', items: history },
   ].filter((g) => g.items?.length);
@@ -88,7 +120,15 @@ function ProfileSections({ research, awards, history, sample }: { research?: Pro
               <li key={i}>
                 <span className="lab-t-index">{it.period}</span>
                 <span className="lab-plist__body">
-                  <span className="lab-plist__title">{it.title}</span>
+                  <span className="lab-plist__title">
+                    {it.href ? (
+                      <TransitionLink href={it.href} className="lab-pub__a" label="Projects">
+                        {it.title}
+                      </TransitionLink>
+                    ) : (
+                      it.title
+                    )}
+                  </span>
                   {it.detail ? <span className="lab-t-caption">{it.detail}</span> : null}
                 </span>
               </li>
@@ -174,7 +214,7 @@ export default async function PersonPage({ params }: { params: Promise<{ slug: s
                 </dl>
               ) : null}
             </Reveal>
-            <ProfileSections research={m.research} awards={m.awards} history={m.history} sample={m.isSample} />
+            <ProfileSections research={m.research} projects={projectRows(m.projects)} awards={m.awards} history={m.history} sample={m.isSample} />
           </div>
         </section>
       </>
@@ -222,7 +262,7 @@ export default async function PersonPage({ params }: { params: Promise<{ slug: s
               ) : null}
             </dl>
           </Reveal>
-          <ProfileSections research={a.research} awards={a.awards} history={a.history} sample={a.isSample} />
+          <ProfileSections research={a.research} projects={projectRows(a.projects)} awards={a.awards} history={a.history} sample={a.isSample} />
         </div>
       </section>
     </>

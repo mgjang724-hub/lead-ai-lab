@@ -102,7 +102,8 @@ function byNewest(a: Publication, b: Publication) {
   const ka = a.sortKey ?? '00000000';
   const kb = b.sortKey ?? '00000000';
   if (ka !== kb) return kb.localeCompare(ka);
-  return a.id.localeCompare(b.id);
+  /* 같은 날짜면 번호가 큰 쪽(나중에 등록한 쪽)이 먼저 — 번호는 오래된 순으로 매깁니다(2026-11-09 재부여, 새 항목 = 가장 큰 번호 + 1) */
+  return b.id.localeCompare(a.id);
 }
 
 export function getPublications(): Publication[] {
@@ -147,7 +148,7 @@ export const publicationsMeta = publicationsData.meta;
 const projects = (projectsData.items as unknown as Project[]).slice();
 
 export function getProjects(): Project[] {
-  return projects.slice().sort((a, b) => b.startYear - a.startYear || b.start.localeCompare(a.start));
+  return projects.slice().sort((a, b) => b.startYear - a.startYear || b.start.localeCompare(a.start) || b.id.localeCompare(a.id));
 }
 
 export function getProjectsByArea(area: AreaId): Project[] {

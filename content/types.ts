@@ -38,6 +38,8 @@ export interface Publication {
   /** 학술정보(KCI·RISS 등) 논문 페이지 — DOI 가 없을 때 제목 링크로 사용 */
   url?: string;
   abstract?: string;
+  /** 논문 초록 캡처 이미지(public/ 기준, 예: "/images/abstracts/j59.jpg") — 연구실이 준 이미지만. 있으면 논문 목록에서 제목·Abstract 버튼을 누를 때 이 이미지가 창으로 열립니다 */
+  abstractImage?: string;
   /** 저역서 표지 이미지 경로(public/ 기준, 예: "/images/books/b01.jpg") — 확인된 파일만. 없으면 /books 에서 중립 placeholder */
   cover?: string;
   coverAlt?: string;
@@ -90,6 +92,18 @@ export interface ProfileEntry {
   detail?: string | null;
 }
 
+/** 인물 프로필의 참여 연구 프로젝트 한 줄 — 연구실 과제(projects.json)면 projectId 로 연결하고, 아니면 period·title 을 직접 적습니다 */
+export interface ProfileProject {
+  /** projects.json 의 id (예: "p01") — 있으면 과제명·기간·지원 기관을 그 항목에서 가져오고 Projects 페이지의 해당 과제로 연결 */
+  projectId?: string | null;
+  period?: string | null;
+  title?: string | null;
+  /** 맡은 역할 (예: "연구보조원") */
+  role?: string | null;
+  /** 보조 정보 (예: 지원 기관) */
+  detail?: string | null;
+}
+
 export interface Member {
   slug: string;
   /** 카드 링크를 /people/[slug] 대신 다른 곳으로 (지도교수 카드 → /about#professor) */
@@ -107,6 +121,8 @@ export interface Member {
   joined?: string | null;
   /** 상세 프로필의 연구실적 · 수상경력 · 이력(학력·경력) — 본인이 확인한 내용만. 비우면 해당 섹션이 나오지 않습니다 */
   research?: ProfileEntry[] | null;
+  /** 참여 연구 프로젝트 */
+  projects?: ProfileProject[] | null;
   awards?: ProfileEntry[] | null;
   history?: ProfileEntry[] | null;
   /** 레이아웃 확인용 가상 항목 — 이름 옆에 "예시" 배지를 붙이고, 상세 페이지는 색인·sitemap 에서 제외합니다 */
@@ -127,6 +143,8 @@ export interface Alumnus {
   photo?: string | null;
   /** 상세 프로필의 연구실적 · 수상경력 · 이력 — Member 와 같은 형식 */
   research?: ProfileEntry[] | null;
+  /** 참여 연구 프로젝트 */
+  projects?: ProfileProject[] | null;
   awards?: ProfileEntry[] | null;
   history?: ProfileEntry[] | null;
   /** 레이아웃 확인용 가상 항목 — 화면에 '예시' 배지를 붙이고 실제 졸업생과 구분합니다 */

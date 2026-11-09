@@ -579,6 +579,15 @@ img.lab-media__img { opacity: 0; } img.lab-media__img.is-loaded { opacity: 1; }
 .lab-chipbtn:hover { color: var(--text-primary); border-color: var(--border-control); }
 .lab-chipbtn.is-done { color: var(--accent); border-color: var(--accent); }
 .lab-pub__doi { font-size: 13px; }
+/* 초록 이미지가 있는 논문 — 제목이 버튼(링크와 같은 모양), 누르면 초록 이미지 창 */
+.lab-pub__absbtn { display: inline; padding: 0; border: 0; font: inherit; text-align: left; cursor: pointer; }
+.lab-pub__absrow { margin: 4px 0 2px; }
+/* + 칸 안의 초록 이미지 — 데스크톱에서는 제목 열과 같은 세로선에서 시작 */
+.lab-pub__absfig { margin: 0 0 12px; max-width: 560px; display: flex; flex-direction: column; gap: 12px; }
+@media (min-width: 1024px) { .lab-pub__absfig { margin-left: calc(64px + 112px + 2 * var(--lab-gutter) + 16px); } }
+.lab-absfig { margin: 0; }
+.lab-absfig__img { display: block; width: 100%; height: auto; border: 1px solid var(--border-hairline); background: #fff; }
+.lab-absfig__links { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
 .lab-empty { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding: 64px 0; }
 .lab-empty .lab-t-body { color: var(--text-secondary); }
 

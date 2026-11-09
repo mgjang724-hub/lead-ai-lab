@@ -1,6 +1,7 @@
 'use client';
 /**
  * PublicationItem — 행: 포인터 진입 모서리에서 selected-tint 채움, 상세 디스클로저, DOI(있을 때만).
+ *   초록 캡처 이미지(abstractImage)가 있는 논문은 제목과 Abstract 버튼이 원문 링크 대신 초록 이미지 창(Modal)을 엽니다(2026-11-09 연구실 요청). 원문·DOI 는 창 아래 버튼과 DOI 링크로.
  * PublicationList — 연도 그룹 리스트 + sticky 레일(롤링 연도, 결과 수, 유형·분야 필터, 검색, 정렬). 필터 변경은 FLIP 로 재배치.
  */
 import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react';
@@ -8,9 +9,11 @@ import { cx, dur, ease, motion, subscribeScroll, viewportRect } from '@/lib/moti
 import { useIso } from '@/lib/motion/hooks';
 import type { Publication, PublicationType } from '@/content/types';
 import { areaById } from '@/content/research-areas';
-import { formatDate, publicationTypeLabels, scopeLabels, toIsoDate } from '@/lib/content';
+import { formatDate, publicationTypeLabels, toIsoDate } from '@/lib/content';
 import { Icon } from '@/components/ui/Icon';
 import { Button, TextLink } from '@/components/ui/Button';
+import { Modal } from '@/components/ui/Modal';
+import { withBasePath } from '@/lib/base-path';
 import { FilterChips, SearchField, highlight } from '@/components/ui/Controls';
 import { NumberRoll } from '@/components/motion/Kinetic';
 import { TransitionLink } from '@/components/nav/TransitionLink';
@@ -22,6 +25,9 @@ export function PublicationItem({ item, query, dataKey, showAreas = true }: { it
   const fill = useRef<HTMLSpanElement>(null);
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [absOpen, setAbsOpen] = useState(false);
+  /* + 칸 안의 초록 이미지는 처음 펼칠 때 불러오고, 그 뒤로는 계속 둡니다(목록을 열 때 이미지를 한꺼번에 받지 않도록) */
+  const [seen, setSeen] = useState(false);
   const aid = useId();
   useEffect(() => {
     const el = host.current;
@@ -74,7 +80,13 @@ export function PublicationItem({ item, query, dataKey, showAreas = true }: { it
   const areas = item.areas.map((id) => areaById[id]).filter(Boolean);
   /* 제목 링크: 학술정보 논문 페이지(url) 가 있으면 그곳으로, 없고 DOI 만 있으면 doi.org 로 */
   const href = item.url || (item.doi ? `https://doi.org/${item.doi}` : undefined);
-  const titleNode: ReactNode = href ? (
+  const absSrc = item.abstractImage ? withBasePath(item.abstractImage) : null;
+  const titleNode: ReactNode = absSrc ? (
+    <button type="button" className="lab-pub__a lab-pub__absbtn" aria-haspopup="dialog" onClick={() => setAbsOpen(true)}>
+      {highlight(item.title, q)}
+      <span className="lab-sr-only"> (초록 이미지 보기)</span>
+    </button>
+  ) : href ? (
     <a href={href} className="lab-pub__a" target="_blank" rel="noopener noreferrer">
       {highlight(item.title, q)}
       <span className="lab-sr-only"> (새 창)</span>
@@ -97,6 +109,16 @@ export function PublicationItem({ item, query, dataKey, showAreas = true }: { it
             {highlight(item.venue, q)}
             {item.date && item.date !== '—' ? ` · ${item.date}` : ''}
           </p>
+          {absSrc ? (
+            <p className="lab-pub__absrow">
+              <button type="button" className="lab-chipbtn" aria-haspopup="dialog" onClick={() => setAbsOpen(true)}>
+                <span className="lab-chipbtn__a">
+                  <Icon name="doc" size={14} stroke={1.75} />
+                  Abstract <span lang="ko">초록 보기</span>
+                </span>
+              </button>
+            </p>
+          ) : null}
           {showAreas && areas.length ? (
             <p className="lab-pub__meta">
               {areas.map((a) => (
@@ -117,7 +139,16 @@ export function PublicationItem({ item, query, dataKey, showAreas = true }: { it
               </span>
             </button>
           ) : null}
-          <button type="button" className="lab-pub__toggle" aria-expanded={open} aria-controls={aid} onClick={() => setOpen(!open)}>
+          <button
+            type="button"
+            className="lab-pub__toggle"
+            aria-expanded={open}
+            aria-controls={aid}
+            onClick={() => {
+              if (!open) setSeen(true);
+              setOpen(!open);
+            }}
+          >
             <span className="lab-sr-only">{open ? '상세 닫기' : '상세 보기'}</span>
             <span className="lab-plus" aria-hidden="true" />
           </button>
@@ -126,6 +157,19 @@ export function PublicationItem({ item, query, dataKey, showAreas = true }: { it
       <div id={aid} className="lab-collapse" data-open={open ? 'true' : 'false'}>
         <div className="lab-collapse__in">
           <div className="lab-pub__detail">
+            {absSrc ? (
+              <figure className="lab-pub__absfig">
+                {seen ? (
+                  /* eslint-disable-next-line @next/next/no-img-element -- 정적 내보내기(이미지 최적화 없음)에서 원본 그대로 */
+                  <img className="lab-absfig__img" src={absSrc} alt={`『${item.title}』 논문 첫 페이지 — 제목, 저자, 초록`} decoding="async" />
+                ) : null}
+                <figcaption>
+                  <TextLink href={absSrc} external variant="standalone">
+                    이미지 크게 보기
+                  </TextLink>
+                </figcaption>
+              </figure>
+            ) : null}
             <dl className="lab-dl">
               <dt>{item.type === 'book' ? '출판사' : item.type === 'conference' ? '학회 · 기관' : '학술지'}</dt>
               <dd>{item.venue}</dd>
@@ -162,8 +206,6 @@ export function PublicationItem({ item, query, dataKey, showAreas = true }: { it
                   </dd>
                 </>
               ) : null}
-              <dt>귀속</dt>
-              <dd>{scopeLabels[item.scope]}</dd>
               {item.abstract ? (
                 <>
                   <dt>초록</dt>
@@ -174,6 +216,24 @@ export function PublicationItem({ item, query, dataKey, showAreas = true }: { it
           </div>
         </div>
       </div>
+      {absSrc ? (
+        <Modal open={absOpen} onClose={() => setAbsOpen(false)} title={`초록 · ${item.venue}${item.date && item.date !== '—' ? ` ${item.date}` : ''}`} variant="media">
+          <figure className="lab-absfig">
+            {/* eslint-disable-next-line @next/next/no-img-element -- 정적 내보내기(이미지 최적화 없음)에서 원본 그대로 */}
+            <img className="lab-absfig__img" src={absSrc} alt={`『${item.title}』 논문 첫 페이지 — 제목, 저자, 초록`} decoding="async" />
+          </figure>
+          <div className="lab-absfig__links">
+            {href ? (
+              <Button variant="secondary" size="s" href={href} external icon="arrow-up-right">
+                {item.doi ? 'DOI 원문' : '원문 보기'}
+              </Button>
+            ) : null}
+            <TextLink href={absSrc} external variant="standalone">
+              이미지 크게 보기
+            </TextLink>
+          </div>
+        </Modal>
+      ) : null}
     </li>
   );
 }
