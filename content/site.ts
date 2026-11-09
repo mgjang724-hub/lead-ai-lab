@@ -50,7 +50,9 @@ export interface NavItem {
 
 /** 상단 내비게이션 — 순서 고정 (Home · About · Research · People · Books · News · Contact).
  *  About 은 지도교수 소개가 먼저(Professor › Overview › Vision), People 은 구성원·졸업생만.
- *  Research 아래에 논문(Publications)·연구 과제(Projects)·학술발표(Presentations)를 두고, 저역서(Books)는 별도 메뉴·별도 페이지(/books). */
+ *  Research 아래에 논문(Publications)·연구 과제(Projects)·학술발표(Presentations)를 두고, 저역서(Books)는 별도 메뉴·별도 페이지(/books).
+ *  Research(/research)는 다섯 분야 설명 + 분야별 관련 연구만 보여 주는 Research Areas 페이지입니다(2026-11-09).
+ *  children 은 데스크톱 드롭다운과 모바일 메뉴의 하위 바로가기에 함께 쓰입니다. */
 export const nav: NavItem[] = [
   { id: 'home', label: 'Home', href: '/' },
   {
@@ -68,7 +70,7 @@ export const nav: NavItem[] = [
     label: 'Research',
     href: '/research',
     children: [
-      { label: 'Research Areas', ko: '주요 연구 분야', href: '/research#areas' },
+      { label: 'Research Areas', ko: '주요 연구 분야', href: '/research' },
       { label: 'Publications', ko: '논문', href: '/publications?type=journal' },
       { label: 'Projects', ko: '연구 과제', href: '/projects' },
       { label: 'Presentations', ko: '학술발표', href: '/publications?type=conference' },

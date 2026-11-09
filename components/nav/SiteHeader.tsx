@@ -73,7 +73,7 @@ function NavDropdown({ item, open, id, onPick }: { item: NavItem; open: boolean;
     <div ref={panel} id={id} className={cx('lab-dd', open && 'is-open')} hidden={!open}>
       <ul className="lab-dd__list" role="list">
         {(item.children || []).map((c, i) => (
-          <li key={c.href}>
+          <li key={c.label}>
             <TransitionLink className="lab-dd__item" href={c.href} label={item.label} onClick={onPick}>
               <span className="lab-dd__idx">{String(i + 1).padStart(2, '0')}</span>
               <span className="lab-dd__text">
@@ -131,6 +131,14 @@ export function SiteHeader({ searchIndex = [], hideOnScroll = true, progress = t
       else if (d < -4 || t < 160) setHidden(false);
     });
   }, [hideOnScroll]);
+
+  /* 헤더가 스크롤로 숨겨졌는지를 문서 루트에 알림 — 헤더 높이만큼 아래에 붙는 sticky 보조 내비(.lab-subnav)가
+     헤더가 사라진 자리로 올라붙어, 그 틈으로 본문이 비쳐 보이지 않게 합니다(site.css 의 :root[data-header-hidden]) */
+  useEffect(() => {
+    const root = document.documentElement;
+    root.toggleAttribute('data-header-hidden', hidden && !menu);
+    return () => root.removeAttribute('data-header-hidden');
+  }, [hidden, menu]);
 
   /* indicator: 링크를 측정해 그 위치로 미끄러짐 */
   const moveTo = useCallback((id: string | null, instant?: boolean) => {
@@ -325,7 +333,8 @@ export function SiteHeader({ searchIndex = [], hideOnScroll = true, progress = t
   );
 }
 
-/* MobileMenu — 풀스크린 브랜드 오버레이. 메뉴 버튼에서 원형으로 열리고 항목이 순서대로 올라옴. */
+/* MobileMenu — 풀스크린 브랜드 오버레이. 메뉴 버튼에서 원형으로 열리고 항목이 순서대로 올라옴.
+   하위 메뉴가 있는 항목은 큰 메뉴 아래에 하위 바로가기를 함께 보여 줍니다(2026-11-09 요청). */
 export function MobileMenu(p: {
   open: boolean;
   items: NavItem[];
@@ -381,6 +390,23 @@ export function MobileMenu(p: {
                   <span className="lab-mmenu__num">{String(i + 1).padStart(2, '0')}</span>
                   <span className="lab-mmenu__label">{it.label}</span>
                 </TransitionLink>
+                {/* 하위 메뉴 바로가기 — 데스크톱 드롭다운과 같은 항목(content/site.ts 의 children) */}
+                {it.children?.length ? (
+                  <ul className="lab-mmenu__sub" role="list" aria-label={`${it.label} 하위 메뉴`}>
+                    {it.children.map((c) => (
+                      <li key={c.label}>
+                        <TransitionLink href={c.href} label={it.label} className="lab-mmenu__sublink" onClick={p.onNavigate}>
+                          <span>{c.label}</span>
+                          {c.ko ? (
+                            <span className="lab-mmenu__subko" lang="ko">
+                              {c.ko}
+                            </span>
+                          ) : null}
+                        </TransitionLink>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
               </li>
             ))}
           </ul>

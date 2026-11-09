@@ -35,7 +35,7 @@ export default async function ResearchAreaPage({ params }: { params: Promise<{ s
   return (
     <>
       <PageHero index={`0${idx + 1}`} eyebrow="Research Area" lines={area.title.split(' & ').length > 1 ? area.title.split(' & ').map((s, i) => (i ? `& ${s}` : s)) : [area.title]} ko={area.ko} lead={area.summary}>
-        <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Research', href: '/research' }, { label: area.title }]} />
+        <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Research Areas', href: '/research' }, { label: area.title }]} />
       </PageHero>
 
       <section className="lab-sec lab-sec--tight-top lab-container lab-detail" aria-label="연구 분야 상세">
@@ -89,9 +89,9 @@ export default async function ResearchAreaPage({ params }: { params: Promise<{ s
           <SectionHeader
             id="area-pubs"
             index="02"
-            eyebrow="Publications"
-            lines={['Work in', 'this area.']}
-            ko="관련 실적"
+            eyebrow="Archive"
+            lines={['Research archive.']}
+            ko="관련 연구 아카이브"
           />
           {pubs.length ? (
             <PublicationList compact items={pubs} search={false} grouped={false} />

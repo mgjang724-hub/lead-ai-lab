@@ -29,8 +29,9 @@ npm run check:data   # content/data/*.json 검증
 app/                    라우트 (page.tsx = 서버 컴포넌트)
   page.tsx              Home
   about/                About — Professor(지도교수 소개, 유일한 프로필) › Overview › Vision › Join
-  research/             Research, research/[slug] 분야 상세
-  projects/             Projects — 연구 과제 전체 목록(ProjectShowcase 행 목록, /projects#pXX 앵커); Research 는 최근 4건만
+  research/             Research(= Research Areas) — 다섯 분야 설명 + 분야별 최근 관련 연구 3건만(연구 과제·논문 미리보기 없음),
+                        research/[slug] 분야 상세 = 분야 설명 + 관련 연구 아카이브(전체)
+  projects/             Projects — 연구 과제 전체 목록(ProjectShowcase 행 목록, /projects#pXX 앵커); 메뉴 Research › Projects 로 진입
   people/               People — 구성원·졸업생만(지도교수는 about#professor), people/[slug] 구성원·졸업생 프로필(초상 우선 레이아웃)
   publications/         Publications — 논문·학술발표만 (URL 쿼리 type/area/q/order), 메뉴에서는 Research › Publications/Presentations 로 진입
   books/                Books — 저역서 표지 카드 목록 (publications.json 의 book 항목, cover 가 있으면 이미지)
@@ -58,6 +59,7 @@ content/
   site.ts               대학·연락처·내비게이션·FAQ (labName/labNameEn 은 brand 에서 파생)
                         메뉴 순서: Home · About · Research(Areas/Publications/Projects/Presentations) · People · Books · News · Contact
                         — 헤더·푸터·모바일 메뉴가 모두 이 nav 배열을 읽으며, 활성 메뉴는 SiteHeader.activeNavId 가 경로로 계산(/publications 는 Research)
+                        — children(하위 메뉴)은 데스크톱 드롭다운과 모바일 메뉴의 하위 바로가기(.lab-mmenu__sub)에 함께 표시
   profile.ts            지도교수 프로필
   research-areas.ts     연구 분야 5개 (provisional: true)
   types.ts              데이터 타입

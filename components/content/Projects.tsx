@@ -32,7 +32,6 @@ function ProjectItem({ item, index }: { item: Project; index: number }) {
           <div className="lab-project__tags">
             <span className="lab-t-index">{pad(index + 1)}</span>
             <span className={cx('lab-status', item.status === 'ongoing' && 'is-live')}>{item.status === 'ongoing' ? 'Ongoing' : 'Completed'}</span>
-            <span className="lab-badge">{item.scope === 'lab' ? '연구실 과제' : '지도교수 과제'}</span>
           </div>
           <h3 className="lab-t-h3 lab-project__title">{item.title}</h3>
           <dl className="lab-project__dl">

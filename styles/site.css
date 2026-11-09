@@ -163,6 +163,43 @@ html { scroll-behavior: auto; }
 .lab-footer__plain:hover { color: var(--text-on-brand); }
 
 /* ---------- SubNav (in-page sticky anchors) ---------- */
+/* 미리보기 목록(논문·과제) 끝의 '전체 보기' 버튼 줄 */
+/* Research Areas(/research) — 다섯 분야 설명 + 분야별 최근 관련 연구. ≥1024: 왼쪽 분야 이름 / 오른쪽 설명·관련 연구 */
+.lab-areadoc { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.lab-areadoc__item { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 28px; padding-block: clamp(40px, 5vw, 72px); border-top: 1px solid var(--border-hairline); scroll-margin-top: calc(var(--lab-header-h) + 16px); }
+.lab-areadoc__item:first-child { padding-top: 0; border-top: 0; }
+.lab-areadoc__item:last-child { padding-bottom: 0; }
+.lab-areadoc__head { display: flex; flex-direction: column; gap: 12px; align-self: start; }
+.lab-areadoc__head .lab-t-index { color: var(--accent); }
+.lab-areadoc__title, .lab-areadoc__ko { margin: 0; }
+.lab-areadoc__title { font-family: var(--font-display); font-weight: 500; }
+.lab-areadoc__ko { color: var(--text-secondary); }
+.lab-areadoc__body { display: flex; flex-direction: column; gap: clamp(36px, 4vw, 56px); min-width: 0; }
+.lab-areadoc__text { display: flex; flex-direction: column; gap: 16px; }
+.lab-areadoc__text p { margin: 0; }
+.lab-areadoc__sum { color: var(--text-primary); }
+.lab-areadoc__desc { color: var(--text-secondary); }
+.lab-areadoc__text .lab-rcard__kw { margin-top: 8px; padding-top: 0; }
+.lab-areadoc__archive { display: flex; flex-direction: column; }
+.lab-areadoc__label { display: flex; align-items: baseline; gap: 10px; margin: 0 0 4px; color: var(--text-tertiary); }
+.lab-areadoc__label span { font: 400 13px/1.2 var(--font-sans); letter-spacing: 0; text-transform: none; }
+.lab-areadoc__list { list-style: none; margin: 8px 0 0; padding: 0; }
+.lab-areadoc__list li { display: grid; grid-template-columns: 52px minmax(0, 1fr); column-gap: 16px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--border-hairline); }
+.lab-areadoc__list li:first-child { border-top: 1px solid var(--border-hairline); }
+.lab-areadoc__list .lab-t-index { color: var(--text-tertiary); font-variant-numeric: tabular-nums; }
+.lab-areadoc__work { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.lab-areadoc__work-title { font-family: var(--font-sans); font-size: 16px; line-height: 1.5; letter-spacing: -.01em; font-weight: 500; color: var(--text-primary); }
+.lab-areadoc__more { display: flex; margin-top: 28px; }
+@media (min-width: 1024px) {
+  .lab-areadoc__item { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--lab-gutter); }
+  .lab-areadoc__head { grid-column: 1 / 5; position: sticky; top: calc(var(--lab-header-h) + 32px); }
+  .lab-areadoc__body { grid-column: 6 / 13; }
+}
+.lab-listfoot { display: flex; justify-content: center; margin-top: clamp(32px, 4vw, 56px); }
+
+/* 헤더가 스크롤로 숨겨지면(:root[data-header-hidden], SiteHeader 가 설정) 헤더 자리만큼 위로 붙습니다 — 헤더의 transform 전환과 같은 시간·이징 */
+:root[data-header-hidden] .lab-subnav { top: 0; }
+.lab-subnav { transition: top var(--dur-slow) var(--ease-in-out); }
 .lab-subnav { position: sticky; top: var(--lab-header-h); z-index: var(--z-sticky); background: var(--header-bg-scrolled); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-top: 1px solid var(--border-hairline); border-bottom: 1px solid var(--border-hairline); overflow-x: auto; scrollbar-width: none; }
 .lab-subnav::-webkit-scrollbar { display: none; }
 .lab-subnav__list { list-style: none; margin: 0; padding: 0 var(--lab-margin); display: flex; gap: 4px; width: max-content; min-width: 100%; }
@@ -300,5 +337,3 @@ html { scroll-behavior: auto; }
 .lab-book__areas { margin: 0; color: var(--text-tertiary); }
 
 
-/* Research 페이지 분야 카드 — 데스크톱 3열 (feature 없음) */
-@media (min-width: 1024px) { .lab-rgrid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

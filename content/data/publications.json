@@ -1064,11 +1064,14 @@
       "date": "2018.01",
       "year": 2018,
       "sortKey": "20180100",
+      "authors": "Barbara Jacoby 지음, 이현우 · 김효선 · 이원석 · 이정민 · 장덕호 · 장석진 옮김",
       "lang": "ko",
       "areas": [
         "instructional-design"
       ],
-      "scope": "professor"
+      "scope": "professor",
+      "cover": "/images/books/b04.jpg",
+      "coverAlt": "『서비스-러닝의 본질 : 질문, 답, 그리고 깨달음』(Service-Learning Essentials) 표지 — 박영스토리, 2018"
     },
     {
       "id": "b05",
@@ -1078,11 +1081,14 @@
       "date": "2014.12.30",
       "year": 2014,
       "sortKey": "20141230",
+      "authors": "M. David Merrill 지음, 임규연 · 김영수 · 김광수 · 이현우 · 정재삼 공역",
       "lang": "ko",
       "areas": [
         "instructional-design"
       ],
-      "scope": "professor"
+      "scope": "professor",
+      "cover": "/images/books/b05.jpg",
+      "coverAlt": "『교수의 으뜸원리 : 효과적, 효율적, 매력적 교수설계』(First Principles of Instruction) 표지 — 학지사, 2014"
     },
     {
       "id": "b06",
@@ -1092,11 +1098,14 @@
       "date": "2014.08.28",
       "year": 2014,
       "sortKey": "20140828",
+      "authors": "이인숙 · 한승연 · 임병노 · 이지연 · 이현우 지음",
       "lang": "ko",
       "areas": [
         "instructional-design"
       ],
-      "scope": "professor"
+      "scope": "professor",
+      "cover": "/images/books/b06.jpg",
+      "coverAlt": "『교육공학』 표지 — 문음사, 2014"
     },
     {
       "id": "b07",

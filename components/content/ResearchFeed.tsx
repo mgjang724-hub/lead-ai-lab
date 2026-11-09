@@ -12,7 +12,7 @@ import { SectionHeader } from './Headers';
 import { PublicationList } from './Publications';
 import { ProjectShowcase } from './Projects';
 import { FilterChips } from '@/components/ui/Controls';
-import { TextLink } from '@/components/ui/Button';
+import { Button, TextLink } from '@/components/ui/Button';
 
 type FeedKind = 'publications' | 'projects';
 
@@ -68,9 +68,22 @@ export function ResearchFeed(p: {
         {isPubs ? (
           <div className="lab-container">
             <PublicationList compact items={p.pubs} search={false} grouped={false} />
+            {/* 목록 끝에서도 전체 목록으로 갈 수 있게(2026-11-09 요청) — 라벨은 헤더 CTA 와 동일 */}
+            <div className="lab-listfoot">
+              <Button variant="secondary" href="/publications" icon="arrow-right">
+                Explore publications
+              </Button>
+            </div>
           </div>
         ) : (
-          <ProjectShowcase items={p.projects} />
+          <>
+            <ProjectShowcase items={p.projects} />
+            <div className="lab-container lab-listfoot">
+              <Button variant="secondary" href="/projects" icon="arrow-right">
+                Explore projects
+              </Button>
+            </div>
+          </>
         )}
       </div>
     </section>

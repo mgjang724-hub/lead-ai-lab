@@ -255,12 +255,19 @@ a:focus-visible .lab-uline { background-size: 100% 1px; background-position: lef
 .lab-mmenu__top { display: flex; align-items: center; justify-content: space-between; height: calc(var(--lab-header-h) - 12px); }
 .lab-mmenu__eyebrow { font: 600 12px/1 var(--font-display); letter-spacing: .12em; text-transform: uppercase; color: var(--text-on-brand-subtle); }
 .lab-mmenu__list { list-style: none; margin: auto 0 0; padding: 0; border-top: 1px solid var(--border-on-brand); }
-.lab-mmenu__link { display: flex; align-items: baseline; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border-on-brand); color: inherit; text-decoration: none;
+.lab-mmenu__list > li { border-bottom: 1px solid var(--border-on-brand); }
+.lab-mmenu__link { display: flex; align-items: baseline; gap: 16px; padding: 12px 0; color: inherit; text-decoration: none;
   font: 500 var(--lab-fs-navl)/1.05 var(--font-display); letter-spacing: -.03em; }
 .lab-mmenu__num { font-size: 13px; letter-spacing: .02em; font-variant-numeric: tabular-nums; color: var(--text-on-brand-subtle); min-width: 22px; }
 .lab-mmenu__link[aria-current="page"] .lab-mmenu__num { color: var(--text-on-brand); }
 .lab-mmenu__link[aria-current="page"] .lab-mmenu__label::after { content: ""; display: inline-block; width: .18em; height: .18em; margin-left: .2em; background: currentColor; vertical-align: .55em; }
 .lab-mmenu__link:focus-visible { outline-color: var(--focus-ring-on-brand); outline-offset: -2px; }
+/* 하위 메뉴 바로가기 — 큰 메뉴 라벨과 같은 세로선(번호 22px + 간격 16px)에 맞춰 2열로 */
+.lab-mmenu__sub { list-style: none; margin: -2px 0 0; padding: 0 0 12px 38px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; }
+.lab-mmenu__sublink { display: flex; flex-direction: column; justify-content: center; gap: 3px; min-height: 44px; padding: 4px 0; color: var(--text-on-brand); text-decoration: none; font: 500 15px/1.2 var(--font-display); letter-spacing: -.005em; }
+.lab-mmenu__subko { font: 400 12px/1.3 var(--font-sans); letter-spacing: -.01em; color: var(--text-on-brand-muted); }
+.lab-mmenu__sublink:focus-visible { outline-color: var(--focus-ring-on-brand); outline-offset: 2px; }
+@media (min-width: 600px) { .lab-mmenu__sub { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .lab-mmenu__foot { font-size: 14px; color: var(--text-on-brand-muted); }
 
 /* ---------- Page curtain ---------- */
