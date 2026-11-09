@@ -1,0 +1,63 @@
+# GitHub Pages 배포 — main 에 push 할 때마다 정적 빌드(out/)를 만들어 올립니다.
+# 저장소 Settings › Pages › Build and deployment › Source 가 "GitHub Actions" 여야 합니다.
+#
+# - 템플릿의 `next build` 대신 `npm run build` 를 써서 tokens.css 생성(npm run tokens)까지 포함합니다.
+# - configure-pages 가 알려주는 base_path(/lead-ai-lab)·base_url 을 빌드에 넘기므로,
+#   나중에 커스텀 도메인을 붙이면 basePath 가 자동으로 비워집니다.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (tokens + next build → out/)
+        run: npm run build
+        env:
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
