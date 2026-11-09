@@ -2,6 +2,7 @@
 import { forwardRef, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { cx, dur, ease, motion, type DurToken } from '@/lib/motion/core';
 import { useIso, useMergedRef, useScrollLink } from '@/lib/motion/hooks';
+import { withBasePath } from '@/lib/base-path';
 
 export interface MediaFrameProps {
   /** "4/5", "16/10", "21/9" … */
@@ -116,7 +117,7 @@ export const MediaFrame = forwardRef<HTMLElement, MediaFrameProps>(function Medi
     <img
       ref={inner as React.RefObject<HTMLImageElement>}
       className={cx('lab-media__img', loaded && 'is-loaded')}
-      src={p.src}
+      src={withBasePath(p.src)}
       alt={p.alt || ''}
       loading={p.eager ? 'eager' : 'lazy'}
       fetchPriority={p.eager ? 'high' : undefined}
