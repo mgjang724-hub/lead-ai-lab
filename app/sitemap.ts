@@ -16,6 +16,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
   const areas = researchAreas.map((a) => ({ url: `${base}/research/${a.slug}`, lastModified: now, changeFrequency: 'monthly' as const, priority: 0.6 }));
   const people = [...getMembers().filter((m) => !m.isSample).map((m) => m.slug), ...getAlumni().filter((a) => !a.isSample).map((a) => a.slug)].map((s) => ({ url: `${base}/people/${s}`, lastModified: now, changeFrequency: 'monthly' as const, priority: 0.5 }));
-  const news = getNews().map((n) => ({ url: `${base}/news/${n.slug}`, lastModified: new Date(n.date.length === 4 ? `${n.date}-01-01` : n.date.length === 7 ? `${n.date}-01` : n.date), changeFrequency: 'yearly' as const, priority: 0.4 }));
+  const news = getNews().filter((n) => !n.isSample).map((n) => ({ url: `${base}/news/${n.slug}`, lastModified: new Date(n.date.length === 4 ? `${n.date}-01-01` : n.date.length === 7 ? `${n.date}-01` : n.date), changeFrequency: 'yearly' as const, priority: 0.4 }));
   return [...top, ...areas, ...people, ...news];
 }

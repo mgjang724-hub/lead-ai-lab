@@ -8,7 +8,7 @@
 
 ## 실행
 
-> 예시(가상) 구성원·졸업생(`isSample: true`)은 2026-11-06 연구실 결정으로 공개 화면에 '예시' 배지와 함께 표시됩니다(상세 페이지는 noindex, sitemap 제외). 예시 소식(`news.json` 의 `isSample`)만 공개 화면에서 숨겨지며, 확인하려면 `.env.local` 에 `SHOW_SAMPLES=1` 을 두고 dev 서버를 켜세요(배포 빌드에는 두지 않음). 2026-11-06 연구실 요청으로 방문자 화면의 개발용 안내 문구(임시 분류·출처·확인 후 게시·브랜드 제안안 등)는 모두 제거했고, 미확정 항목(이메일·도로명 주소·면담 시간·소개문)은 값이 없으면 해당 줄을 숨깁니다 — 내부 메모는 `content/DATA-NOTES.md` 와 각 JSON 의 `meta.note` 에만 둡니다.
+> 예시(가상) 구성원·졸업생(`isSample: true`)은 2026-11-06 연구실 결정으로 공개 화면에 '예시' 배지와 함께 표시됩니다(상세 페이지는 noindex, sitemap 제외). 예시 소식(`news.json` 의 `isSample` — 연구실 세미나·회식 등 연구실 일상, 내용은 가상)도 2026-11-09 연구실 요청으로 '예시' 배지와 함께 표시되며, Home 'Latest from the lab' 에는 이 연구실 일상 소식만 나옵니다(`SHOW_SAMPLES` 환경변수는 더 이상 쓰지 않음). 2026-11-06 연구실 요청으로 방문자 화면의 개발용 안내 문구(임시 분류·출처·확인 후 게시·브랜드 제안안 등)는 모두 제거했고, 미확정 항목(이메일·도로명 주소·면담 시간·소개문)은 값이 없으면 해당 줄을 숨깁니다 — 내부 메모는 `content/DATA-NOTES.md` 와 각 JSON 의 `meta.note` 에만 둡니다.
 
 ```bash
 npm install
@@ -78,7 +78,7 @@ scripts/
 | 연구 과제 추가 | `content/data/projects.json` | `startYear/endYear`, `status`(ongoing/completed), `summary`·`media` 는 선택 |
 | 구성원 추가 | `content/data/members.json` `members[]` | `role`(phd/master/researcher/undergrad/postdoc), `slug`, `interests[]`, `photo` 없으면 중립 대체 면으로 표시. 예시 구성원 2명(`isSample: true`)은 '예시' 배지와 함께 표시, 실제 명단 입력 후 삭제 |
 | 졸업생 추가 | `content/data/members.json` `alumni[]` | `degree`(phd/master), `graduatedYear`. 예시 졸업생 1명(`isSample: true`)은 '예시' 배지와 함께 표시, 실제 명단 입력 후 삭제 |
-| 소식 추가 | `content/data/news.json` `items[]` | `category`(notice/conference/publication/award/event/member), `date` ISO, `body[]`. 예시 항목(`isSample: true`) 2건은 공개 화면에서 숨김, 실제 소식 입력 후 삭제 |
+| 소식 추가 | `content/data/news.json` `items[]` | `category`(notice/conference/publication/award/event/member), `date` ISO, `body[]`. 예시 항목(`isSample: true`) 4건(세미나·회식·환영 모임·워크숍)은 '예시' 배지와 함께 표시, 실제 소식 입력 후 삭제. 이 파일의 항목이 Home 'Latest from the lab' 에 나옴 |
 | 연구실 연혁 | `content/data/lab-history.json` | 현재 화면에 표시하지 않음 (About 의 연구 여정 섹션을 뺐음). 로더만 남아 있어 다시 쓸 수 있음 |
 | 저역서 표지 | `content/data/publications.json` book 항목의 `cover`(public/ 기준 경로)·`coverAlt` | 확인된 표지 파일만 입력. 없으면 /books 에서 중립 placeholder |
 | 연구 분야 명칭·설명 | `content/research-areas.ts` | 확정 후 `provisional: false` 로 바꾸면 ‘임시 분류’ 안내가 사라짐 |
@@ -91,11 +91,11 @@ scripts/
 ## 정직성 규칙 (구현에 반영됨)
 
 - 확인되지 않은 정보는 `[대괄호]` placeholder 로 표시하고 임의로 채우지 않음 (연구실 명칭, 이메일, 도로명 주소, 면담 시간, 소개문).
-- 실제 인물 사진이 없으면 중립 대체 면, 구성원 명단이 없으면 '준비하고 있습니다' 빈 상태(가상 인물 생성 금지). 연구실이 직접 제공한 가상 인물 사진으로 만든 예시 구성원·졸업생은 ‘예시’ 배지를 붙여 공개 화면에 표시하되 색인·sitemap 에서는 제외(2026-11-06 연구실 결정). 예시 소식은 공개 화면·빌드에서 숨김(SHOW_SAMPLES=1 개발 모드에서만 표시).
+- 실제 인물 사진이 없으면 중립 대체 면, 구성원 명단이 없으면 '준비하고 있습니다' 빈 상태(가상 인물 생성 금지). 연구실이 직접 제공한 가상 인물 사진으로 만든 예시 구성원·졸업생은 ‘예시’ 배지를 붙여 공개 화면에 표시하되 색인·sitemap 에서는 제외(2026-11-06 연구실 결정). 예시 소식(연구실 세미나·회식 등)도 ‘예시’ 배지와 함께 표시(2026-11-09 연구실 요청, 상세는 noindex·sitemap 제외).
 - 방문자 화면에는 개발 과정 설명(임시 분류, 데이터 출처·기준일, 확인 후 게시, 브랜드 제안안, 자동 생성 안내)을 두지 않는다. 미확정 값(이메일·도로명 주소·면담 시간·지도교수 소개문)은 임의로 채우지 않고 해당 줄을 숨긴다. 문의 폼은 '온라인 접수 준비 중'으로 안내하고 전송 완료로 표시하지 않는다.
 - 논문(journal)의 저자·DOI·URL 은 연구실 검증표 「이현우_교수_논문_저자.xlsx」(2026-11-06, 1차)에서 가져와 표시 — 61편 저자, 38편 DOI, DOI 가 없는 21편은 KCI·RISS 등 논문 페이지 링크, 미검증 1편(j36)은 비움. DOI 가 확인되지 않은 항목의 DOI 는 임의로 채우지 않음. 권·호·페이지와 학술발표의 저자·DOI 는 자료가 없어 표시하지 않음. 저역서는 확인된 `authors` 가 있을 때만 /books 카드에 한 줄 표시(현재 b01–b03).
 - 교수 개인 실적(`scope: professor`)과 연구실 공동 실적(`scope: lab`)을 구분. 현재 데이터는 모두 교수 개인 실적.
-- 뉴스의 예시 항목은 ‘예시’ 배지로 구분(공개 화면에서는 숨김).
+- 뉴스의 예시 항목은 ‘예시’ 배지로 구분. 논문·저역서에서 자동 생성한 소식은 /news 에만 표시하고, 경력(보임) 소식은 만들지 않음.
 - Contact 폼은 전송 서버가 연결되어 있지 않으며, 전송 완료로 표시하지 않음. 연결 방법: `ContactForm` 의 `onSubmit` prop 에 Formspree/서버리스 함수 등을 넘기면 로딩·완료·오류 상태가 작동합니다.
 
 ## 접근성·모션

@@ -29,13 +29,10 @@ import type {
 /* ------------------------------------------------------------------ samples */
 
 /**
- * 예시 항목(isSample: true) 처리 — 2026-11-06 연구실 결정:
- * - 가상 구성원·졸업생(연구실이 제공한 가상 인물 사진)은 공개 화면에 '예시' 배지만 붙여 그대로 표시합니다(getMembers/getAlumni 는 필터하지 않음).
- *   단 상세 페이지는 noindex, sitemap 제외.
- * - 예시 소식(news.json 의 isSample 항목, 본문이 안내용 문구)은 공개 화면에서 숨깁니다. 개발 중 확인하려면 .env.local 에 SHOW_SAMPLES=1.
+ * 예시 항목(isSample: true) 처리 — 연구실 결정(2026-11-06 구성원·졸업생, 2026-11-09 소식):
+ * 가상 구성원·졸업생(연구실이 제공한 가상 인물 사진)과 예시 소식(연구실 세미나·회식 등 연구실 일상, 내용은 가상)은
+ * 공개 화면에 '예시' 배지만 붙여 그대로 표시합니다(필터하지 않음). 단 상세 페이지는 noindex, sitemap 제외.
  */
-export const showSamples = process.env.SHOW_SAMPLES === '1';
-const visible = <T extends { isSample?: boolean }>(items: T[]): T[] => (showSamples ? items : items.filter((x) => !x.isSample));
 
 /* ------------------------------------------------------------------ labels */
 
@@ -319,12 +316,12 @@ export function getJourney(): JourneyEntry[] {
 
 /* ------------------------------------------------------------------ news */
 
-const manualNews: NewsItem[] = visible(newsData.items as unknown as NewsItem[]).map((n) => ({
+const manualNews: NewsItem[] = (newsData.items as unknown as NewsItem[]).map((n) => ({
   ...n,
   source: n.source ?? 'manual',
 }));
 
-/** 실적·경력 데이터에서 자동 생성되는 소식 (사실 데이터). source: 'derived' 는 내부 구분용이며 화면에는 표시하지 않습니다 */
+/** 실적 데이터(최근 논문·저역서)에서 자동 생성되는 소식 (사실 데이터) — /news 에만 표시. source: 'derived' 는 내부 구분용이며 화면에는 표시하지 않습니다 */
 function derivedNews(): NewsItem[] {
   const latestYear = Math.max(...publications.map((p) => p.year ?? 0));
   const recentPubs = publications.filter((p) => (p.year ?? 0) >= latestYear - 1 && p.type !== 'conference');
@@ -347,23 +344,8 @@ function derivedNews(): NewsItem[] {
       link: { href: `/publications?type=${p.type}&q=${encodeURIComponent(p.title.slice(0, 20))}`, label: 'Publications에서 보기' },
     };
   });
-  const careerNews: NewsItem[] = getCareer()
-    .filter((c) => Number(c.start.slice(0, 4)) >= latestYear - 1)
-    .map((c) => ({
-      slug: `career-${c.id}`,
-      date: toIsoDate(c.start) ?? c.start,
-      category: 'member',
-      title: `${professor.name} 교수, ${c.org} ${c.role} 보임`,
-      excerpt: `${c.period}${c.current ? ' (현재)' : ''}`,
-      body: [`${professor.name} 교수가 ${c.org} ${c.role}으로 보임되었습니다 (${c.period}).`],
-      image: null,
-      imageLabel: '구성원 소식',
-      isSample: false,
-      source: 'derived',
-      relatedIds: [c.id],
-      link: { href: '/about#professor', label: '지도교수 프로필' },
-    }));
-  return [...pubNews, ...careerNews];
+  /* 경력(보임) 소식은 연구실 요청(2026-11-09)으로 만들지 않습니다 — 경력은 About › Professor 의 Career 목록에만 둡니다 */
+  return pubNews;
 }
 
 export function getNews(): NewsItem[] {
@@ -387,8 +369,14 @@ export function getFeaturedNews(): NewsItem | undefined {
   return all.find((n) => !n.isSample) ?? all[0];
 }
 
+/**
+ * Home 'Latest from the lab' — 연구실 일상 소식(news.json 수동 입력: 세미나·회식·행사 등)만 최신순으로.
+ * 실적·경력에서 자동 생성한 항목(연구 성과·구성원 소식)은 /news 에만 둡니다(2026-11-09 연구실 요청).
+ * 수동 입력 소식이 하나도 없으면 전체 소식으로 대체합니다.
+ */
 export function getLatestNews(n = 3): NewsItem[] {
-  return getNews().slice(0, n);
+  const lab = getNews().filter((x) => x.source !== 'derived');
+  return (lab.length ? lab : getNews()).slice(0, n);
 }
 
 export const newsMeta = newsData.meta;

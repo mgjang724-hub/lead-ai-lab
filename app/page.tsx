@@ -144,7 +144,7 @@ export default function HomePage() {
       </section>
       ) : null}
 
-      {/* (05) News */}
+      {/* (05) News — 'Latest from the lab' 는 연구실 일상 소식(세미나·회식 등, 현재는 '예시' 배지 항목)만. 논문·경력에서 자동 생성한 소식은 /news 에만 */}
       <section className="lab-sec lab-sec--tight-top" aria-labelledby="home-news">
         <div className="lab-container">
           <SectionHeader

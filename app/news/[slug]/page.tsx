@@ -16,6 +16,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const n = getNewsBySlug(slug);
   if (!n) return {};
+  /* 예시 소식은 화면에 '예시' 배지로 표시하되 검색 색인에서는 제외 */
+  if (n.isSample) return { title: `${n.title} — News (예시)`, description: n.excerpt || n.title, robots: { index: false, follow: true } };
   return { title: `${n.title} — News`, description: n.excerpt || n.title, alternates: { canonical: `/news/${n.slug}` }, openGraph: { type: 'article', title: n.title, description: n.excerpt } };
 }
 
