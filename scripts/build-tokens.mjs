@@ -17,8 +17,10 @@ out(`/* Generated from design-system/tokens.json — do not edit by hand. Run \`
 out();
 
 // @font-face — self-hosted variable fonts (public/fonts)
+// 하위 경로 배포(GitHub Pages 프로젝트 사이트 등)에서는 NEXT_PUBLIC_BASE_PATH("/<repo>")를 앞에 붙입니다 — next.config.ts 의 basePath 와 동일한 값.
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 for (const f of tokens.type.fonts) {
-  const file = f.file.replace(/^fonts\//, '/fonts/');
+  const file = basePath + f.file.replace(/^fonts\//, '/fonts/');
   out(`@font-face { font-family: "${f.family}"; src: url("${file}") format("woff2"); font-weight: ${f.weight}; font-style: ${f.style}; font-display: swap; }`);
 }
 out();
