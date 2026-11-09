@@ -67,12 +67,19 @@ for (const c of career.items) {
 
 // members
 const members = read('members.json');
+const profileLists = (p) => {
+  for (const k of ['research', 'awards', 'history']) {
+    if (p[k] == null) continue;
+    assert(Array.isArray(p[k]) && p[k].every((e) => e && e.period && e.title), `${p.slug}: ${k} 항목은 { period, title, detail? } 형식이어야 합니다`);
+  }
+};
 unique([...members.members, ...members.alumni].map((m) => m.slug), 'members.slug');
 for (const m of members.members) {
   assert(m.slug && m.name, 'member: slug/name 누락');
-  assert(['phd', 'master', 'researcher', 'other'].includes(m.role), `${m.slug}: role "${m.role}"`);
+  assert(['phd', 'master', 'undergrad', 'researcher', 'other'].includes(m.role), `${m.slug}: role "${m.role}"`);
   if (m.areas) isAreaList(m.areas, m.slug);
   if (m.photo && !publicFile(m.photo)) errors.push(m.slug + ': photo 파일 없음 "' + m.photo + '"');
+  profileLists(m);
   if (m.isSample) warn.push(m.slug + ": 예시 구성원 (가상 인물 — 화면에 '예시' 표시, 실제 명단 확정 후 삭제)");
 }
 for (const a of members.alumni) {
@@ -80,6 +87,7 @@ for (const a of members.alumni) {
   assert(['phd', 'master'].includes(a.degree), `${a.slug}: degree "${a.degree}"`);
   if (a.areas) isAreaList(a.areas, a.slug);
   if (a.photo && !publicFile(a.photo)) errors.push(a.slug + ': photo 파일 없음 "' + a.photo + '"');
+  profileLists(a);
   if (a.isSample) warn.push(`${a.slug}: 예시 졸업생 (가상 인물 — 화면에 '예시' 표시, 실제 명단 확정 후 삭제)`);
 }
 

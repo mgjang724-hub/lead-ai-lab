@@ -76,6 +76,26 @@ html { scroll-behavior: auto; }
 /* People profile: portrait first in DOM (mobile: on top); desktop puts it in the left third and the text on the right */
 @media (min-width: 1024px) { .lab-detail--photo-first .lab-detail__side { grid-column: 1 / 5; grid-row: 1; } .lab-detail--photo-first .lab-detail__main { grid-column: 6 / 13; grid-row: 1; } }
 .lab-profile__photo { margin: 0; width: 100%; max-width: 420px; }
+/* 인물 상세 — 이름 hero 바로 아래에 초상(왼쪽)과 소개·정보(오른쪽)를 한 덩어리로. 오른쪽 열은 hero 본문(경로 표시)과 같은 7열에서 시작 */
+.lab-phero--profile { padding-bottom: clamp(32px, 4vw, 56px); }
+.lab-profile { padding-top: 0; }
+.lab-profile__bio { margin: 0 0 40px; }
+/* 이름 옆 영문 이름 — 제목과 같은 줄, 작고 옅게. 좁은 화면에서는 다음 줄로 내려감 */
+.lab-phero__en { margin-left: .2em; font-size: clamp(18px, .3em, 40px); line-height: 1.2; letter-spacing: -.02em; font-weight: 400; color: var(--text-tertiary); white-space: nowrap; }
+/* 프로필 섹션(연구실적 · 수상경력 · 이력) — 기간 | 제목·보조 정보 행 목록 */
+.lab-psec { display: flex; flex-direction: column; }
+.lab-psec__label { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin: 0; color: var(--text-tertiary); }
+.lab-psec__label [lang="ko"] { font: 400 13px/1.2 var(--font-sans); letter-spacing: 0; text-transform: none; }
+.lab-plist { list-style: none; margin: 12px 0 0; padding: 0; }
+.lab-plist li { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 4px; padding: 14px 0; border-bottom: 1px solid var(--border-hairline); }
+.lab-plist li:first-child { border-top: 1px solid var(--border-hairline); }
+.lab-plist .lab-t-index { color: var(--text-tertiary); font-variant-numeric: tabular-nums; }
+.lab-plist__body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.lab-plist__title { font-family: var(--font-sans); font-size: 16px; line-height: 1.5; letter-spacing: -.01em; font-weight: 500; color: var(--text-primary); }
+@media (min-width: 640px) { .lab-plist li { grid-template-columns: 136px minmax(0, 1fr); column-gap: 16px; align-items: baseline; } }
+/* 정보 열이 길어지므로 넓은 화면에서는 초상이 따라 내려옴 */
+@media (min-width: 1024px) and (min-height: 760px) { .lab-profile .lab-detail__side { position: sticky; top: calc(var(--lab-header-h) + 32px); align-self: start; } }
+@media (min-width: 1024px) { .lab-detail--photo-first.lab-profile .lab-detail__main { grid-column: 7 / 13; } }
 .lab-sidelist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
 .lab-sidelist li { padding: 12px 0; border-bottom: 1px solid var(--border-hairline); }
 .lab-sidelist li:first-child { border-top: 1px solid var(--border-hairline); }
@@ -329,6 +349,12 @@ html { scroll-behavior: auto; }
 .lab-book__cover .lab-media__frame { border: 1px solid var(--border-hairline); }
 .lab-book__cover .lab-media__img { transition: transform var(--dur-slower) var(--ease-out); }
 @media (hover: hover) and (pointer: fine) { .lab-book:hover .lab-book__cover .lab-media__img { transform: scale(1.03); } }
+/* 표지 링크 — purchaseUrl 이 있는 책만. hover·focus 때 오른쪽 위에 ↗ 표시 */
+.lab-book__link { position: relative; display: block; color: inherit; text-decoration: none; }
+.lab-book__link:focus-visible { outline-offset: 4px; }
+.lab-book__go { position: absolute; top: 12px; right: 12px; z-index: 1; display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border-hairline); background: var(--bg-page); color: var(--text-primary); opacity: 0; transform: translate(-6px, 6px); transition: opacity var(--dur-fast), transform var(--dur-base) var(--ease-out); pointer-events: none; }
+.lab-book__link:focus-visible .lab-book__go { opacity: 1; transform: none; }
+@media (hover: hover) and (pointer: fine) { .lab-book__link:hover .lab-book__go { opacity: 1; transform: none; } }
 .lab-book__meta { display: flex; flex-direction: column; gap: 6px; }
 .lab-book__top { display: flex; justify-content: space-between; gap: 12px; margin: 0; color: var(--text-tertiary); }
 .lab-book__title { margin: 0; word-break: keep-all; }

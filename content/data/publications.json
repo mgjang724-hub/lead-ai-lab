@@ -1020,7 +1020,8 @@
       ],
       "scope": "professor",
       "cover": "/images/books/b01.jpg",
-      "coverAlt": "『HRD 담당자를 위한 ROI의 기초』(ROI Basics, 2nd Edition) 표지 — 박영스토리, 2022"
+      "coverAlt": "『HRD 담당자를 위한 ROI의 기초』(ROI Basics, 2nd Edition) 표지 — 박영스토리, 2022",
+      "purchaseUrl": "https://product.kyobobook.co.kr/detail/S000061695189"
     },
     {
       "id": "b02",
@@ -1037,7 +1038,8 @@
       ],
       "scope": "professor",
       "cover": "/images/books/b02.jpg",
-      "coverAlt": "『학습자중심 수업을 위한 교육방법 및 교육공학』 표지 — 문음사, 2020"
+      "coverAlt": "『학습자중심 수업을 위한 교육방법 및 교육공학』 표지 — 문음사, 2020",
+      "purchaseUrl": "https://product.kyobobook.co.kr/detail/S000001260987"
     },
     {
       "id": "b03",
@@ -1054,7 +1056,8 @@
       ],
       "scope": "professor",
       "cover": "/images/books/b03.jpg",
-      "coverAlt": "『교육공학 용어해설』 표지 — 학지사, 2020"
+      "coverAlt": "『교육공학 용어해설』 표지 — 학지사, 2020",
+      "purchaseUrl": "https://product.kyobobook.co.kr/detail/S000001643793"
     },
     {
       "id": "b04",
@@ -1071,7 +1074,8 @@
       ],
       "scope": "professor",
       "cover": "/images/books/b04.jpg",
-      "coverAlt": "『서비스-러닝의 본질 : 질문, 답, 그리고 깨달음』(Service-Learning Essentials) 표지 — 박영스토리, 2018"
+      "coverAlt": "『서비스-러닝의 본질 : 질문, 답, 그리고 깨달음』(Service-Learning Essentials) 표지 — 박영스토리, 2018",
+      "purchaseUrl": "https://product.kyobobook.co.kr/detail/S000001909349"
     },
     {
       "id": "b05",
@@ -1088,7 +1092,8 @@
       ],
       "scope": "professor",
       "cover": "/images/books/b05.jpg",
-      "coverAlt": "『교수의 으뜸원리 : 효과적, 효율적, 매력적 교수설계』(First Principles of Instruction) 표지 — 학지사, 2014"
+      "coverAlt": "『교수의 으뜸원리 : 효과적, 효율적, 매력적 교수설계』(First Principles of Instruction) 표지 — 학지사, 2014",
+      "purchaseUrl": "https://product.kyobobook.co.kr/detail/S000001642356"
     },
     {
       "id": "b06",
@@ -1105,7 +1110,8 @@
       ],
       "scope": "professor",
       "cover": "/images/books/b06.jpg",
-      "coverAlt": "『교육공학』 표지 — 문음사, 2014"
+      "coverAlt": "『교육공학』 표지 — 문음사, 2014",
+      "purchaseUrl": "https://product.kyobobook.co.kr/detail/S000001260952"
     },
     {
       "id": "b07",
@@ -1124,16 +1130,20 @@
     {
       "id": "b08",
       "type": "book",
-      "title": "교육공학 : 통학적 접근과 학제적 관점",
+      "title": "교육공학 : 통합적 접근과 학제적 관점",
       "venue": "교육과학사",
       "date": "2013.09.10",
       "year": 2013,
       "sortKey": "20130910",
+      "authors": "J. Michael Spector 지음, 김영수 · 이현우 · 정재삼 · 임규연 공역",
       "lang": "ko",
       "areas": [
         "instructional-design"
       ],
-      "scope": "professor"
+      "scope": "professor",
+      "cover": "/images/books/b08.jpg",
+      "coverAlt": "『교육공학 : 통합적 접근과 학제적 관점』(Foundations of Educational Technology) 표지 — 교육과학사, 2013",
+      "purchaseUrl": "https://product.kyobobook.co.kr/detail/S000000474010"
     },
     {
       "id": "b09",
@@ -1143,11 +1153,15 @@
       "date": "2012.08.30",
       "year": 2012,
       "sortKey": "20120830",
+      "authors": "Rita C. Richey · James D. Klein · Monica W. Tracey 지음, 정재삼 · 임규연 · 김영수 · 이현우 공역",
       "lang": "ko",
       "areas": [
         "instructional-design"
       ],
-      "scope": "professor"
+      "scope": "professor",
+      "cover": "/images/books/b09.jpg",
+      "coverAlt": "『교수설계 지식기반』(The Instructional Design Knowledge Base) 표지 — 학지사, 2012",
+      "purchaseUrl": "https://product.kyobobook.co.kr/detail/S000000984770"
     },
     {
       "id": "c01",

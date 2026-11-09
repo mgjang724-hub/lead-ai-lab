@@ -45,6 +45,7 @@ export const publicationTypeLabels: Record<PublicationType, { ko: string; en: st
 export const memberRoleLabels: Record<MemberRole, string> = {
   phd: '박사과정',
   master: '석사과정',
+  undergrad: '학부생연구원',
   researcher: '연구원',
   other: '구성원',
 };
@@ -216,12 +217,17 @@ export function getMembers(): Member[] {
   return (membersData.members as unknown as Member[]).slice();
 }
 
+/** People 목록의 묶음 — 박사과정은 따로, 석사과정과 학부생연구원은 한 묶음(같은 행)으로 보여 줍니다(2026-11-09 연구실 요청). 묶음 안에서는 roles 순서대로 */
+const MEMBER_GROUPS: { role: MemberRole; roles: MemberRole[]; label: string }[] = [
+  { role: 'phd', roles: ['phd'], label: memberRoleLabels.phd },
+  { role: 'master', roles: ['master', 'undergrad'], label: `${memberRoleLabels.master} / ${memberRoleLabels.undergrad}` },
+  { role: 'researcher', roles: ['researcher'], label: memberRoleLabels.researcher },
+  { role: 'other', roles: ['other'], label: memberRoleLabels.other },
+];
+
 export function getMembersByRole(): { role: MemberRole; label: string; members: Member[] }[] {
-  const order: MemberRole[] = ['phd', 'master', 'researcher', 'other'];
   const all = getMembers();
-  return order
-    .map((role) => ({ role, label: memberRoleLabels[role], members: all.filter((m) => m.role === role) }))
-    .filter((g) => g.members.length > 0);
+  return MEMBER_GROUPS.map((g) => ({ role: g.role, label: g.label, members: g.roles.flatMap((r) => all.filter((m) => m.role === r)) })).filter((g) => g.members.length > 0);
 }
 
 export function getMemberBySlug(slug: string): Member | undefined {
@@ -254,6 +260,11 @@ export function getAlumnusBySlug(slug: string): Alumnus | undefined {
 
 /** 졸업생 학위 표기 (목록·상세 공통) */
 export const alumnusDegreeLabels: Record<Alumnus['degree'], string> = { phd: '박사', master: '석사' };
+/** 졸업생 학위 영문 표기 — 프로필 Degree 항목에 이 문구만 표시(국문 없이). 표기는 연구실이 정한 문구(2026-11-09) */
+export const alumnusDegreeLabelsEn: Record<Alumnus['degree'], string> = {
+  phd: 'Ph.D. in Education (Educational Technology)',
+  master: 'M.A. in Education (Educational Technology)',
+};
 
 export const membersMeta = membersData.meta;
 

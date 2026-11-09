@@ -1,19 +1,22 @@
+import { Fragment } from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { professor } from '@/content/profile';
-import { areaById } from '@/content/research-areas';
-import type { AreaId } from '@/content/types';
-import { alumnusDegreeLabels, getAlumni, getAlumnusBySlug, getMemberBySlug, getMembers, memberRoleLabels } from '@/lib/content';
+import type { ProfileEntry } from '@/content/types';
+import { alumnusDegreeLabels, alumnusDegreeLabelsEn, getAlumni, getAlumnusBySlug, getMemberBySlug, getMembers, memberRoleLabels } from '@/lib/content';
 import { PageHero } from '@/components/content/Headers';
 import { Breadcrumb } from '@/components/nav/Breadcrumb';
 import { MediaFrame } from '@/components/motion/MediaFrame';
 import { Reveal } from '@/components/motion/Reveal';
 import { Button, TextLink } from '@/components/ui/Button';
-import { TransitionLink } from '@/components/nav/TransitionLink';
 
 /**
  * 인물 상세 — members.json 의 구성원(members)과 졸업생(alumni) 모두 /people/[slug] 로 생성합니다(slug 는 둘을 합쳐 유일).
  * 레이아웃은 초상이 먼저(lab-detail--photo-first): 모바일에서는 사진이 맨 위, 데스크톱에서는 왼쪽 1/3 에 두고 오른쪽에 정보.
+ * 이름 옆에는 영문 이름(nameEn)을 작게 붙이고, 정보 열 아래에 연구실적·수상경력·이력(research/awards/history) 섹션을 값이 있을 때만 보여 줍니다.
+ * 이름 hero 는 짧게(lab-phero--profile) 두고, 소개글(bio)은 hero 가 아니라 초상 옆 정보 열 맨 위에 둡니다 — 소개·관심 분야·정보가 한 열(hero 본문과 같은 7열 시작)에 모이도록(2026-11-09).
+ * 프로필에는 Areas(연구 분야 링크) 행을 두지 않습니다 — 구성원은 Research interests 와 겹쳐서, 졸업생은 사용자 요청으로(2026-11-09). members.json 의 areas 값은 그대로 유지합니다.
+ * 졸업생 프로필 정보는 Thesis · Degree(영문 표기만) · Graduated · Affiliation(현재 소속, 값이 있을 때만) 을 보여 줍니다. hero 의 'YYYY년 ○사 졸업' 문구는 두지 않습니다(2026-11-09 사용자 요청. Affiliation 은 같은 날 뺐다가 사용자 요청으로 다시 추가).
  * 지도교수 프로필은 /about#professor 한 곳에 둡니다. isSample 인물(가상)은 '예시' 배지와 함께 표시하되 색인에서 제외합니다.
  * 정적 내보내기는 generateStaticParams 가 비어 있으면 빌드가 실패하므로, 인물이 아직 없을 때는
  * 지도교수의 옛 주소(/people/lee-hyunwoo)를 About 으로 안내하는 짧은 페이지로만 남깁니다(색인 제외).
@@ -48,17 +51,50 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-/** 연구 분야 링크 목록 (구성원·졸업생 공통) */
-function AreaLinks({ ids }: { ids: AreaId[] }) {
+/** hero 제목 — 이름 옆에 영문 이름을 작게. 스크린리더용 평문(lines)과 보이는 사본(lineNodes)을 함께 돌려줍니다 */
+function nameTitle(name: string, nameEn?: string | null) {
+  if (!nameEn) return { lines: [name] };
+  return {
+    lines: [`${name} ${nameEn}`],
+    lineNodes: [
+      <Fragment key="name">
+        {name}{' '}
+        <span className="lab-phero__en" lang="en">
+          {nameEn}
+        </span>
+      </Fragment>,
+    ],
+  };
+}
+
+/** 연구실적 · 수상경력 · 이력 — 값이 있는 섹션만. 예시 인물은 섹션마다 '예시' 배지 */
+function ProfileSections({ research, awards, history, sample }: { research?: ProfileEntry[] | null; awards?: ProfileEntry[] | null; history?: ProfileEntry[] | null; sample?: boolean }) {
+  const groups = [
+    { key: 'research', en: 'Research', ko: '연구실적', items: research },
+    { key: 'awards', en: 'Awards', ko: '수상경력', items: awards },
+    { key: 'history', en: 'Education & Career', ko: '이력', items: history },
+  ].filter((g) => g.items?.length);
+  if (!groups.length) return null;
   return (
     <>
-      {ids.map((id, i) => (
-        <span key={id}>
-          <TransitionLink href={`/research/${areaById[id].slug}`} className="lab-pub__area" label="Research">
-            {areaById[id].title}
-          </TransitionLink>
-          {i < ids.length - 1 ? ' · ' : ''}
-        </span>
+      {groups.map((g) => (
+        <Reveal key={g.key} as="section" variant="stagger" className="lab-psec" aria-label={g.ko}>
+          <h2 className="lab-t-label lab-psec__label">
+            {g.en} <span lang="ko">{g.ko}</span>
+            {sample ? <span className="lab-badge lab-badge--sample">예시</span> : null}
+          </h2>
+          <ul className="lab-plist" role="list">
+            {(g.items || []).map((it, i) => (
+              <li key={i}>
+                <span className="lab-t-index">{it.period}</span>
+                <span className="lab-plist__body">
+                  <span className="lab-plist__title">{it.title}</span>
+                  {it.detail ? <span className="lab-t-caption">{it.detail}</span> : null}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
       ))}
     </>
   );
@@ -96,10 +132,10 @@ export default async function PersonPage({ params }: { params: Promise<{ slug: s
     const role = m.roleLabel || memberRoleLabels[m.role];
     return (
       <>
-        <PageHero index="04" eyebrow={m.isSample ? `${role} · 예시` : role} lines={[m.name]} ko={m.nameEn || undefined} lead={m.bio || undefined}>
+        <PageHero index="04" eyebrow={m.isSample ? `${role} · 예시` : role} {...nameTitle(m.name, m.nameEn)} className="lab-phero--profile">
           <Breadcrumb items={[...crumbs, { label: m.name }]} />
         </PageHero>
-        <section className="lab-sec lab-sec--tight-top lab-container lab-detail lab-detail--photo-first" aria-label="구성원 프로필">
+        <section className="lab-sec lab-container lab-detail lab-detail--photo-first lab-profile" aria-label="구성원 프로필">
           <aside className="lab-detail__side">
             <MediaFrame ratio="4/5" tone="gray" label="Portrait" src={m.photo} alt={m.photo ? m.name + (m.isSample ? ' (예시 인물)' : '') : ''} className="lab-profile__photo" sizes="(min-width: 1024px) 30vw, 420px" />
             <TextLink href="/people#members" variant="standalone">
@@ -108,6 +144,7 @@ export default async function PersonPage({ params }: { params: Promise<{ slug: s
           </aside>
           <div className="lab-detail__main">
             <Reveal variant="stagger">
+              {m.bio ? <p className="lab-t-lead lab-profile__bio">{m.bio}</p> : null}
               <p className="lab-t-label" style={{ color: 'var(--text-tertiary)' }}>
                 Research interests
               </p>
@@ -118,16 +155,8 @@ export default async function PersonPage({ params }: { params: Promise<{ slug: s
                   </span>
                 ))}
               </div>
-              {m.areas?.length || m.joined || m.email ? (
+              {m.joined || m.email ? (
                 <dl className="lab-dl" style={{ marginTop: 32 }}>
-                  {m.areas?.length ? (
-                    <>
-                      <dt>Areas</dt>
-                      <dd>
-                        <AreaLinks ids={m.areas} />
-                      </dd>
-                    </>
-                  ) : null}
                   {m.joined ? (
                     <>
                       <dt>Joined</dt>
@@ -145,6 +174,7 @@ export default async function PersonPage({ params }: { params: Promise<{ slug: s
                 </dl>
               ) : null}
             </Reveal>
+            <ProfileSections research={m.research} awards={m.awards} history={m.history} sample={m.isSample} />
           </div>
         </section>
       </>
@@ -157,10 +187,10 @@ export default async function PersonPage({ params }: { params: Promise<{ slug: s
   const degree = alumnusDegreeLabels[a.degree];
   return (
     <>
-      <PageHero index="04" eyebrow={a.isSample ? `Alumni · ${degree} · 예시` : `Alumni · ${degree}`} lines={[a.name]} ko={`${a.graduatedYear}년 ${degree} 졸업`}>
+      <PageHero index="04" eyebrow={a.isSample ? `Alumni · ${degree} · 예시` : `Alumni · ${degree}`} {...nameTitle(a.name, a.nameEn)} className="lab-phero--profile">
         <Breadcrumb items={[...crumbs, { label: 'Alumni', href: '/people#alumni' }, { label: a.name }]} />
       </PageHero>
-      <section className="lab-sec lab-sec--tight-top lab-container lab-detail lab-detail--photo-first" aria-label="졸업생 프로필">
+      <section className="lab-sec lab-container lab-detail lab-detail--photo-first lab-profile" aria-label="졸업생 프로필">
         <aside className="lab-detail__side">
           <MediaFrame ratio="4/5" tone="gray" label="Portrait" src={a.photo ?? null} alt={a.photo ? a.name + (a.isSample ? ' (예시 인물)' : '') : ''} className="lab-profile__photo" sizes="(min-width: 1024px) 30vw, 420px" />
           <TextLink href="/people#alumni" variant="standalone">
@@ -181,17 +211,9 @@ export default async function PersonPage({ params }: { params: Promise<{ slug: s
             ) : null}
             <dl className="lab-dl" style={{ marginTop: a.thesis ? 32 : 0 }}>
               <dt>Degree</dt>
-              <dd>{degree}</dd>
+              <dd lang="en">{alumnusDegreeLabelsEn[a.degree]}</dd>
               <dt>Graduated</dt>
               <dd>{a.graduatedYear}</dd>
-              {a.areas?.length ? (
-                <>
-                  <dt>Areas</dt>
-                  <dd>
-                    <AreaLinks ids={a.areas} />
-                  </dd>
-                </>
-              ) : null}
               {a.affiliation ? (
                 <>
                   <dt>Affiliation</dt>
@@ -200,6 +222,7 @@ export default async function PersonPage({ params }: { params: Promise<{ slug: s
               ) : null}
             </dl>
           </Reveal>
+          <ProfileSections research={a.research} awards={a.awards} history={a.history} sample={a.isSample} />
         </div>
       </section>
     </>

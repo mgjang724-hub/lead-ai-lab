@@ -19,7 +19,7 @@ export default function BooksPage() {
         eyebrow="Books"
         lines={['Books']}
         ko="저역서"
-        lead="지도교수가 저술하고 번역한 책을 최신 출간순으로 소개합니다."
+        lead="저술하고 번역한 책을 최신 출간순으로 소개합니다."
       />
       <section className="lab-sec lab-sec--tight-top lab-container" aria-label="저역서 목록">
         <BookGrid items={books} />

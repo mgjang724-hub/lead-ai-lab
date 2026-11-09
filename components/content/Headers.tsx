@@ -80,6 +80,8 @@ export interface PageHeroProps {
   index?: string;
   eyebrow?: string;
   lines?: string[];
+  /** 보이는 제목을 줄별로 바꿀 때(예: 이름 옆 영문 이름). 스크린리더용 평문은 lines 그대로 */
+  lineNodes?: ReactNode[];
   title?: string;
   ko?: string;
   lead?: string;
@@ -101,7 +103,7 @@ export function PageHero(p: PageHeroProps) {
           <span className="lab-t-index">{p.index || '01'}</span>
           <span className="lab-t-label">{p.eyebrow || ''}</span>
         </div>
-        <SplitText as="h1" className="lab-t-display-l lab-phero__title" lines={p.lines || [p.title || '']} trigger="mount" delay={120} duration="dur-slower" />
+        <SplitText as="h1" className="lab-t-display-l lab-phero__title" lines={p.lines || [p.title || '']} lineNodes={p.lineNodes} trigger="mount" delay={120} duration="dur-slower" />
         <div ref={rule} className="lab-phero__rule" aria-hidden="true" data-reveal="" />
         <div ref={body} className="lab-phero__body" data-reveal="">
           {p.ko ? <p className="lab-t-title-ko lab-phero__ko">{p.ko}</p> : null}

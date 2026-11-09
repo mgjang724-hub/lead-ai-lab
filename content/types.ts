@@ -41,6 +41,8 @@ export interface Publication {
   /** 저역서 표지 이미지 경로(public/ 기준, 예: "/images/books/b01.jpg") — 확인된 파일만. 없으면 /books 에서 중립 placeholder */
   cover?: string;
   coverAlt?: string;
+  /** 저역서 구매 페이지(서점 상품 페이지) — 연구실이 알려 준 주소만. 있으면 /books 에서 표지가 이 주소로 가는 링크(새 창)가 됩니다 */
+  purchaseUrl?: string;
 }
 
 export interface Project {
@@ -77,7 +79,16 @@ export interface EducationEntry {
   date: string;
 }
 
-export type MemberRole = 'phd' | 'master' | 'researcher' | 'other';
+export type MemberRole = 'phd' | 'master' | 'undergrad' | 'researcher' | 'other';
+
+/** 인물 프로필의 연구실적·수상·이력 한 줄 */
+export interface ProfileEntry {
+  /** 연도 또는 기간 (예: "2025", "2023.03 – 현재") */
+  period: string;
+  title: string;
+  /** 보조 정보 (예: 구분 · 게재지·학회·기관) */
+  detail?: string | null;
+}
 
 export interface Member {
   slug: string;
@@ -86,7 +97,7 @@ export interface Member {
   name: string;
   nameEn?: string | null;
   role: MemberRole;
-  /** 화면 표기 (예: "박사과정", "석사과정 2년차") — 비우면 role 기본 라벨 */
+  /** 화면 표기 (예: "박사과정", "석사과정", "학부생연구원") — 비우면 role 기본 라벨 */
   roleLabel?: string | null;
   interests: string[];
   areas?: AreaId[];
@@ -94,6 +105,10 @@ export interface Member {
   photo?: string | null;
   bio?: string | null;
   joined?: string | null;
+  /** 상세 프로필의 연구실적 · 수상경력 · 이력(학력·경력) — 본인이 확인한 내용만. 비우면 해당 섹션이 나오지 않습니다 */
+  research?: ProfileEntry[] | null;
+  awards?: ProfileEntry[] | null;
+  history?: ProfileEntry[] | null;
   /** 레이아웃 확인용 가상 항목 — 이름 옆에 "예시" 배지를 붙이고, 상세 페이지는 색인·sitemap 에서 제외합니다 */
   isSample?: boolean;
 }
@@ -101,6 +116,7 @@ export interface Member {
 export interface Alumnus {
   slug: string;
   name: string;
+  nameEn?: string | null;
   degree: 'phd' | 'master';
   graduatedYear: number;
   thesis?: string | null;
@@ -109,6 +125,10 @@ export interface Alumnus {
   affiliation?: string | null;
   /** 초상 사진 경로(public/ 기준). 없으면 중립 placeholder */
   photo?: string | null;
+  /** 상세 프로필의 연구실적 · 수상경력 · 이력 — Member 와 같은 형식 */
+  research?: ProfileEntry[] | null;
+  awards?: ProfileEntry[] | null;
+  history?: ProfileEntry[] | null;
   /** 레이아웃 확인용 가상 항목 — 화면에 '예시' 배지를 붙이고 실제 졸업생과 구분합니다 */
   isSample?: boolean;
 }
