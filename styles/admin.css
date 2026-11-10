@@ -89,6 +89,8 @@
 .cms-notice__body { flex: 1 1 320px; min-width: 0; }
 .cms-notice__title { display: block; font-size: 15px; }
 .cms-notice__text { margin-top: 2px; font-size: 14px; color: var(--text-secondary); }
+.cms-notice__p { margin: 4px 0 0; }
+.cms-notice__p:first-child { margin-top: 0; }
 .cms-notice__actions { display: flex; flex-wrap: wrap; gap: 8px; }
 
 .cms-toasts { position: fixed; right: 16px; bottom: 16px; z-index: 100; display: grid; gap: 8px; width: min(420px, calc(100vw - 32px)); }

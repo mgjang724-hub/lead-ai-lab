@@ -16,7 +16,7 @@ export function LoginScreen({ error, onToken, onMock }: { error?: string; onToke
         <h1 id="cms-login-title" className="cms-login__title">
           홈페이지 관리
         </h1>
-        <p className="cms-login__lead">소식·구성원·졸업생을 고치고, 바뀐 내용을 확인한 뒤 사이트에 게시합니다. 연구실 저장소에 초대받은 GitHub 계정으로 로그인하세요.</p>
+        <p className="cms-login__lead">소식·구성원·졸업생과 논문·저역서·학술발표·연구 과제를 고치고, 바뀐 내용을 확인한 뒤 사이트에 게시합니다. 연구실 저장소에 초대받은 GitHub 계정으로 로그인하세요.</p>
 
         {error ? <Notice tone="danger">{error}</Notice> : null}
 

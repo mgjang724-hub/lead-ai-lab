@@ -5,7 +5,8 @@
  *   #/                 처음 화면
  *   #/news             소식 목록        #/news/new · #/news/edit/<주소>
  *   #/members          구성원 목록      #/members/new · #/members/edit/<주소>
- *   #/alumni           졸업생 목록
+ *   #/alumni           졸업생 목록      #/alumni/move/<구성원 주소> (구성원 → 졸업생 옮기기)
+ *   (논문·저역서·학술발표·연구 과제도 같은 모양: #/journals/new · #/journals/edit/<번호> …)
  *
  * 저장소 쓰기 권한이 있는 사람(편집자)은 모두 같은 권한으로, 바뀐 내용을 확인한 뒤 바로 게시합니다.
  */
@@ -13,7 +14,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { cmsConfig, repoParts } from '@/lib/cms/config';
 import { clearToken, getStoredToken, takeAuthResult } from '@/lib/cms/auth';
 import { GitHubBackend } from '@/lib/cms/github';
-import { isCollectionId } from '@/lib/cms/collections';
+import { collections, isCollectionId } from '@/lib/cms/collections';
 import { errorMessage, isCmsError, type CmsUser, type RepoBackend } from '@/lib/cms/types';
 import { CmsProvider, useCms } from './context';
 import { LoginScreen } from './LoginScreen';
@@ -146,6 +147,7 @@ function Router() {
   if (first && isCollectionId(first)) {
     if (second === 'new') return <ItemEditor collection={first} itemKey={null} key={`${first}:new`} />;
     if (second === 'edit' && third) return <ItemEditor collection={first} itemKey={third} key={`${first}:${third}`} />;
+    if (second === 'move' && third && collections[first].moveFrom) return <ItemEditor collection={first} itemKey={null} moveFrom={third} key={`${first}:move:${third}`} />;
     return <CollectionList collection={first} key={first} />;
   }
   return <Dashboard />;

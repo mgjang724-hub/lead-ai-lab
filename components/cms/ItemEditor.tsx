@@ -1,10 +1,10 @@
 'use client';
 /** 항목 편집 — 입력 폼 + 미리보기 → '확인하고 게시' 를 누르면 바뀐 칸을 보여 주고, 확인하면 바로 게시합니다 */
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { collections, itemsOf, keyOf, nextKey, toPublicPath, toRepoPath, type CollectionId, type FieldDef, type Item } from '@/lib/cms/collections';
+import { collections, itemsOf, keyOf, moveTargets, nextKey, toPublicPath, toRepoPath, type CollectionId, type FieldDef, type Item } from '@/lib/cms/collections';
 import { publishDirect } from '@/lib/cms/engine';
 import { dataUrl } from '@/lib/cms/encoding';
-import { findItem, normalizeItem, sameValue, type Conflict, type Op } from '@/lib/cms/ops';
+import { findItem, mergeItem, normalizeItem, sameValue, type Conflict, type Op } from '@/lib/cms/ops';
 import { validateItem, type FieldErrors } from '@/lib/cms/validate';
 import { imageFileName, prepareImage, type PreparedImage } from '@/lib/cms/image';
 import { errorMessage, isCmsError } from '@/lib/cms/types';
@@ -44,14 +44,34 @@ interface Pending {
   images: Record<string, string>;
 }
 
-export function ItemEditor({ collection, itemKey }: { collection: CollectionId; itemKey: string | null }) {
+const hasValue = (v: unknown) => v !== null && v !== undefined && v !== '' && v !== false && !(Array.isArray(v) && v.length === 0);
+
+/** 옮기지 않는 칸을 안내할 때 쓰는 짧은 값 — 고르는 칸·한 줄 칸만 괄호로 보여 줌 */
+function shortValue(f: FieldDef, v: unknown): string {
+  if (f.type === 'select') return ` (${f.options?.find((o) => o.value === v)?.label ?? String(v)})`;
+  if (f.type === 'text' && typeof v === 'string') return ` (${v.length > 24 ? `${v.slice(0, 23)}…` : v})`;
+  if (f.type === 'tags' && Array.isArray(v)) return ` (${v.join(', ')})`;
+  return '';
+}
+
+/**
+ * itemKey: 고칠 항목의 키(null 이면 새 항목).
+ * moveFrom: 다른 메뉴에서 옮겨 오는 항목의 키 (구성원 → 졸업생, collections.ts 의 moveFrom) — 새 항목처럼 채운 폼을 보여 주고,
+ *           게시하면 원래 항목 삭제 + 같은 주소로 이 메뉴에 추가를 한 번에 커밋합니다.
+ */
+export function ItemEditor({ collection, itemKey, moveFrom = null }: { collection: CollectionId; itemKey: string | null; moveFrom?: string | null }) {
   const def = collections[collection];
   const { snapshot, user, backend, navigate, notify, fail, reload, setDirty, watchDeploy } = useCms();
+  const move = moveFrom && def.moveFrom ? def.moveFrom : null;
+  const srcDef = move ? collections[move.collection] : null;
+  const isMove = move !== null;
   const isNew = itemKey === null;
-  const draftKey = `${DRAFT_PREFIX}${collection}:${itemKey ?? 'new'}`;
+  const draftKey = `${DRAFT_PREFIX}${collection}:${isMove ? `move:${moveFrom}` : (itemKey ?? 'new')}`;
 
   const [base, setBase] = useState<Item | null>(() => (itemKey && snapshot ? findItem(snapshot.files[def.file], def, itemKey) : null));
-  const [draft, setDraft] = useState<Item>(() => (base ? clone(base) : def.defaults()));
+  /** 옮기기: 원래 메뉴의 항목 (게시할 때 이 내용 그대로인지 확인한 뒤 지움) */
+  const [source, setSource] = useState<Item | null>(() => (srcDef && moveFrom && snapshot ? findItem(snapshot.files[srcDef.file], srcDef, moveFrom) : null));
+  const [draft, setDraft] = useState<Item>(() => (base ? clone(base) : move && source ? move.convert(source) : def.defaults()));
   const [formKey, setFormKey] = useState(0);
   const [changed, setChanged] = useState(false);
   const [slugTouched, setSlugTouched] = useState(false);
@@ -69,8 +89,9 @@ export function ItemEditor({ collection, itemKey }: { collection: CollectionId; 
     const s = new Set<string>();
     for (const k of def.uniqueAcross) for (const it of itemsOf(snapshot?.files[def.file], k)) s.add(keyOf(it));
     if (itemKey) s.delete(itemKey);
+    if (moveFrom) s.delete(moveFrom); // 옮기면 원래 항목은 지워지므로 같은 주소를 씀
     return s;
-  }, [snapshot, def, itemKey]);
+  }, [snapshot, def, itemKey, moveFrom]);
 
   const suggestion = useMemo(() => {
     const raw = def.suggestKey(draft);
@@ -84,7 +105,7 @@ export function ItemEditor({ collection, itemKey }: { collection: CollectionId; 
   const autoKey = !!def.autoKey;
   const predictedKey = useMemo(() => (autoKey && isNew ? nextKey(def, snapshot?.files[def.file]) : ''), [autoKey, isNew, def, snapshot]);
   /** 이 항목의 키 — 주소(slug) 또는 번호(id) */
-  const slug = !isNew ? (itemKey as string) : autoKey ? predictedKey : slugTouched ? str(draft.slug) : suggestion;
+  const slug = isMove ? (moveFrom as string) : !isNew ? (itemKey as string) : autoKey ? predictedKey : slugTouched ? str(draft.slug) : suggestion;
 
   const projectIds = useMemo(() => (snapshot?.projects.length ? new Set(snapshot.projects.map((p) => p.id)) : null), [snapshot]);
 
@@ -103,11 +124,13 @@ export function ItemEditor({ collection, itemKey }: { collection: CollectionId; 
     }
     const item = normalizeItem(def, replaced, base);
     const removals: Op[] = [];
-    if (base) {
+    // 사진을 바꿨으면 예전 사진 파일을 지움 — 옮기기에서는 원래 항목의 사진이 예전 사진
+    const origin = base ?? (isMove ? source : null);
+    if (origin) {
       for (const f of def.fields) {
         if (f.type !== 'image' || !f.image) continue;
-        const old = base[f.name];
-        if (old !== item[f.name] && ownedImage(old, f.image.dir, keyOf(base))) removals.push({ kind: 'deleteFile', path: toRepoPath(old) });
+        const old = origin[f.name];
+        if (old !== item[f.name] && ownedImage(old, f.image.dir, keyOf(origin))) removals.push({ kind: 'deleteFile', path: toRepoPath(old) });
       }
     }
     return { item, puts, removals };
@@ -132,7 +155,7 @@ export function ItemEditor({ collection, itemKey }: { collection: CollectionId; 
     if (!raw) return;
     try {
       const saved = JSON.parse(raw) as { draft: Item; at: number };
-      if (saved?.draft && !sameValue(saved.draft, base ?? def.defaults())) setRestorable(saved);
+      if (saved?.draft && !sameValue(saved.draft, base ?? (move && source ? move.convert(source) : def.defaults()))) setRestorable(saved);
     } catch {
       storage()?.removeItem(draftKey);
     }
@@ -196,7 +219,13 @@ export function ItemEditor({ collection, itemKey }: { collection: CollectionId; 
       return;
     }
     const { item, puts, removals } = finalize(true);
-    const ops: Op[] = [{ kind: 'upsert', collection, key: str(item[KF]), item, before: base }, ...puts, ...removals];
+    const ops: Op[] = [
+      // 옮기기: 원래 항목을 먼저 지우고(그새 바뀌었으면 충돌로 알림) 같은 주소로 추가
+      ...(move && source ? [{ kind: 'delete', collection: move.collection, key: keyOf(source), before: source } as Op] : []),
+      { kind: 'upsert', collection, key: str(item[KF]), item, before: base },
+      ...puts,
+      ...removals,
+    ];
     const imgs: Record<string, string> = {};
     for (const op of puts) if (op.kind === 'putFile' && op.base64) imgs[toPublicPath(op.path)] = dataUrl(op.base64, op.path);
     setConfirming({ ops, item, images: imgs });
@@ -207,7 +236,8 @@ export function ItemEditor({ collection, itemKey }: { collection: CollectionId; 
     setConflict(null);
     try {
       const r = await publishDirect(backend, user, ops, { force });
-      notify(`${kind === 'save' ? '게시' : '삭제'}했습니다. 1~2분 뒤 사이트에 반영됩니다.${r.viaPull ? ` (보호 규칙에 따라 #${r.viaPull} 로 반영)` : ''}`);
+      const done = kind === 'delete' ? '삭제했습니다' : isMove ? `${josa(def.itemLabel, '으로', '로')} 옮겼습니다` : '게시했습니다';
+      notify(`${done}. 1~2분 뒤 사이트에 반영됩니다.${r.viaPull ? ` (보호 규칙에 따라 #${r.viaPull} 로 반영)` : ''}`);
       watchDeploy();
       clearDraft();
       setChanged(false);
@@ -234,6 +264,19 @@ export function ItemEditor({ collection, itemKey }: { collection: CollectionId; 
   };
 
   const loadLatest = (c: Conflict) => {
+    if (move && c.collection === move.collection) {
+      // 옮기기 중 원래 항목이 바뀜 — 바뀐 내용을 다시 옮겨 채우되, 내가 고친 칸(학위·졸업 연도 등)은 그대로 둠
+      if (c.current && source) {
+        const prev = move.convert(source);
+        const fresh = move.convert(c.current);
+        setDraft((d) => mergeItem(prev, fresh, d).merged);
+      }
+      setSource(c.current);
+      setConflict(null);
+      setFormKey((k) => k + 1);
+      notify('최신 정보를 반영했습니다. 내가 고친 칸은 그대로 두었으니 확인한 뒤 다시 게시해 주세요.', 'info');
+      return;
+    }
     setBase(c.current);
     setDraft(c.current ? clone(c.current) : def.defaults());
     setImages({});
@@ -254,8 +297,34 @@ export function ItemEditor({ collection, itemKey }: { collection: CollectionId; 
     );
   }
 
+  if (move && srcDef && !source && !conflict) {
+    return (
+      <div className="cms-page">
+        <Notice
+          tone="warn"
+          title={`옮길 ${josa(srcDef.itemLabel, '을', '를')} 찾을 수 없습니다`}
+          actions={
+            <>
+              <Btn onClick={() => navigate(move.collection)}>{srcDef.label} 목록으로</Btn>
+              <Btn onClick={() => navigate(collection)}>{def.label} 목록으로</Btn>
+            </>
+          }
+        >
+          이미 옮겼거나 삭제되었을 수 있습니다.
+        </Notice>
+      </div>
+    );
+  }
+
   const previewItem = normalizeItem(def, { ...draft, [KF]: slug }, base);
   const changeCount = confirming ? countChanges(def, base, confirming.item) : 0;
+
+  /* 옮기기 안내 — 그대로 옮기는 칸과, 이 메뉴에 없어 버리는 칸 */
+  const carried = move && srcDef && source ? def.fields.filter((f) => srcDef.fields.some((s) => s.name === f.name) && hasValue(source[f.name])).map((f) => f.label) : [];
+  const dropped = move && srcDef && source ? srcDef.fields.filter((f) => !def.fields.some((t) => t.name === f.name) && hasValue(source[f.name])).map((f) => `${f.label}${shortValue(f, source[f.name])}`) : [];
+  const sourcePath = move ? `${move.collection}/edit/${moveFrom}` : '';
+  /* 이 항목을 다른 메뉴로 옮기는 버튼 (구성원 편집 화면의 '졸업생으로 옮기기') */
+  const targets = !isNew ? moveTargets(collection) : [];
 
   /* 소제목(section) 단위로 칸 묶기 */
   const groups: { title: string | null; fields: FieldDef[] }[] = [];
@@ -268,27 +337,69 @@ export function ItemEditor({ collection, itemKey }: { collection: CollectionId; 
 
   return (
     <div className="cms-page cms-editor">
-      <header className="cms-page__head">
-        <a
-          className="cms-back"
-          href={`#/${collection}`}
-          onClick={(e) => {
-            e.preventDefault();
-            navigate(collection);
-          }}
-        >
-          ← {def.label} 목록
-        </a>
-        <h1 className="cms-h1">
-          {isNew ? `${def.itemLabel} 추가` : def.title(base ?? draft)}
-          {base?.isSample ? <Badge tone="sample">예시</Badge> : null}
-        </h1>
-        {!isNew ? (
-          <p className="cms-lead">
-            {autoKey ? `번호 ${slug} · ` : ''}사이트 주소 <code>{def.publicPath(slug)}</code>
-          </p>
+      <header className={targets.length ? 'cms-page__head cms-page__head--row' : 'cms-page__head'}>
+        <div>
+          {move && srcDef && source ? (
+            <a
+              className="cms-back"
+              href={`#/${sourcePath}`}
+              onClick={(e) => {
+                e.preventDefault();
+                navigate(sourcePath);
+              }}
+            >
+              ← {srcDef.itemLabel} 「{srcDef.title(source)}」
+            </a>
+          ) : (
+            <a
+              className="cms-back"
+              href={`#/${collection}`}
+              onClick={(e) => {
+                e.preventDefault();
+                navigate(collection);
+              }}
+            >
+              ← {def.label} 목록
+            </a>
+          )}
+          <h1 className="cms-h1">
+            {move ? move.buttonLabel : isNew ? `${def.itemLabel} 추가` : def.title(base ?? draft)}
+            {(base ?? source)?.isSample ? <Badge tone="sample">예시</Badge> : null}
+          </h1>
+          {move && srcDef && source ? (
+            <p className="cms-lead">
+              {srcDef.itemLabel} 「{srcDef.title(source)}」 → {def.itemLabel} · 사이트 주소 <code>{def.publicPath(slug)}</code> 그대로
+            </p>
+          ) : !isNew ? (
+            <p className="cms-lead">
+              {autoKey ? `번호 ${slug} · ` : ''}사이트 주소 <code>{def.publicPath(slug)}</code>
+            </p>
+          ) : null}
+        </div>
+        {targets.length ? (
+          <div className="cms-row">
+            {targets.map((t) => (
+              <Btn key={t.id} variant="secondary" disabled={saving !== null} onClick={() => navigate(`${t.id}/move/${itemKey}`)}>
+                {t.moveFrom?.buttonLabel}
+              </Btn>
+            ))}
+          </div>
         ) : null}
       </header>
+
+      {move && srcDef && source ? (
+        <Notice tone="info" title={`게시하면 ${srcDef.label} 목록에서 빠지고 ${def.label} 목록에 들어갑니다`}>
+          <p className="cms-notice__p">
+            {carried.length ? `${josa(carried.join(', '), '은', '는')} 그대로 옮겨 채워 두었습니다. ` : ''}
+            {move.hint}
+          </p>
+          {dropped.length ? (
+            <p className="cms-notice__p">
+              {def.itemLabel} 정보에는 없는 칸이라 옮기지 않습니다: {dropped.join(', ')}
+            </p>
+          ) : null}
+        </Notice>
+      ) : null}
 
       {restorable ? (
         <Notice
@@ -328,18 +439,22 @@ export function ItemEditor({ collection, itemKey }: { collection: CollectionId; 
         <Notice
           tone="danger"
           title={
-            !conflict.list[0]?.current
-              ? '다른 사람이 이 항목을 먼저 삭제했습니다'
-              : conflict.list[0].fields.length
-                ? `다른 사람이 같은 칸을 먼저 수정했습니다 — ${clashLabels(conflict.list[0])}`
-                : '다른 사람이 먼저 이 항목을 수정했습니다'
+            move && srcDef
+              ? !conflict.list[0]?.current
+                ? `다른 사람이 이 ${josa(srcDef.itemLabel, '을', '를')} 먼저 삭제했거나 옮겼습니다`
+                : `다른 사람이 이 ${srcDef.itemLabel} 정보를 먼저 수정했습니다`
+              : !conflict.list[0]?.current
+                ? '다른 사람이 이 항목을 먼저 삭제했습니다'
+                : conflict.list[0].fields.length
+                  ? `다른 사람이 같은 칸을 먼저 수정했습니다 — ${clashLabels(conflict.list[0])}`
+                  : '다른 사람이 먼저 이 항목을 수정했습니다'
           }
           actions={
             <>
               <Btn variant="ghost" onClick={() => setConflict(null)}>
                 취소
               </Btn>
-              {conflict.list[0] ? (
+              {conflict.list[0] && !(move && !conflict.list[0].current) ? (
                 <Btn variant="secondary" onClick={() => loadLatest(conflict.list[0])}>
                   최신 내용 불러오기
                 </Btn>
@@ -350,9 +465,13 @@ export function ItemEditor({ collection, itemKey }: { collection: CollectionId; 
             </>
           }
         >
-          {conflict.list[0]?.current
-            ? '서로 다른 칸의 수정은 자동으로 합쳐지지만, 같은 칸은 하나를 골라야 합니다. ‘최신 내용 불러오기’를 누르면 내 수정은 사라지고, ‘덮어쓰기’를 누르면 그 칸의 다른 사람 수정이 내 내용으로 바뀝니다.'
-            : '‘덮어쓰기’를 누르면 내 내용으로 이 항목을 다시 만듭니다.'}
+          {move
+            ? conflict.list[0]?.current
+              ? '‘최신 내용 불러오기’를 누르면 바뀐 정보를 다시 옮겨 채우고 내가 고친 칸은 그대로 둡니다. ‘덮어쓰기’를 누르면 다른 사람의 수정은 빼고 지금 화면의 내용으로 옮깁니다.'
+              : `‘덮어쓰기’를 누르면 지금 화면의 내용으로 ${josa(def.itemLabel, '을', '를')} 추가합니다.`
+            : conflict.list[0]?.current
+              ? '서로 다른 칸의 수정은 자동으로 합쳐지지만, 같은 칸은 하나를 골라야 합니다. ‘최신 내용 불러오기’를 누르면 내 수정은 사라지고, ‘덮어쓰기’를 누르면 그 칸의 다른 사람 수정이 내 내용으로 바뀝니다.'
+              : '‘덮어쓰기’를 누르면 내 내용으로 이 항목을 다시 만듭니다.'}
         </Notice>
       ) : null}
 
@@ -391,9 +510,9 @@ export function ItemEditor({ collection, itemKey }: { collection: CollectionId; 
                   <div className={`cms-field${shownErrors.slug ? ' has-error' : ''}`}>
                     <label className="cms-label" htmlFor="cms-f-slug">
                       주소 (영문)
-                      {isNew ? <span className="cms-req">필수</span> : null}
+                      {isNew && !isMove ? <span className="cms-req">필수</span> : null}
                     </label>
-                    {isNew ? (
+                    {isNew && !isMove ? (
                       <input
                         id="cms-f-slug"
                         className="cms-input"
@@ -411,9 +530,11 @@ export function ItemEditor({ collection, itemKey }: { collection: CollectionId; 
                       <p className="cms-static">{slug}</p>
                     )}
                     <p className="cms-help" id="cms-f-slug-help">
-                      {isNew
-                        ? `사이트 주소 ${def.publicPath(slug || '…')} 에 쓰입니다. 영문 소문자·숫자·하이픈(-)만 쓰며, 게시한 뒤에는 바꿀 수 없습니다.`
-                        : '주소는 바꿀 수 없습니다. 바꿔야 하면 새로 추가한 뒤 이 항목을 삭제하세요.'}
+                      {isMove && srcDef
+                        ? `${srcDef.itemLabel}일 때의 주소를 그대로 씁니다. 상세 페이지 주소 ${def.publicPath(slug)} 가 바뀌지 않습니다.`
+                        : isNew
+                          ? `사이트 주소 ${def.publicPath(slug || '…')} 에 쓰입니다. 영문 소문자·숫자·하이픈(-)만 쓰며, 게시한 뒤에는 바꿀 수 없습니다.`
+                          : '주소는 바꿀 수 없습니다. 바꿔야 하면 새로 추가한 뒤 이 항목을 삭제하세요.'}
                     </p>
                     {shownErrors.slug ? <p className="cms-error">{shownErrors.slug}</p> : null}
                   </div>
@@ -444,11 +565,11 @@ export function ItemEditor({ collection, itemKey }: { collection: CollectionId; 
                 삭제
               </Btn>
             ) : null}
-            <Btn variant="ghost" onClick={() => navigate(collection)} disabled={saving !== null}>
+            <Btn variant="ghost" onClick={() => navigate(isMove ? sourcePath : collection)} disabled={saving !== null}>
               취소
             </Btn>
             <Btn variant="primary" type="submit" form="cms-form" busy={saving === 'save'} disabled={saving !== null || imageBusy !== null}>
-              확인하고 게시
+              {isMove ? '확인하고 옮기기' : '확인하고 게시'}
             </Btn>
           </div>
         </div>
@@ -457,7 +578,7 @@ export function ItemEditor({ collection, itemKey }: { collection: CollectionId; 
       <Dialog
         open={confirming !== null}
         wide
-        title={isNew ? `새 ${josa(def.itemLabel, '을', '를')} 게시할까요?` : '바뀐 내용을 확인해 주세요'}
+        title={isMove ? `${josa(def.itemLabel, '으로', '로')} 옮길까요?` : isNew ? `새 ${josa(def.itemLabel, '을', '를')} 게시할까요?` : '바뀐 내용을 확인해 주세요'}
         onClose={() => saving === null && setConfirming(null)}
         actions={
           <>
@@ -465,7 +586,7 @@ export function ItemEditor({ collection, itemKey }: { collection: CollectionId; 
               돌아가서 고치기
             </Btn>
             <Btn variant="primary" busy={saving === 'save'} disabled={saving !== null || changeCount === 0} onClick={() => confirming && void publish(confirming.ops, 'save')}>
-              게시하기
+              {isMove ? '옮기기' : '게시하기'}
             </Btn>
           </>
         }
@@ -473,10 +594,13 @@ export function ItemEditor({ collection, itemKey }: { collection: CollectionId; 
         {confirming ? (
           <>
             <p className="cms-lead cms-dialog__lead">
-              {changeCount === 0
-                ? '바뀐 내용이 없어 게시할 것이 없습니다.'
-                : `${isNew ? '아래 내용으로' : `${changeCount}개 칸이 바뀝니다.`} 게시하면 1~2분 뒤 공개 사이트에 반영되고, 누가 게시했는지 변경 기록에 남습니다.`}
+              {move && srcDef && source
+                ? `「${srcDef.title(source)}」 — ${srcDef.label} 목록에서 빠지고, 아래 내용으로 ${def.label} 목록에 들어갑니다. 1~2분 뒤 공개 사이트에 반영되고, 누가 옮겼는지 변경 기록에 남습니다.`
+                : changeCount === 0
+                  ? '바뀐 내용이 없어 게시할 것이 없습니다.'
+                  : `${isNew ? '아래 내용으로' : `${changeCount}개 칸이 바뀝니다.`} 게시하면 1~2분 뒤 공개 사이트에 반영되고, 누가 게시했는지 변경 기록에 남습니다.`}
             </p>
+            {dropped.length ? <p className="cms-help cms-dialog__lead">옮기지 않는 칸: {dropped.join(', ')}</p> : null}
             <div className={def.previewWide ? 'cms-confirm cms-confirm--stack' : 'cms-confirm'}>
               <ChangeTable def={def} before={base} after={confirming.item} projects={snapshot?.projects ?? []} images={confirming.images} />
               <div className="cms-confirm__preview">

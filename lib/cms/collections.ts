@@ -111,6 +111,12 @@ export interface CollectionDef {
   previewWide?: boolean;
   /** 목록 화면 정렬 (orderable 이면 무시) */
   sort?: (a: Item, b: Item) => number;
+  /**
+   * 다른 메뉴의 항목을 이 메뉴로 옮기기 (구성원 → 졸업생).
+   * 원래 메뉴의 편집 화면에 buttonLabel 버튼이 생기고, 게시하면 원래 항목을 지우고 같은 주소로 이 메뉴에 추가합니다.
+   * 사진 파일은 그대로 쓰고, convert 가 넘겨주지 않는 칸(이 메뉴에 없는 칸)은 버립니다.
+   */
+  moveFrom?: { collection: CollectionId; buttonLabel: string; convert: (item: Item) => Item; hint: string };
 }
 
 /* ------------------------------------------------------------------ 공통 */
@@ -180,6 +186,8 @@ const profileFields: FieldDef[] = [
   { name: 'awards', label: '수상경력', type: 'list', fields: entryFields, addLabel: '수상 추가', hideable: true },
   { name: 'history', label: '이력 (학력·경력)', type: 'list', fields: entryFields, addLabel: '이력 추가', hideable: true },
 ];
+
+const PROFILE_LISTS = profileFields.map((f) => f.name);
 
 const sampleField = (what: string): FieldDef => ({
   name: 'isSample',
@@ -323,6 +331,8 @@ const alumni: CollectionDef = {
   newPosition: 'end',
   orderable: false,
   publicPath: (key) => `/people/${key}`,
+  /* 졸업생 목록 한 줄(연도 · 이름 · 학위논문 · 분야)은 가로로 길어 폼 아래 전체 폭으로 미리보기 */
+  previewWide: true,
   fields: [
     { name: 'name', label: '이름', type: 'text', required: true, half: true, section: '기본 정보' },
     { name: 'nameEn', label: '영문 이름', type: 'text', empty: 'null', placeholder: 'Doyun Kim', half: true },
@@ -343,6 +353,27 @@ const alumni: CollectionDef = {
     sampleField('졸업생'),
   ],
   defaults: () => ({ slug: '', name: '', nameEn: null, degree: 'master', graduatedYear: new Date().getFullYear(), thesis: null, areas: [], affiliation: null, photo: null }),
+  moveFrom: {
+    collection: 'members',
+    buttonLabel: '졸업생으로 옮기기',
+    hint: '학위는 과정에 맞춰(박사과정 → 박사, 그 밖 → 석사), 졸업 연도는 올해로 미리 골라 두었으니 확인해 주세요. 학위논문과 현재 소속(본인이 공개에 동의한 경우만)을 적고, 이력·참여 연구 프로젝트에 ‘현재’로 적힌 줄(예: 2025.03 – 현재 석사과정)은 졸업에 맞게 고친 뒤 게시합니다.',
+    /* 이름·사진·연구 분야·상세 프로필은 그대로, 학위는 과정에서 추정(박사과정 → 박사, 그 밖 → 석사), 졸업 연도는 올해.
+       과정·입학·이메일·관심사·소개는 졸업생 정보에 없어 넘기지 않음 */
+    convert: (m) => {
+      const out: Item = {
+        ...alumni.defaults(),
+        slug: str(m.slug),
+        name: str(m.name),
+        nameEn: typeof m.nameEn === 'string' && m.nameEn ? m.nameEn : null,
+        degree: m.role === 'phd' ? 'phd' : 'master',
+        photo: typeof m.photo === 'string' && m.photo ? m.photo : null,
+        areas: Array.isArray(m.areas) ? m.areas : [],
+      };
+      for (const k of PROFILE_LISTS) if (Array.isArray(m[k]) && (m[k] as unknown[]).length) out[k] = m[k];
+      if (m.isSample === true) out.isSample = true;
+      return out;
+    },
+  },
   suggestKey: (item) => slugify(str(item.nameEn)) || `alumni-${compactDate()}`,
   title: (item) => str(item.name) || '(이름 없음)',
   meta: (item) => {
@@ -587,6 +618,11 @@ export const collectionGroups: { title: string; items: CollectionDef[] }[] = Arr
 
 export function isCollectionId(v: string): v is CollectionId {
   return v in collections;
+}
+
+/** 이 메뉴의 항목을 옮겨 갈 수 있는 메뉴들 (구성원 → 졸업생) */
+export function moveTargets(id: CollectionId): CollectionDef[] {
+  return collectionList.filter((c) => c.moveFrom?.collection === id);
 }
 
 /** CMS 가 읽고 쓰는 데이터 파일 (중복 없이) */

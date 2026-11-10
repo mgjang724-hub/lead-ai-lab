@@ -169,11 +169,22 @@ export function describeOp(op: Op): string {
   return `${def.itemLabel} ${op.before ? '수정' : '추가'} — ${def.title(op.item)}`;
 }
 
+/** 옮기기(한 메뉴에서 지우고 같은 주소로 다른 메뉴에 추가)인지 — 구성원 → 졸업생 */
+export function moveOf(ops: Op[]): { from: Extract<Op, { kind: 'delete' }>; to: Extract<Op, { kind: 'upsert' }> } | null {
+  const data = ops.filter(isDataOp);
+  const [a, b] = data;
+  if (data.length !== 2 || a.kind !== 'delete' || b.kind !== 'upsert') return null;
+  if (b.before || a.key !== b.key || a.collection === b.collection) return null;
+  return { from: a, to: b };
+}
+
 /** 커밋 제목 */
 export function opsTitle(ops: Op[]): string {
   const data = ops.filter(isDataOp);
   const first = data[0] ?? ops[0];
   if (!first) return '[CMS] 변경';
+  const moved = moveOf(ops);
+  if (moved) return `[CMS] ${collections[moved.from.collection].itemLabel} → ${collections[moved.to.collection].itemLabel} 옮김: ${collections[moved.to.collection].title(moved.to.item)}`;
   const main = describeOp(first).replace(' — ', ': ');
   const rest = data.length - 1;
   const title = `[CMS] ${main}${rest > 0 ? ` 외 ${rest}건` : ''}`;
