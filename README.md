@@ -72,13 +72,23 @@ scripts/
   clean.mjs             .next/·out/ 정리 (prebuild/predev 에서 자동 실행)
 ```
 
+## 관리자 화면 (CMS)
+
+소식·구성원·졸업생과 논문·저역서·학술발표·연구 과제는 코드 없이 **관리자 화면 `/admin`** 에서 고칠 수 있습니다 (배포본: `https://mgjang724-hub.github.io/lead-ai-lab/admin`). 번호(종류별 최대 + 1)·연도·정렬값·과제 기간·`counts` 는 관리자 화면이 아래 표의 규칙대로 자동으로 맞춥니다.
+연구실 저장소에 초대받은 GitHub 계정(Write 이상)으로 로그인하며, 편집자는 고친 뒤 바뀐 칸을 확인 창에서 보고 바로 게시합니다(관리자 승인 단계 없음, 모든 게시는 커밋 기록에 남음).
+저장한 내용은 이 저장소의 `content/data/*.json`·`public/images/` 에 커밋되고, 1~2분 뒤 자동 배포됩니다.
+처음 설정(로그인 중계 서버·GitHub App)과 편집자 추가 방법은 **[docs/CMS-설정-안내.md](docs/CMS-설정-안내.md)**, 새 항목 종류를 CMS 에 붙이는 방법은 `lib/cms/collections.ts` 주석을 보세요.
+`npm run dev` 로 띄운 개발 서버의 `/admin` 에는 실제 저장소를 건드리지 않는 체험 모드가 있습니다.
+
 ## 데이터 수정 방법 (컴포넌트 수정 불필요)
+
+아래 표는 파일을 직접 고칠 때의 안내입니다. 소식·구성원·졸업생·논문·저역서·학술발표·연구 과제는 관리자 화면에서도 같은 형식으로 저장됩니다(연구 분야 명칭, 브랜드·교수 소개 문구 등은 아직 파일로만).
 
 | 할 일 | 파일 | 비고 |
 | --- | --- | --- |
 | 논문·저역서·학술발표 추가 | `content/data/publications.json` `items[]` | `id` 는 종류별(`j`·`b`·`c`) **가장 큰 번호 + 1**(번호는 오래된 순, 2026-11-09 재부여 — 기존 번호는 바꾸지 않음). `type`(journal/book/conference), `date`(YYYY 또는 YYYY.MM), `areas`, `scope`(professor/lab). 논문은 `authors`(제1저자부터 쉼표 구분)·`doi`(확인된 것만)·`url`(DOI 가 없을 때 KCI 등 논문 페이지)도 입력. `counts` 도 함께 갱신 → `npm run check:data` |
 | 연구 과제 추가 | `content/data/projects.json` | `id` 는 `p` + 가장 큰 번호 + 1. `startYear/endYear`, `status`(ongoing/completed), `summary`·`media` 는 선택 |
-| 구성원 추가 | `content/data/members.json` `members[]` | `role`(phd 박사과정 / master 석사과정 / undergrad 학부생연구원 / researcher 연구원 / other), `slug`, People 목록은 박사과정을 따로, 석사과정과 학부생연구원을 '석사과정 / 학부생연구원' 한 묶음(같은 행)으로 표시(`lib/content.ts` `MEMBER_GROUPS`), `interests[]`, `photo` 없으면 중립 대체 면으로 표시. `nameEn` 이 있으면 프로필 이름 옆에 영문 이름을 작게 표시. `research[]`·`awards[]`·`history[]`(각 항목 `{ period, title, detail? }`)는 값이 있을 때만 프로필에 연구실적·수상경력·이력 섹션으로 표시. `projects[]`(참여 연구 프로젝트)는 연구실 과제면 `{ projectId: "p01", role? }` 만 적으면 과제명·기간·지원 기관을 projects.json 에서 가져오고 Projects 페이지의 해당 과제로 연결, 연구실 과제가 아니면 `{ period, title, role?, detail? }` 를 직접 입력. 프로필에는 Research interests 가 있어 `areas` 는 화면에 표시하지 않음(값은 유지). 예시 구성원 2명(`isSample: true`)은 '예시' 배지와 함께 표시, 실제 명단 입력 후 삭제 |
+| 구성원 추가 | `content/data/members.json` `members[]` | `role`(phd 박사과정 / master 석사과정 / undergrad 학부생연구원 / researcher 연구원 / other), `slug`, People 목록은 박사과정을 따로, 석사과정과 학부생연구원을 '석사과정 / 학부생연구원' 한 묶음(같은 행)으로 표시(`lib/content.ts` `MEMBER_GROUPS`), `interests[]`, `photo` 없으면 중립 대체 면으로 표시. `nameEn` 이 있으면 프로필 이름 옆에 영문 이름을 작게 표시. `research[]`·`awards[]`·`history[]`(각 항목 `{ period, title, detail? }`)는 값이 있을 때만 프로필에 연구실적·수상경력·이력 섹션으로 표시. 네 목록(`projects[]` 포함) 모두 줄에 `"hidden": true` 를 넣으면(관리자 화면의 '사이트에 표시' 해제) 그 줄은 표시하지 않고, 표시할 줄이 없으면 섹션도 숨김 — 저장소가 공개라 숨긴 줄도 저장소에는 남음. `projects[]`(참여 연구 프로젝트)는 연구실 과제면 `{ projectId: "p01", role? }` 만 적으면 과제명·기간·지원 기관을 projects.json 에서 가져오고 Projects 페이지의 해당 과제로 연결, 연구실 과제가 아니면 `{ period, title, role?, detail? }` 를 직접 입력. 프로필에는 Research interests 가 있어 `areas` 는 화면에 표시하지 않음(값은 유지). 예시 구성원 2명(`isSample: true`)은 '예시' 배지와 함께 표시, 실제 명단 입력 후 삭제 |
 | 졸업생 추가 | `content/data/members.json` `alumni[]` | `degree`(phd/master), `graduatedYear`. `nameEn`·`research[]`·`projects[]`·`awards[]`·`history[]` 는 구성원과 같은 방식으로 표시. 졸업생 프로필 정보는 Thesis · Degree(영문 표기만: `Ph.D. in Education (Educational Technology)` / `M.A. in Education (Educational Technology)`, 문구는 `lib/content.ts` `alumnusDegreeLabelsEn`) · Graduated · Affiliation(현재 소속 `affiliation`, 값이 있을 때만) 을 표시하고, `areas` 는 프로필에 표시하지 않음(값은 유지, 졸업생 목록에서는 계속 표시). 예시 졸업생 1명(`isSample: true`)은 '예시' 배지와 함께 표시, 실제 명단 입력 후 삭제 |
 | 소식 추가 | `content/data/news.json` `items[]` | `category`(notice/conference/publication/award/event/member), `date` ISO, `body[]`. 예시 항목(`isSample: true`) 4건(세미나·회식·환영 모임·워크숍)은 '예시' 배지와 함께 표시, 실제 소식 입력 후 삭제. 이 파일의 항목이 Home 'Latest from the lab' 에 나옴 |
 | 연구실 연혁 | `content/data/lab-history.json` | 현재 화면에 표시하지 않음 (About 의 연구 여정 섹션을 뺐음). 로더만 남아 있어 다시 쓸 수 있음 |

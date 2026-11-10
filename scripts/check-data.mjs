@@ -10,6 +10,8 @@ const publicFile = (p) => typeof p === 'string' && p.startsWith('/') && existsSy
 const AREAS = ['ai-in-education', 'learning-analytics', 'instructional-design', 'teacher-competency', 'hrd'];
 const TYPES = ['journal', 'book', 'conference'];
 const NEWS_CATS = ['notice', 'conference', 'publication', 'award', 'event', 'member'];
+/* 상세 페이지 주소(/news/<slug>, /people/<slug>)에 쓰이므로 관리자 화면(lib/cms/collections.ts KEY_PATTERN)과 같은 규칙 */
+const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const errors = [];
 const warn = [];
 const assert = (cond, msg) => {
@@ -56,6 +58,7 @@ for (const p of prj.items) {
   assert(Number.isInteger(p.startYear) && Number.isInteger(p.endYear) && p.startYear <= p.endYear, `${p.id}: 연도 범위 오류`);
   assert(['ongoing', 'completed'].includes(p.status), `${p.id}: status "${p.status}"`);
   isAreaList(p.areas, p.id);
+  if (p.media && !publicFile(p.media)) errors.push(p.id + ': media 파일 없음 "' + p.media + '"');
 }
 
 // career
@@ -73,6 +76,11 @@ const profileLists = (p) => {
     if (p[k] == null) continue;
     assert(Array.isArray(p[k]) && p[k].every((e) => e && e.period && e.title), `${p.slug}: ${k} 항목은 { period, title, detail? } 형식이어야 합니다`);
   }
+  for (const k of ['research', 'projects', 'awards', 'history']) {
+    for (const e of Array.isArray(p[k]) ? p[k] : []) {
+      if (e && 'hidden' in e) assert(typeof e.hidden === 'boolean', `${p.slug}: ${k} 의 hidden 은 true/false 여야 합니다`);
+    }
+  }
   if (p.projects != null) {
     assert(Array.isArray(p.projects), `${p.slug}: projects 는 배열이어야 합니다`);
     const ids = new Set(prj.items.map((x) => x.id));
@@ -83,6 +91,7 @@ const profileLists = (p) => {
   }
 };
 unique([...members.members, ...members.alumni].map((m) => m.slug), 'members.slug');
+for (const m of [...members.members, ...members.alumni]) assert(SLUG.test(m.slug || ''), `people "${m.slug}": 주소(slug)는 영문 소문자·숫자·하이픈만`);
 for (const m of members.members) {
   assert(m.slug && m.name, 'member: slug/name 누락');
   assert(['phd', 'master', 'undergrad', 'researcher', 'other'].includes(m.role), `${m.slug}: role "${m.role}"`);
@@ -104,7 +113,10 @@ for (const a of members.alumni) {
 const news = read('news.json');
 unique(news.items.map((n) => n.slug), 'news.slug');
 for (const n of news.items) {
+  assert(SLUG.test(n.slug || ''), `news "${n.slug}": 주소(slug)는 영문 소문자·숫자·하이픈만`);
+  assert(!String(n.slug).startsWith('pub-'), `news "${n.slug}": pub- 로 시작하는 주소는 자동 생성 소식용입니다`);
   assert(/^\d{4}(-\d{2}){0,2}$/.test(n.date), `${n.slug}: date "${n.date}" (YYYY, YYYY-MM, YYYY-MM-DD)`);
+  if (n.image && !publicFile(n.image)) errors.push(n.slug + ': image 파일 없음 "' + n.image + '"');
   assert(NEWS_CATS.includes(n.category), `${n.slug}: category "${n.category}"`);
   assert(n.title, `${n.slug}: 제목 없음`);
   if (/\[예시/.test(n.title) && !n.isSample) errors.push(`${n.slug}: 예시 제목인데 isSample 이 없습니다`);

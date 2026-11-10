@@ -90,6 +90,11 @@ export interface ProfileEntry {
   title: string;
   /** 보조 정보 (예: 구분 · 게재지·학회·기관) */
   detail?: string | null;
+  /**
+   * true 면 상세 프로필에 표시하지 않습니다(관리자 화면의 '사이트에 표시' 체크 해제). 기록은 데이터에 남겨 둡니다.
+   * 저장소가 공개이므로 숨긴 줄도 저장소에서는 보입니다 — 공개하면 안 되는 내용은 지우세요.
+   */
+  hidden?: boolean;
 }
 
 /** 인물 프로필의 참여 연구 프로젝트 한 줄 — 연구실 과제(projects.json)면 projectId 로 연결하고, 아니면 period·title 을 직접 적습니다 */
@@ -102,6 +107,8 @@ export interface ProfileProject {
   role?: string | null;
   /** 보조 정보 (예: 지원 기관) */
   detail?: string | null;
+  /** true 면 상세 프로필에 표시하지 않음 (ProfileEntry.hidden 과 같음) */
+  hidden?: boolean;
 }
 
 export interface Member {

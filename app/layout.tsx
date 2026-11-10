@@ -7,7 +7,7 @@ import { site } from '@/content/site';
 import { brand } from '@/content/brand';
 import { buildSearchIndex } from '@/lib/search';
 import { withBasePath } from '@/lib/base-path';
-import { TransitionProvider } from '@/components/nav/TransitionProvider';
+import { SiteChrome } from '@/components/nav/SiteChrome';
 import { SiteHeader } from '@/components/nav/SiteHeader';
 import { SiteFooter } from '@/components/nav/SiteFooter';
 import { BackToTop } from '@/components/nav/BackToTop';
@@ -56,17 +56,19 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="preload" href={withBasePath('/fonts/InterVariable-latin.woff2')} as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <body>
-        <TransitionProvider>
-          <div className="lab-site">
-            <SiteHeader searchIndex={searchIndex} />
-            <main id="lab-main" tabIndex={-1} className="lab-main">
-              {children}
-            </main>
-            <SiteFooter />
-            <BackToTop />
-          </div>
-        </TransitionProvider>
-        {process.env.NODE_ENV !== 'production' ? <GridOverlay /> : null}
+        {/* 관리자 화면(/admin)에서는 SiteChrome 이 머리말·바닥글 없이 본문만 그립니다 */}
+        <SiteChrome
+          header={<SiteHeader searchIndex={searchIndex} />}
+          footer={<SiteFooter />}
+          extras={
+            <>
+              <BackToTop />
+              {process.env.NODE_ENV !== 'production' ? <GridOverlay /> : null}
+            </>
+          }
+        >
+          {children}
+        </SiteChrome>
       </body>
     </html>
   );

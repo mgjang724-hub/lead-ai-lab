@@ -76,6 +76,7 @@ function projectRows(list?: ProfileProject[] | null): ProfileRow[] | null {
   if (!list?.length) return null;
   const byId = new Map(getProjects().map((p) => [p.id, p]));
   return list.flatMap((e) => {
+    if (e.hidden) return [];
     const p = e.projectId ? byId.get(e.projectId) : undefined;
     const title = p?.title ?? e.title;
     /* 과제 기간 표기("2020.07~2022.06")를 프로필의 다른 기간 표기("2023.03 – 현재")와 맞춤 */
@@ -86,7 +87,10 @@ function projectRows(list?: ProfileProject[] | null): ProfileRow[] | null {
   });
 }
 
-/** 연구실적 · 참여 연구 프로젝트 · 수상경력 · 이력 — 값이 있는 섹션만. 예시 인물은 섹션마다 '예시' 배지 */
+/**
+ * 연구실적 · 참여 연구 프로젝트 · 수상경력 · 이력 — 값이 있는 섹션만. 예시 인물은 섹션마다 '예시' 배지.
+ * hidden: true 인 줄(관리자 화면에서 '사이트에 표시' 체크를 끈 줄)은 빼고, 남는 줄이 없으면 섹션도 감춥니다.
+ */
 function ProfileSections({
   research,
   projects,
@@ -100,12 +104,13 @@ function ProfileSections({
   history?: ProfileRow[] | null;
   sample?: boolean;
 }) {
+  const shown = (items?: ProfileRow[] | null) => (items ?? []).filter((it) => !it.hidden);
   const groups = [
-    { key: 'research', en: 'Research', ko: '연구실적', items: research },
-    { key: 'projects', en: 'Projects', ko: '참여 연구 프로젝트', items: projects },
-    { key: 'awards', en: 'Awards', ko: '수상경력', items: awards },
-    { key: 'history', en: 'Education & Career', ko: '이력', items: history },
-  ].filter((g) => g.items?.length);
+    { key: 'research', en: 'Research', ko: '연구실적', items: shown(research) },
+    { key: 'projects', en: 'Projects', ko: '참여 연구 프로젝트', items: shown(projects) },
+    { key: 'awards', en: 'Awards', ko: '수상경력', items: shown(awards) },
+    { key: 'history', en: 'Education & Career', ko: '이력', items: shown(history) },
+  ].filter((g) => g.items.length);
   if (!groups.length) return null;
   return (
     <>
