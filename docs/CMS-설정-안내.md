@@ -3,7 +3,8 @@
 연구실 홈페이지의 관리자 화면(`/admin`)을 처음 켜거나, 저장소 관리를 다른 사람에게 넘길 때 보는 문서입니다.
 한 번 설정해 두면 이후에는 아래 **8. 편집자 추가·제거** 만 하면 됩니다.
 
-- 관리자 화면 주소: `https://mgjang724-hub.github.io/lead-ai-lab/admin` (저장소를 옮기면 주소가 바뀝니다)
+- 관리자 화면 주소: `https://smu-edtech-lab.github.io/lead-ai-lab/admin` (저장소를 옮기면 주소가 바뀝니다)
+- 저장소: `https://github.com/smu-edtech-lab/lead-ai-lab` — 연구실 GitHub 조직 `smu-edtech-lab` 소유 (2026-11-10 개인 계정에서 옮김)
 - 지금 편집할 수 있는 것: **소식·구성원·졸업생**, **논문·저역서·학술발표·연구 과제** (사이트 문구·디자인·레이아웃은 다음 단계)
 - 편집자가 보는 안내(메뉴별 입력 칸·사진 규격·저장 위치·권한과 계정·인수인계 체크리스트): **[CMS-사용-안내.md](CMS-사용-안내.md)**
 
@@ -63,14 +64,14 @@
 
 GitHub App 은 관리자 화면이 "이 저장소의 콘텐츠만" 고칠 수 있도록 권한을 좁혀 주는 장치입니다.
 
-1. GitHub 오른쪽 위 프로필 → **Settings** → 맨 아래 **Developer settings** → **GitHub Apps** → **New GitHub App**
-   (저장소를 조직으로 옮긴 뒤라면: 조직 페이지 → **Settings** → **Developer settings** → **GitHub Apps**)
+1. 조직 페이지 `https://github.com/smu-edtech-lab` → **Settings** → 왼쪽 맨 아래 **Developer settings** → **GitHub Apps** → **New GitHub App**
+   - 개인 계정의 Settings 가 아니라 **조직의 Settings** 에서 만듭니다. 그래야 담당자가 바뀌어도 App 을 따로 넘길 필요가 없습니다.
 2. 아래처럼 채웁니다.
 
 | 칸 | 값 |
 |---|---|
 | GitHub App name | `LEAD AI Lab CMS` (이미 있는 이름이면 뒤에 계정 이름을 붙임) |
-| Homepage URL | 사이트 주소 `https://mgjang724-hub.github.io/lead-ai-lab/` |
+| Homepage URL | 사이트 주소 `https://smu-edtech-lab.github.io/lead-ai-lab/` |
 | Callback URL | 2단계 Worker 주소 + `/callback` 예: `https://lead-ai-lab-cms-auth.<계정이름>.workers.dev/callback` |
 | Expire user authorization tokens | **체크 유지** (로그인이 8시간 뒤 자동 만료) |
 | Request user authorization (OAuth) during installation | 체크 해제 |
@@ -93,7 +94,7 @@ Cloudflare → Workers & Pages → `lead-ai-lab-cms-auth` → **Settings** → *
 |---|---|---|
 | `GITHUB_CLIENT_ID` | Text | 3단계의 Client ID |
 | `GITHUB_CLIENT_SECRET` | **Secret** | 3단계의 client secret |
-| `ALLOWED_RETURN_URLS` | Text | `https://mgjang724-hub.github.io/lead-ai-lab/admin,http://localhost:3000/admin` |
+| `ALLOWED_RETURN_URLS` | Text | `https://smu-edtech-lab.github.io/lead-ai-lab/admin,http://localhost:3000/admin` |
 
 저장(**Deploy**)합니다. `ALLOWED_RETURN_URLS` 에 없는 주소로는 로그인 결과를 돌려보내지 않으므로, 사이트 주소가 바뀌면 여기도 바꿔야 합니다.
 
@@ -110,16 +111,15 @@ GitHub 저장소 → **Settings** → **Secrets and variables** → **Actions** 
 
 ## 7. 로그인 확인
 
-1. `https://mgjang724-hub.github.io/lead-ai-lab/admin` 접속 → **GitHub 계정으로 로그인**
+1. `https://smu-edtech-lab.github.io/lead-ai-lab/admin` 접속 → **GitHub 계정으로 로그인**
 2. GitHub 가 "LEAD AI Lab CMS 가 계정에 접근하려 합니다" 를 물으면 **Authorize**
 3. 관리자 화면 위쪽에 내 이름이 보이고 왼쪽 메뉴(소식·사람 / 연구 실적)가 열리면 끝입니다.
 
 ## 8. 편집자 추가·제거 (사람이 바뀔 때마다)
 
 1. 추가할 사람에게 GitHub 계정을 만들어 아이디를 알려 달라고 합니다 (무료).
-2. 저장소 → **Settings** → **Collaborators** (조직이면 **Collaborators and teams**) → **Add people** → 아이디 입력
-   - 역할은 **Write** 면 충분합니다 (개인 계정 저장소에는 역할 선택이 없고 협업자는 모두 Write 입니다)
-   - 편집자 초대·제거를 함께 맡을 사람이 필요하면 연구실 조직으로 옮긴 뒤 그 사람에게 **Admin** 을 줍니다
+2. 저장소 → **Settings** → **Collaborators and teams** → **Add people** → 아이디 입력 → 역할 **Write**
+   - 편집자 초대·제거를 함께 맡을 사람은 조직 페이지 → **People** → **Invite member** 에서 **Owner** 로 초대합니다 (소유자는 2명 이상 권장)
 3. 초대받은 사람이 **메일의 초대를 수락**해야 로그인할 수 있습니다.
 4. 졸업 등으로 빠지는 사람은 같은 화면에서 **Remove** 합니다.
 
@@ -151,9 +151,13 @@ GitHub → **Settings** → **Developer settings** → **Personal access tokens*
 
 만든 토큰을 관리자 화면에 붙여 넣습니다. 토큰은 그 브라우저 탭에만 보관되고 탭을 닫으면 지워집니다. 토큰을 다른 사람에게 보내거나 문서에 적지 마세요.
 
-## 11. 저장소를 연구실 조직으로 옮긴 뒤 할 일
+## 11. 저장소를 다른 곳으로 옮길 때
 
-1. GitHub App 을 새 조직에 설치 (3단계 4번) — 또는 조직 소유로 App 을 새로 만들기
+2026-11-10 개인 계정 `mgjang724-hub` 에서 조직 `smu-edtech-lab` 으로 한 번 옮겼습니다. 다시 옮길 때(저장소 → **Settings** → 맨 아래 **Transfer**)는 아래를 함께 합니다.
+
+- **사이트 주소가 바뀝니다** (`https://<새 소유자>.github.io/lead-ai-lab/`). GitHub 은 저장소 주소는 새 위치로 넘겨주지만 **사이트 주소(github.io)는 넘겨주지 않아** 옛 주소는 열리지 않습니다.
+
+1. GitHub App 을 새 소유자에게 설치 (3단계 4번) — 또는 새 소유자 소유로 App 을 새로 만들기
 2. Worker 의 `ALLOWED_RETURN_URLS` 를 새 관리자 화면 주소로 (`https://<조직이름>.github.io/lead-ai-lab/admin`)
 3. 저장소 변수 `CMS_AUTH_URL` 이 그대로 있는지 확인 → 6단계 다시 배포
 4. 이 PC 의 저장소 연결 주소 바꾸기: `git remote set-url origin https://github.com/<조직이름>/lead-ai-lab.git`

@@ -9,4 +9,4 @@ compatibility_date = "2026-10-01"
 [vars]
 # GitHub App 의 Client ID 와 관리자 화면 주소로 바꿔 주세요 (설정 안내서 2·3단계)
 GITHUB_CLIENT_ID = ""
-ALLOWED_RETURN_URLS = "https://mgjang724-hub.github.io/lead-ai-lab/admin,http://localhost:3000/admin"
+ALLOWED_RETURN_URLS = "https://smu-edtech-lab.github.io/lead-ai-lab/admin,http://localhost:3000/admin"

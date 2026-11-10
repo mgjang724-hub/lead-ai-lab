@@ -11,7 +11,7 @@
  *   GITHUB_CLIENT_ID       GitHub App 의 Client ID
  *   GITHUB_CLIENT_SECRET   GitHub App 의 Client secret  ← 반드시 "Secret" 형식으로
  *   ALLOWED_RETURN_URLS    토큰을 돌려보내도 되는 관리자 화면 주소(쉼표로 구분)
- *                          예: https://mgjang724-hub.github.io/lead-ai-lab/admin,http://localhost:3000/admin
+ *                          예: https://smu-edtech-lab.github.io/lead-ai-lab/admin,http://localhost:3000/admin
  *
  * 설정 방법 전체: docs/CMS-설정-안내.md
  */

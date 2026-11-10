@@ -49,7 +49,7 @@ export interface CommitAuthor {
 
 export interface RepoBackend {
   readonly kind: 'github' | 'mock';
-  /** 저장소 이름 (화면 표시용, 예: "mgjang724-hub/lead-ai-lab") */
+  /** 저장소 이름 (화면 표시용, 예: "smu-edtech-lab/lead-ai-lab") */
   readonly repoLabel: string;
   /** 게시 브랜치 (main) */
   readonly branch: string;
