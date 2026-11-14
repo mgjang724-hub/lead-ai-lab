@@ -1,12 +1,13 @@
 'use client';
 import { useState } from 'react';
 import { loginUrl } from '@/lib/cms/auth';
-import { cmsConfig } from '@/lib/cms/config';
+import { cmsConfig, guideUrl } from '@/lib/cms/config';
 import { Btn, Notice } from './ui';
 
 export function LoginScreen({ error, onToken, onMock }: { error?: string; onToken: (token: string) => void; onMock?: () => void }) {
   const [token, setToken] = useState('');
   const url = typeof window !== 'undefined' ? loginUrl() : null;
+  const guide = guideUrl();
   return (
     <div className="cms cms--center">
       <main className="cms-login" aria-labelledby="cms-login-title">
@@ -29,6 +30,16 @@ export function LoginScreen({ error, onToken, onMock }: { error?: string; onToke
             로그인 중계 서버 주소(CMS_AUTH_URL)가 없습니다. 저장소의 <code>docs/CMS-설정-안내.md</code> 를 따라 설정하면 &lsquo;GitHub 계정으로 로그인&rsquo; 버튼이 생깁니다. 그 전에는 아래 토큰 로그인을 쓸 수 있습니다.
           </Notice>
         )}
+
+        {guide ? (
+          <p className="cms-help cms-login__guide">
+            처음이라면{' '}
+            <a href={guide} target="_blank" rel="noreferrer noopener">
+              사용 안내
+            </a>
+            에서 편집자로 초대받는 방법과 자주 하는 일을 먼저 확인하세요.
+          </p>
+        ) : null}
 
         <details className="cms-login__more" open={!url && !onMock}>
           <summary>토큰으로 로그인 (설정 전·비상용)</summary>

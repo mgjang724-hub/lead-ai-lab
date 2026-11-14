@@ -3,6 +3,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { withBasePath } from '@/lib/base-path';
 import { collectionGroups } from '@/lib/cms/collections';
+import { guideUrl } from '@/lib/cms/config';
 import type { DeployInfo } from '@/lib/cms/types';
 import { useCms } from './context';
 import { Avatar, Notice, Spinner, cx, timeAgo } from './ui';
@@ -72,6 +73,7 @@ function DeployStatus() {
 export function Shell({ children, onSignOut, onResetMock }: { children: ReactNode; onSignOut: () => void; onResetMock?: () => void }) {
   const { user, backend, route, navigate } = useCms();
   const current = route[0] ?? '';
+  const guide = guideUrl();
   const navLink = (id: string, label: string) => (
     <li key={id || 'home'}>
       <a
@@ -99,6 +101,11 @@ export function Shell({ children, onSignOut, onResetMock }: { children: ReactNod
           <a className="cms-top__link" href={withBasePath('/')} target="_blank" rel="noreferrer noopener">
             사이트 보기 ↗
           </a>
+          {guide ? (
+            <a className="cms-top__link" href={guide} target="_blank" rel="noreferrer noopener">
+              사용 안내 ↗
+            </a>
+          ) : null}
           <span className="cms-top__user">
             <Avatar src={user.avatarUrl} name={user.name} />
             <span className="cms-top__name">{user.name}</span>
