@@ -8,6 +8,16 @@
 - 지금 편집할 수 있는 것: **소식·구성원·졸업생**, **논문·저역서·학술발표·연구 과제** (사이트 문구·디자인·레이아웃은 다음 단계)
 - 편집자가 보는 안내(메뉴별 입력 칸·사진 규격·저장 위치·권한과 계정·인수인계 체크리스트): **[CMS-사용-안내.md](CMS-사용-안내.md)**
 
+### 지금 설정된 값 (2026-11-14, 2~6단계 완료)
+
+| 항목 | 값 |
+|---|---|
+| 로그인 중계 서버 (Cloudflare Worker) | `lead-ai-lab-cms-auth` — `https://lead-ai-lab-cms-auth.mgjang724.workers.dev` (홈페이지 담당자의 개인 Cloudflare 계정. 담당자가 바뀌면 Cloudflare **Members** 로 새 담당자를 초대하거나 새 계정에 다시 만듦) |
+| GitHub App | `LEAD AI Lab CMS` (조직 `smu-edtech-lab` 소유, Client ID `Iv23lipHaxk3hV4jTvY8` — 공개해도 되는 값) |
+| App 설치 범위 | `smu-edtech-lab/lead-ai-lab` 저장소 하나 |
+| Worker 변수 | `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`(Secret), `ALLOWED_RETURN_URLS` |
+| 저장소 변수 | `CMS_AUTH_URL` = 위 Worker 주소 |
+
 ---
 
 ## 0. 한눈에 보기
@@ -54,9 +64,9 @@
 
 ## 2. 로그인 중계 서버 만들기 (Cloudflare Worker)
 
-1. <https://dash.cloudflare.com> 에 로그인 → 왼쪽 **Workers & Pages** → **Create** → **Create Worker**
-2. 이름을 `lead-ai-lab-cms-auth` 로 적고 **Deploy**
-3. **Edit code** 를 눌러 기본 코드를 모두 지우고, 저장소의 `cms-auth/worker.js` 내용을 그대로 붙여 넣은 뒤 **Deploy**
+1. <https://dash.cloudflare.com> 에 로그인 → 왼쪽 **Workers & Pages** → **Create application** → **Start with Hello World!**
+2. Worker name 을 `lead-ai-lab-cms-auth` 로 적고 (**Protect with Cloudflare Access** 는 꺼 둔 채) **Deploy**
+3. 오른쪽 위 **Edit code** 를 눌러 기본 코드를 모두 지우고, 저장소의 `cms-auth/worker.js` 내용을 그대로 붙여 넣은 뒤 **Deploy**
 4. 화면 위쪽에 보이는 Worker 주소를 적어 둡니다. 예: `https://lead-ai-lab-cms-auth.<계정이름>.workers.dev`
    이 주소를 브라우저로 열면 "로그인 중계 서버입니다" 라는 문장이 보여야 합니다.
 
@@ -81,14 +91,16 @@ GitHub App 은 관리자 화면이 "이 저장소의 콘텐츠만" 고칠 수 �
 | Repository permissions › Actions | **Read-only** (사이트 반영 상태 표시용) |
 | Where can this GitHub App be installed? | **Only on this account** |
 
-3. **Create GitHub App** → 만들어진 페이지에서
-   - **Client ID** 를 복사해 둡니다.
-   - **Generate a new client secret** 을 눌러 나온 값을 복사해 둡니다. (다시 볼 수 없으니 바로 4단계에 넣습니다)
+3. **Create GitHub App** → 만들어진 App 설정 페이지에서
+   - **General** 화면의 **Client ID** 를 복사해 둡니다 (공개해도 되는 값).
+   - 왼쪽 **Credentials** → **Client secrets** → **New secret** 을 눌러 나온 값을 복사합니다. 다시 볼 수 없으니 바로 4단계에 넣습니다.
+   - 같은 화면 **Key pairs** → **New key** 로 private key 를 하나 만듭니다. GitHub 이 App 을 설치하려면 키가 하나 있어야 한다고 요구하기 때문입니다.
+     관리자 화면은 이 키를 쓰지 않으므로, 내려받아진 `.pem` 파일은 **바로 지웁니다** (저장소·Dropbox 에 넣지 않음).
 4. 왼쪽 **Install App** → 계정 옆 **Install** → **Only select repositories** → `lead-ai-lab` 선택 → **Install**
 
 ## 4. 중계 서버에 값 넣기
 
-Cloudflare → Workers & Pages → `lead-ai-lab-cms-auth` → **Settings** → **Variables and Secrets** → **Add**
+Cloudflare → Workers & Pages → `lead-ai-lab-cms-auth` → **Settings** → **Variables and secrets** → **Add variable** (Key·Value 를 적고, 비밀값은 **Secret** 체크 → **Add variable and deploy**)
 
 | 이름 | 종류 | 값 |
 |---|---|---|

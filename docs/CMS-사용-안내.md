@@ -331,8 +331,8 @@
 |---|---|---|---|
 | **연구실 GitHub 조직** `smu-edtech-lab` | 저장소·사이트 전체의 주인. 조직 소유자(Owner)가 편집자 초대·제거, 설정을 맡음 | 조직 소유자 — **2명 이상** 권장 | 소유자 각자의 GitHub 비밀번호·2단계 인증 (본인만) |
 | **편집자 각자의 GitHub 계정** | 관리자 화면 로그인 | 편집자 본인 | 본인 비밀번호 (공유 금지) |
-| **GitHub App** `LEAD AI Lab CMS` | 로그인한 사람이 “이 저장소의 콘텐츠만” 고치도록 권한을 좁힘 | 조직 소유로 만듦 (설정 안내 3단계) | Client ID(공개해도 됨), **client secret**(Cloudflare 에만 넣음) |
-| **Cloudflare 계정**과 Worker `lead-ai-lab-cms-auth` | GitHub 로그인 결과를 관리자 화면으로 돌려주는 중계 서버 (`cms-auth/worker.js`) | **연구실 공용 이메일로 만든 계정 권장** | client secret 을 보관. Cloudflare 비밀번호 |
+| **GitHub App** `LEAD AI Lab CMS` | 로그인한 사람이 “이 저장소의 콘텐츠만” 고치도록 권한을 좁힘 | 조직 소유로 만듦 (설정 안내 3단계) | Client ID(공개해도 됨), **client secret**(Cloudflare 에만 넣음). 설치에 필요해 만든 private key 는 쓰지 않으며 파일은 보관하지 않음 |
+| **Cloudflare 계정**과 Worker `lead-ai-lab-cms-auth` | GitHub 로그인 결과를 관리자 화면으로 돌려주는 중계 서버 (`cms-auth/worker.js`) | 지금은 홈페이지 담당자의 개인 계정. **연구실 공용 이메일 계정 권장** | client secret 을 보관. Cloudflare 비밀번호 |
 | 저장소 변수 `CMS_AUTH_URL` | 관리자 화면이 중계 서버 주소를 알게 함 | 저장소 관리자 | 비밀 아님 (Worker 주소) |
 | 비상용 토큰 (Fine-grained personal access token) | 중계 서버가 없거나 고장 났을 때 임시 로그인 | 쓰는 사람 각자 | **토큰 자체가 비밀번호입니다.** 짧게(7일 등) 만들고 남에게 보내거나 문서에 적지 않음 |
 

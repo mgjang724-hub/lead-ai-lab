@@ -7,6 +7,7 @@ main = "worker.js"
 compatibility_date = "2026-10-01"
 
 [vars]
-# GitHub App 의 Client ID 와 관리자 화면 주소로 바꿔 주세요 (설정 안내서 2·3단계)
-GITHUB_CLIENT_ID = ""
+# GitHub App 'LEAD AI Lab CMS' 의 Client ID (공개해도 되는 값)와 관리자 화면 주소 (설정 안내서 3·4단계).
+# 대시보드에서 바꾼 값이 있으면 명령줄 배포가 이 값으로 덮어쓰니, 두 곳을 같게 유지하세요.
+GITHUB_CLIENT_ID = "Iv23lipHaxk3hV4jTvY8"
 ALLOWED_RETURN_URLS = "https://smu-edtech-lab.github.io/lead-ai-lab/admin,http://localhost:3000/admin"
