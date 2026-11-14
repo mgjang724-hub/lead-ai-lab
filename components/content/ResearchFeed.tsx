@@ -17,7 +17,7 @@ import { Button, TextLink } from '@/components/ui/Button';
 type FeedKind = 'publications' | 'projects';
 
 export function ResearchFeed(p: {
-  index: string;
+  index?: string;
   pubs: Publication[];
   projects: Project[];
   /** 논문 탭의 설명 */

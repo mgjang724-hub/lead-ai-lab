@@ -11,6 +11,7 @@ import { Reveal } from '@/components/motion/Reveal';
 import { Accordion } from '@/components/ui/Controls';
 import { Button, TextLink } from '@/components/ui/Button';
 import { TransitionLink } from '@/components/nav/TransitionLink';
+import { Phrases } from '@/components/ui/Phrases';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -37,12 +38,7 @@ export default function AboutPage() {
       <section className="lab-sec lab-container lab-prof" aria-labelledby="about-prof" id="professor">
         <MediaFrame ratio="4/5" tone="gray" src={professor.photo} alt={professor.photoAlt} className="lab-prof__img lab-prof__photo" eager sizes="(min-width: 1024px) 30vw, 100vw" />
         <div className="lab-prof__body">
-          <p className="lab-t-label">
-            <span className="lab-t-index" style={{ marginRight: 14 }}>
-              01
-            </span>
-            Professor
-          </p>
+          <p className="lab-t-label">Professor</p>
           <h2 id="about-prof" className="lab-t-h1">
             {professor.name}
           </h2>
@@ -127,7 +123,6 @@ export default function AboutPage() {
       <section className="lab-sec lab-sec--subtle" aria-labelledby="about-overview" id="overview">
         <div className="lab-container lab-twocol">
           <div className="lab-twocol__sticky">
-            <span className="lab-t-index">02</span>
             <h2 id="about-overview" className="lab-t-h1">
               Overview
             </h2>
@@ -145,7 +140,6 @@ export default function AboutPage() {
                 <dt>Focus</dt>
                 <dd>
                   {brand.fields.join(' · ')}
-                  <span className="lab-t-caption">{brand.meaning}</span>
                 </dd>
                 <dt>Affiliation</dt>
                 <dd>
@@ -176,7 +170,6 @@ export default function AboutPage() {
       <section className="lab-sec" aria-labelledby="about-vision" id="vision">
         <div className="lab-container lab-twocol">
           <div className="lab-twocol__sticky">
-            <span className="lab-t-index">03</span>
             <h2 id="about-vision" className="lab-t-h1">
               Vision
             </h2>
@@ -184,7 +177,9 @@ export default function AboutPage() {
           </div>
           <div className="lab-twocol__flow">
             <ScrollText className="lab-t-h3" text="We start from the learner’s experience, read it through analytics, improve it by design — and judge every AI tool by the learning it produces." />
-            <p className="lab-t-title-ko">{brand.sloganKo}</p>
+            <p className="lab-t-title-ko">
+              <Phrases text={brand.sloganKo} />
+            </p>
             <p className="lab-t-body">{brand.intro[1]}</p>
             {/* LEAD 네 축 — 문구는 content/data/brand.json pillars. 관련 연구 분야 링크는 기존 분류를 그대로 가리킴 */}
             <Accordion
@@ -232,7 +227,6 @@ export default function AboutPage() {
       <section className="lab-sec lab-sec--subtle" aria-labelledby="about-cta">
         <div className="lab-container lab-twocol">
           <div className="lab-twocol__sticky">
-            <span className="lab-t-index">04</span>
             <h2 id="about-cta" className="lab-t-h1">
               Join us
             </h2>

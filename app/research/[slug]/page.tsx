@@ -34,7 +34,7 @@ export default async function ResearchAreaPage({ params }: { params: Promise<{ s
 
   return (
     <>
-      <PageHero index={`0${idx + 1}`} eyebrow="Research Area" lines={area.title.split(' & ').length > 1 ? area.title.split(' & ').map((s, i) => (i ? `& ${s}` : s)) : [area.title]} ko={area.ko} lead={area.summary}>
+      <PageHero index="03" eyebrow="Research Area" lines={area.title.split(' & ').length > 1 ? area.title.split(' & ').map((s, i) => (i ? `& ${s}` : s)) : [area.title]} ko={area.ko} lead={area.summary}>
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Research Areas', href: '/research' }, { label: area.title }]} />
       </PageHero>
 

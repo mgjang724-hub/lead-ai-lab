@@ -35,13 +35,12 @@ export default function ResearchPage() {
       <section className="lab-sec lab-sec--tight-top" aria-label="주요 연구 분야" id="areas">
         <div className="lab-container">
           <ol className="lab-areadoc" role="list">
-            {areas.map((a, i) => {
+            {areas.map((a) => {
               const pubs = getPublicationsByArea(a.id);
               const hid = `area-${a.slug}`;
               return (
                 <li key={a.id} id={a.slug} className="lab-areadoc__item" aria-labelledby={hid}>
                   <Reveal variant="stagger" className="lab-areadoc__head">
-                    <span className="lab-t-index">{String(i + 1).padStart(2, '0')}</span>
                     <h2 id={hid} className="lab-t-h3 lab-areadoc__title">
                       {a.title}
                     </h2>

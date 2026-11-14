@@ -13,7 +13,7 @@ import { Icon } from '@/components/ui/Icon';
 import { MediaFrame } from '@/components/motion/MediaFrame';
 import { TransitionLink } from '@/components/nav/TransitionLink';
 
-export function MemberProfile({ member, className }: { member: Member; className?: string }) {
+export function MemberProfile({ member, hideRole, className }: { member: Member; /** 묶음 이름과 과정 표기가 같으면 카드에서 과정 줄을 생략 */ hideRole?: string; className?: string }) {
   const host = useRef<HTMLAnchorElement>(null);
   const panel = useRef<HTMLDivElement>(null);
   useDirectionalHover(host, panel);
@@ -41,7 +41,7 @@ export function MemberProfile({ member, className }: { member: Member; className
             {member.name}
             {member.isSample ? <span className="lab-badge lab-badge--sample lab-member__badge">예시</span> : null}
           </span>
-          <span className="lab-member__role lab-t-body-s">{role}</span>
+          {hideRole && hideRole === role ? null : <span className="lab-member__role lab-t-body-s">{role}</span>}
           <span className="lab-member__touch lab-t-caption">{member.interests.join(' · ')}</span>
         </span>
       </TransitionLink>
@@ -49,13 +49,13 @@ export function MemberProfile({ member, className }: { member: Member; className
   );
 }
 
-export function MemberGrid({ members, cols, className }: { members: Member[]; cols?: 3 | 4; className?: string }) {
+export function MemberGrid({ members, cols, hideRole, className }: { members: Member[]; cols?: 3 | 4; hideRole?: string; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   useReveal(ref, { variant: 'stagger' });
   return (
     <div ref={ref} className={cx('lab-members', cols && `lab-members--${cols}`, className)} data-reveal="">
       {members.map((m) => (
-        <MemberProfile key={m.slug} member={m} />
+        <MemberProfile key={m.slug} member={m} hideRole={hideRole} />
       ))}
     </div>
   );

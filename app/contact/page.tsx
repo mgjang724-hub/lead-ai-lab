@@ -58,6 +58,11 @@ export default function ContactPage() {
                 <dt className="lab-t-label">Email</dt>
                 <dd className="lab-t-body-l">
                   <a href={`mailto:${site.email}`}>{site.email}</a>
+                  {site.emailIsSample ? (
+                    <span className="lab-badge lab-badge--sample" style={{ marginLeft: 8 }}>
+                      예시
+                    </span>
+                  ) : null}
                 </dd>
               </div>
             ) : null}
@@ -72,7 +77,6 @@ export default function ContactPage() {
       <section className="lab-sec lab-sec--subtle" aria-labelledby="contact-join" id="join">
         <div className="lab-container lab-twocol">
           <div className="lab-twocol__sticky">
-            <span className="lab-t-index">02</span>
             <h2 id="contact-join" className="lab-t-h1">
               Joining the lab
             </h2>

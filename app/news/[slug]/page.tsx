@@ -33,22 +33,21 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
   const related = all.filter((n) => n.category === item.category && n.slug !== item.slug).slice(0, 2);
   return (
     <>
-      <PageHero index="06" eyebrow={cat.en} lines={[cat.ko]} ko={item.title} lead={item.excerpt}>
+      {/* 글 제목이 이 페이지의 가장 큰 제목입니다. 분류는 위 라벨에, 날짜는 제목 아래에 한 번씩만(2026-11-15) */}
+      <PageHero index="06" eyebrow={cat.en} lines={[item.title]} titleSize="text" lead={item.excerpt}>
+        <p className="lab-article__meta">
+          <time className="lab-t-index" dateTime={item.date}>
+            {formatDate(item.date)}
+          </time>
+          <span lang="ko">{cat.ko}</span>
+          {item.isSample ? <span className="lab-badge lab-badge--sample">예시</span> : null}
+        </p>
         <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'News', href: '/news' }, { label: item.title }]} />
       </PageHero>
-      <article className="lab-sec lab-sec--tight-top lab-container lab-article" aria-labelledby="news-title">
+      <article className="lab-sec lab-sec--tight-top lab-container lab-article" aria-label={item.title}>
         <div className="lab-article__body">
-          <p className="lab-article__meta">
-            <time className="lab-t-index" dateTime={item.date}>
-              {formatDate(item.date)}
-            </time>
-            <span className="lab-t-label">{cat.en}</span>
-            {item.isSample ? <span className="lab-badge lab-badge--sample">예시</span> : null}
-          </p>
-          <h2 id="news-title" className="lab-sr-only">
-            {item.title}
-          </h2>
-          <MediaFrame ratio="16/9" label={item.imageLabel || cat.ko} src={item.image} alt={item.image ? item.title : ''} trigger="mount" />
+          {/* 사진은 있을 때만 — 없으면 본문이 바로 시작합니다 */}
+          {item.image ? <MediaFrame ratio="16/9" src={item.image} alt={item.title} trigger="mount" /> : null}
           <Reveal variant="stagger">
             {(item.body || [item.excerpt || '']).map((para, i) => (
               <p key={i} className="lab-t-body-l">
@@ -68,7 +67,7 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
               <p className="lab-t-label" style={{ color: 'var(--text-tertiary)', marginBottom: 20 }}>
                 Related
               </p>
-              <div style={{ display: 'grid', gap: 32 }}>
+              <div className="lab-newslist">
                 {related.map((n) => (
                   <NewsCard key={n.slug} item={n} size="s" />
                 ))}

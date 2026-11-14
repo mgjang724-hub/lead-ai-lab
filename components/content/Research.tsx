@@ -118,7 +118,6 @@ export function ResearchGrid({ areas, feature = true, className }: { areas: Rese
         <li key={a.id} className={cx('lab-rgrid__cell', feature && i === 0 && 'lab-rgrid__cell--feature')}>
           <TransitionLink className="lab-rgrid__card" href={areaHref(a)} label="Research">
             <span className="lab-rgrid__top">
-              <span className="lab-rgrid__idx lab-t-index">{pad(i + 1)}</span>
               <span className="lab-rgrid__arrow" aria-hidden="true">
                 <Icon name="arrow-up-right" size={24} stroke={1.25} />
               </span>

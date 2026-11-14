@@ -9,6 +9,7 @@ import { SplitText } from '@/components/motion/Reveal';
 import { MediaFrame, type MediaFrameProps } from '@/components/motion/MediaFrame';
 import { FieldLattice } from '@/components/motion/FieldLattice';
 import { brand } from '@/content/brand';
+import { Phrases } from '@/components/ui/Phrases';
 
 export interface HeroProps {
   lines: string[];
@@ -63,7 +64,11 @@ export function Hero(p: HeroProps) {
           <MediaFrame ratio="4/5" reveal="expand" trigger="mount" delay={dur('delay-hero') + 250} eager {...(p.media || { label: '연구실 대표 이미지' })} />
         </div>
         <div ref={body} className="lab-hero__body" data-reveal="">
-          {p.ko ? <p className="lab-t-title-ko-l lab-hero__ko">{p.ko}</p> : null}
+          {p.ko ? (
+            <p className="lab-t-title-ko-l lab-hero__ko">
+              <Phrases text={p.ko} />
+            </p>
+          ) : null}
           {p.lead ? <p className="lab-t-lead lab-hero__lead">{p.lead}</p> : null}
           {p.actions ? <div className="lab-hero__actions">{p.actions}</div> : null}
         </div>
@@ -86,11 +91,14 @@ export interface PageHeroProps {
   ko?: string;
   lead?: string;
   tone?: 'brand';
+  /** 'text' 면 제목을 긴 글 제목용 크기로(소식 상세처럼 문장 길이의 한글 제목). 기본은 display-l */
+  titleSize?: 'text';
   className?: string;
   children?: ReactNode;
 }
 
-/* PageHero — 하위 페이지 오프닝: index·label, display-l 제목(마스크), hairline, 국문 제목·리드 */
+/* PageHero — 하위 페이지 오프닝: index·label, display-l 제목(마스크), hairline, 그 아래 2단(국문 제목은 영문 제목과 같은 왼쪽 선 | 리드·경로는 5단부터).
+   섹션 헤더와 같은 단 구성입니다. 국문 제목이 없으면 리드·경로가 왼쪽 선에서 시작합니다. */
 export function PageHero(p: PageHeroProps) {
   const rule = useRef<HTMLDivElement>(null);
   const body = useRef<HTMLDivElement>(null);
@@ -103,9 +111,9 @@ export function PageHero(p: PageHeroProps) {
           <span className="lab-t-index">{p.index || '01'}</span>
           <span className="lab-t-label">{p.eyebrow || ''}</span>
         </div>
-        <SplitText as="h1" className="lab-t-display-l lab-phero__title" lines={p.lines || [p.title || '']} lineNodes={p.lineNodes} trigger="mount" delay={120} duration="dur-slower" />
+        <SplitText as="h1" className={cx(p.titleSize === 'text' ? 'lab-phero__title--text' : 'lab-t-display-l', 'lab-phero__title')} lines={p.lines || [p.title || '']} lineNodes={p.lineNodes} trigger="mount" delay={120} duration="dur-slower" />
         <div ref={rule} className="lab-phero__rule" aria-hidden="true" data-reveal="" />
-        <div ref={body} className="lab-phero__body" data-reveal="">
+        <div ref={body} className={cx("lab-phero__body", !p.ko && "lab-phero__body--no-ko")} data-reveal="">
           {p.ko ? <p className="lab-t-title-ko lab-phero__ko">{p.ko}</p> : null}
           {p.lead ? <p className="lab-t-body-l lab-phero__lead">{p.lead}</p> : null}
           {p.children}

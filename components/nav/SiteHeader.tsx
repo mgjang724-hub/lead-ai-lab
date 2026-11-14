@@ -36,10 +36,7 @@ function Brand({ onClick }: { onClick?: () => void }) {
     <TransitionLink className="lab-brand" href="/" label="Home" aria-label={`${brand.name} 홈`} onClick={onClick}>
       <span className="lab-brand__text">
         <Wordmark height={20} decorative />
-        <span className="lab-brand__sub">
-          <span className="lab-brand__sub--long">{brand.meaning}</span>
-          <span className="lab-brand__sub--short">{brand.affiliation}</span>
-        </span>
+        <span className="lab-brand__sub">{brand.affiliation}</span>
       </span>
     </TransitionLink>
   );
@@ -72,10 +69,9 @@ function NavDropdown({ item, open, id, onPick }: { item: NavItem; open: boolean;
   return (
     <div ref={panel} id={id} className={cx('lab-dd', open && 'is-open')} hidden={!open}>
       <ul className="lab-dd__list" role="list">
-        {(item.children || []).map((c, i) => (
+        {(item.children || []).map((c) => (
           <li key={c.label}>
             <TransitionLink className="lab-dd__item" href={c.href} label={item.label} onClick={onPick}>
-              <span className="lab-dd__idx">{String(i + 1).padStart(2, '0')}</span>
               <span className="lab-dd__text">
                 <span className="lab-dd__label">{c.label}</span>
                 {c.ko ? <span className="lab-dd__ko">{c.ko}</span> : null}

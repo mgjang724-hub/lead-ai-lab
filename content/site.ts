@@ -27,8 +27,13 @@ export const site = {
   },
   phone: '02-2287-5456',
   phoneHref: 'tel:+82-2-2287-5456',
-  /** 문의 이메일 — 확인 전까지 null (임의 주소를 만들지 않음) */
-  email: null as string | null,
+  /** 문의 이메일 — Contact 문의 폼이 이 주소로 방문자의 메일 앱을 엽니다.
+   *  지금 값은 2026-11-15 연구실 요청으로 넣은 예시(가상) 주소입니다. example.com 은 문서·예시용으로 예약된 도메인이라
+   *  이 주소로 보낸 메일은 누구에게도 배달되지 않습니다. 실제 주소가 정해지면 이 값을 바꾸고 emailIsSample 을 false 로 바꾸세요.
+   *  null 이면 메일 주소 표시와 메일 보내기가 모두 숨고, 폼은 입력 내용을 정리해 보여 주기만 합니다. */
+  email: 'leadailab@example.com' as string | null,
+  /** true 면 화면에서 주소 옆에 '예시' 배지를 붙이고, 푸터에는 주소를 싣지 않습니다 */
+  emailIsSample: true as boolean,
   /** 배포 URL — 메타데이터·사이트맵에 사용. 배포 시 NEXT_PUBLIC_SITE_URL 로 덮어씀 */
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://lab.example.ac.kr',
   /** 첨부 실적 문서 기준일 */

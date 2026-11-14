@@ -16,7 +16,7 @@ export function ItemPreview({ collection, item, images }: { collection: Collecti
   let body: ReactNode = null;
   switch (collection) {
     case 'news':
-      body = <NewsCard item={{ ...item, title: text(item.title, '제목'), image: resolve(item.image) } as unknown as NewsItem} size="m" />;
+      body = <NewsCard item={{ ...item, title: text(item.title, '제목'), image: resolve(item.image) } as unknown as NewsItem} layout="card" />;
       break;
     case 'members':
       body = <MemberProfile member={{ ...item, name: text(item.name, '이름'), interests: Array.isArray(item.interests) ? item.interests : [], photo: resolve(item.photo) } as unknown as Member} />;

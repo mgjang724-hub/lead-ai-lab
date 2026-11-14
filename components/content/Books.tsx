@@ -19,7 +19,7 @@ export function BookGrid({ items, className }: { items: Publication[]; className
   if (!items.length) return <p className="lab-t-body">등재된 저역서가 없습니다.</p>;
   return (
     <ol ref={ref} className={cx('lab-books', className)} role="list" data-reveal="">
-      {items.map((b, i) => {
+      {items.map((b) => {
         const areas = b.areas.map((id) => areaById[id]?.title).filter(Boolean);
         const cover = (
           <MediaFrame
@@ -47,7 +47,6 @@ export function BookGrid({ items, className }: { items: Publication[]; className
             )}
             <div className="lab-book__meta">
               <p className="lab-book__top lab-t-index">
-                <span>{String(i + 1).padStart(2, '0')}</span>
                 <span>{b.date}</span>
               </p>
               <h3 className="lab-book__title lab-t-h5" lang={b.lang}>

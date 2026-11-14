@@ -71,19 +71,18 @@ export default function HomePage() {
         }}
       />
 
-      {/* (01) About preview */}
+      {/* About preview — 섹션 라벨에는 번호를 붙이지 않습니다(번호는 메뉴 순번 한 가지로만 씁니다, 2026-11-15).
+          LEAD 의 의미와 국문 슬로건은 바로 위 히어로에 있으므로 여기서는 되풀이하지 않습니다 */}
       <section className="lab-sec lab-vision lab-container" aria-labelledby="home-vision">
         <div className="lab-vision__meta">
-          <span className="lab-t-index">01</span>
           <span className="lab-t-label" id="home-vision">
             Vision
           </span>
         </div>
-        <ScrollText className="lab-t-h1 lab-vision__text" text={`${brand.meaning} — we use data and AI to understand how people learn, and design better learning experiences from what we learn.`} />
+        <ScrollText className="lab-t-h1 lab-vision__text" text="We use data and AI to understand how people learn, and design better learning experiences from what we learn." />
         <div className="lab-vision__side">
           <Reveal variant="stagger">
-            <p className="lab-t-title-ko">{brand.sloganKo}</p>
-            <p className="lab-t-body">{brand.intro[1]}</p>
+            <p className="lab-t-body-l">{brand.intro[1]}</p>
             <TextLink href="/about" variant="standalone">
               About the Lab
             </TextLink>
@@ -99,7 +98,6 @@ export default function HomePage() {
           <SectionHeader
             onBrand
             id="home-research"
-            index="02"
             eyebrow="Research"
             lines={['Research Areas.']}
             ko="주요 연구 분야"
@@ -116,20 +114,18 @@ export default function HomePage() {
 
       {/* (03) Research — 논문·연구 과제를 한 섹션에, Publications/Projects 칩으로 전환. 문구는 연구실 제공 문안(내부 관리용 표현 없음) */}
       <ResearchFeed
-        index="03"
         pubs={pubs}
         projects={projects}
         pubsDescription="교육공학과 학습과학을 기반으로 학습과 교육의 다양한 문제를 탐구합니다. 연구를 통해 축적한 지식과 발견을 학술논문으로 공유하고 있습니다."
         projectsDescription="학습분석, 교수설계, 교육기술에 대한 탐구를 바탕으로 교육의 문제를 해결하고 새로운 가능성을 모색합니다."
       />
 
-      {/* (04) People preview — 예시(가상) 구성원도 '예시' 배지와 함께 표시(2026-11-06 결정). 구성원이 하나도 없을 때만 섹션을 숨기고 News 번호를 당깁니다 */}
+      {/* (04) People preview — 예시(가상) 구성원도 '예시' 배지와 함께 표시(2026-11-06 결정). 구성원이 하나도 없을 때만 섹션을 숨깁니다 */}
       {people.length ? (
       <section className="lab-sec lab-sec--subtle" aria-labelledby="home-people">
         <div className="lab-container">
           <SectionHeader
             id="home-people"
-            index="04"
             eyebrow="People"
             lines={['The people', 'behind the work.']}
             ko="연구실 구성원"
@@ -139,6 +135,7 @@ export default function HomePage() {
               </TextLink>
             }
           />
+          {/* 카드는 제목·국문 소제목과 같은 왼쪽 선에서 시작합니다(2026-11-15 연구실 요청). 4열 격자, 인원이 적으면 오른쪽이 비어도 그대로 둡니다 */}
           <MemberGrid members={people} />
         </div>
       </section>
@@ -149,7 +146,6 @@ export default function HomePage() {
         <div className="lab-container">
           <SectionHeader
             id="home-news"
-            index={people.length ? '05' : '04'}
             eyebrow="News"
             lines={['Latest from', 'the lab.']}
             ko="연구실 소식"
@@ -159,9 +155,10 @@ export default function HomePage() {
               </TextLink>
             }
           />
-          <Reveal variant="stagger" className="lab-newsgrid">
-            {news.map((n, i) => (
-              <NewsCard key={n.slug} item={n} size={i === 0 ? 'l' : 's'} />
+          {/* News 페이지와 같은 갤러리형 카드 3장(2026-11-15 연구실 요청). 사진이 없으면 날짜 타일이 표지 */}
+          <Reveal variant="stagger" className="lab-newsgal">
+            {news.map((n) => (
+              <NewsCard key={n.slug} item={n} layout="card" />
             ))}
           </Reveal>
         </div>

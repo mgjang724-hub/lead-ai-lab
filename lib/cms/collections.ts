@@ -247,7 +247,7 @@ const news: CollectionDef = {
       section: '사진',
       help: '사진은 공개 저장소에 올라가며, 지워도 변경 기록에는 남습니다. 게시에 동의한 사진만 올려 주세요.',
     },
-    { name: 'imageLabel', label: '사진이 없을 때 보일 짧은 말', type: 'text', placeholder: '세미나', help: '사진 자리에 대신 표시됩니다. 비우면 분류 이름이 나옵니다.' },
+    { name: 'imageLabel', label: '짧은 꼬리표 (선택)', type: 'text', placeholder: '세미나', help: '소식 목록에서 날짜 옆에 작은 꼬리표로 표시됩니다. 예: 세미나, 회식. 비워도 됩니다.' },
     sampleField('소식'),
   ],
   defaults: () => ({ slug: '', date: today(), category: 'notice', title: '', excerpt: '', body: [], image: null, source: 'manual' }),

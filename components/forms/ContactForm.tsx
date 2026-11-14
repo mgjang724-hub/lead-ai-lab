@@ -1,9 +1,11 @@
 'use client';
 /**
  * ContactForm — 문의 유형 칩, 이름, 이메일, 소속, 내용, 동의. blur·submit 시 검증.
- * 백엔드/이메일 서비스가 연결되지 않았으므로 '전송 완료'로 표시하지 않습니다.
- * 대신 검증을 통과한 내용을 정리해 보여 주고, 복사 또는 (이메일이 확정된 경우) 메일 앱으로 열 수 있게 합니다.
- * 백엔드를 연결하려면 onSubmit(data) → Promise 를 넘기면 그때부터 실제 전송 상태를 표시합니다.
+ * 메일로 보내기(2026-11-15 연구실 요청): content/site.ts 의 email 이 있으면 보내기 버튼이 방문자의 메일 앱을 열고
+ *   받는 주소·제목·본문을 채워 줍니다. 실제 발송은 방문자가 메일 앱에서 보내기를 눌러야 이루어지므로, 이 화면은 '전송 완료'라고 말하지 않습니다.
+ *   메일 앱이 열리지 않는 환경을 위해 정리된 내용과 복사 버튼, 받는 주소를 함께 보여 줍니다. 예시(가상) 주소에는 '예시' 배지가 붙습니다.
+ * email 이 없으면 검증을 통과한 내용을 정리해 보여 주기만 합니다(복사용).
+ * 메일 앱 없이 사이트에서 바로 발송하려면 전송 서버가 필요합니다 — onSubmit(data) → Promise 를 넘기면 그때부터 실제 전송 상태(보내는 중·완료·오류)를 표시합니다.
  */
 import { useEffect, useRef, useState } from 'react';
 import { cx, motion } from '@/lib/motion/core';
@@ -26,6 +28,16 @@ const PURPOSES = [
   { value: 'etc', label: '기타 문의' },
 ];
 const empty = (): ContactData => ({ purpose: PURPOSES[0].value, name: '', email: '', org: '', message: '', agree: false });
+
+/* 받는 주소 표시 — 예시(가상) 주소면 '예시' 배지를 붙입니다 */
+function LabAddress() {
+  return (
+    <span className="lab-form__addr">
+      {site.email}
+      {site.emailIsSample ? <span className="lab-badge lab-badge--sample">예시</span> : null}
+    </span>
+  );
+}
 
 type Errors = Partial<Record<keyof ContactData, string>>;
 function rules(x: ContactData): Errors {
@@ -65,6 +77,9 @@ export function ContactForm({ onSubmit, className }: { onSubmit?: (d: ContactDat
     ]
       .filter((l) => l !== null)
       .join('\n');
+  const purposeLabel = () => PURPOSES.find((p) => p.value === d.purpose)?.label ?? d.purpose;
+  /* 연구실 메일 주소가 있을 때의 mailto 주소(받는 주소·제목·본문 채움). 없으면 null */
+  const mailHref = () => (site.email ? `mailto:${site.email}?subject=${encodeURIComponent(`[연구실 문의] ${purposeLabel()} — ${d.name.trim()}`)}&body=${encodeURIComponent(composed())}` : null);
   const submit = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     const r = rules(d);
@@ -75,7 +90,9 @@ export function ContactForm({ onSubmit, className }: { onSubmit?: (d: ContactDat
       return;
     }
     if (!onSubmit) {
-      /* 백엔드 미연결: 전송하지 않고 정리된 내용을 보여 줌 */
+      /* 전송 서버 미연결: 연구실 메일 주소가 있으면 방문자의 메일 앱을 열어 내용을 채워 주고(보내기는 메일 앱에서), 이어서 정리된 내용을 보여 줌 */
+      const href = mailHref();
+      if (href) window.open(href, '_self');
       setState('ready');
       return;
     }
@@ -128,30 +145,37 @@ export function ContactForm({ onSubmit, className }: { onSubmit?: (d: ContactDat
 
   if (state === 'ready') {
     const text = composed();
-    const subject = `[연구실 문의] ${PURPOSES.find((p) => p.value === d.purpose)?.label ?? ''} — ${d.name.trim()}`;
+    const href = mailHref();
     return (
       <div ref={done} className="lab-form__done" tabIndex={-1} role="status">
-        <h3 className="lab-t-h3">문의 내용이 정리되었습니다.</h3>
+        <h3 className="lab-t-h3">{href ? '메일 앱으로 문의 내용을 넘겼습니다.' : '문의 내용이 정리되었습니다.'}</h3>
         <div className="lab-form__status">
-          <Icon name="alert" size={18} />
-          <p>
-            <b>온라인 접수는 준비 중입니다.</b> 아래 내용을 복사해 연구실로 보내 주시거나, 연구실 전화(
-            <a href={site.phoneHref}>{site.phone}</a>)로 문의해 주세요.
-          </p>
+          <Icon name={href ? 'mail' : 'alert'} size={18} />
+          {href ? (
+            <p>
+              <b>메일 앱에서 보내기를 눌러야 문의가 전송됩니다.</b> 메일 앱이 열리지 않았다면 아래 내용을 복사해 <LabAddress /> 주소로 보내 주시거나, 연구실 전화(
+              <a href={site.phoneHref}>{site.phone}</a>)로 문의해 주세요.
+            </p>
+          ) : (
+            <p>
+              <b>온라인 접수는 준비 중입니다.</b> 아래 내용을 복사해 연구실로 보내 주시거나, 연구실 전화(
+              <a href={site.phoneHref}>{site.phone}</a>)로 문의해 주세요.
+            </p>
+          )}
         </div>
         <div className="lab-form__preview">
           <span className="lab-t-label">Message preview</span>
           <pre>{text}</pre>
         </div>
         <div className="lab-form__actions">
-          <Button variant="primary" icon={copied ? 'check' : 'copy'} onClick={copy}>
-            {copied ? '복사됨' : '내용 복사'}
-          </Button>
-          {site.email ? (
-            <Button variant="secondary" icon="mail" href={`mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`}>
-              메일 앱으로 보내기
+          {href ? (
+            <Button variant="primary" icon="mail" href={href}>
+              메일 앱 다시 열기
             </Button>
           ) : null}
+          <Button variant={href ? 'secondary' : 'primary'} icon={copied ? 'check' : 'copy'} onClick={copy}>
+            {copied ? '복사됨' : '내용 복사'}
+          </Button>
           <Button variant="ghost" icon={null} onClick={() => setState('idle')}>
             수정하기
           </Button>
@@ -199,10 +223,14 @@ export function ContactForm({ onSubmit, className }: { onSubmit?: (d: ContactDat
       />
       {!onSubmit ? (
         <p className="lab-form__status">
-          <Icon name="alert" size={18} />
-          <span>
-            온라인 접수는 준비 중입니다. 확인 버튼을 누르면 입력 내용을 정리해 보여 드리며, 복사해 연구실로 보내 주실 수 있습니다.
-          </span>
+          <Icon name={site.email ? 'mail' : 'alert'} size={18} />
+          {site.email ? (
+            <span>
+              보내기를 누르면 메일 앱이 열리고 입력한 내용이 채워집니다. 메일 앱에서 한 번 더 보내기를 눌러야 전송됩니다. 받는 주소: <LabAddress />
+            </span>
+          ) : (
+            <span>온라인 접수는 준비 중입니다. 확인 버튼을 누르면 입력 내용을 정리해 보여 드리며, 복사해 연구실로 보내 주실 수 있습니다.</span>
+          )}
         </p>
       ) : null}
       {state === 'error' ? (
@@ -213,7 +241,7 @@ export function ContactForm({ onSubmit, className }: { onSubmit?: (d: ContactDat
       ) : null}
       <div className="lab-form__submit">
         <Button type="submit" variant="primary" size="l" magnetic loading={state === 'loading'}>
-          {state === 'loading' ? '보내는 중' : onSubmit ? '문의 보내기' : '입력 내용 확인'}
+          {state === 'loading' ? '보내는 중' : onSubmit ? '문의 보내기' : site.email ? '메일로 보내기' : '입력 내용 확인'}
         </Button>
       </div>
     </form>

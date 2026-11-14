@@ -23,12 +23,11 @@ export default function PeoplePage() {
     <>
       <PageHero index="04" eyebrow="People" lines={['People']} ko="연구실 구성원" lead={`${brand.name}에서 함께 연구하는 재학생·연구원과 졸업생을 소개합니다.`} />
 
-      {/* 01 Members */}
+      {/* Members — 과정별 묶음: 묶음 이름은 왼쪽 단, 카드는 오른쪽 단(3열). 인원이 한두 명인 묶음도 빈 격자처럼 보이지 않습니다(2026-11-15) */}
       <section className="lab-sec lab-sec--tight-top" aria-labelledby="people-members" id="members">
         <div className="lab-container">
           <SectionHeader
             id="people-members"
-            index="01"
             eyebrow="Members"
             lines={['Current members.']}
             ko="재학생·연구원"
@@ -40,11 +39,9 @@ export default function PeoplePage() {
           />
           {totalMembers ? (
             groups.map((g) => (
-              <div key={g.role} style={{ marginBottom: 56 }}>
-                <p className="lab-t-label" style={{ color: 'var(--text-tertiary)', marginBottom: 24 }}>
-                  {g.label}
-                </p>
-                <MemberGrid members={g.members} />
+              <div key={g.role} className="lab-pgroup">
+                <h3 className="lab-t-title-ko lab-pgroup__label">{g.label}</h3>
+                <MemberGrid members={g.members} cols={3} hideRole={g.label} className="lab-pgroup__grid" />
               </div>
             ))
           ) : (
@@ -56,12 +53,11 @@ export default function PeoplePage() {
         </div>
       </section>
 
-      {/* 02 Alumni */}
+      {/* Alumni */}
       <section className="lab-sec lab-sec--subtle" aria-labelledby="people-alumni" id="alumni">
         <div className="lab-container">
           <SectionHeader
             id="people-alumni"
-            index="02"
             eyebrow="Alumni"
             lines={['Alumni.']}
             ko="졸업생"

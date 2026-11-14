@@ -4,6 +4,7 @@ import { SplitText } from '@/components/motion/Reveal';
 import { Button, Roll, TextLink } from '@/components/ui/Button';
 import { Wordmark } from '@/components/brand/Logo';
 import { TransitionLink } from './TransitionLink';
+import { FooterTop } from './BackToTop';
 
 /* SiteFooter — 딥 푸터: 브랜드 태그라인 + CTA 1개("연구실 참여 문의"), 텍스트 롤 페이지 링크, 연락처, 워드마크·소속. 페이지의 두 번째 다크 씬. */
 export function SiteFooter() {
@@ -55,7 +56,7 @@ export function SiteFooter() {
             <a href={site.phoneHref} className="lab-footer__plain">
               {site.phone}
             </a>
-            {site.email ? (
+            {site.email && !site.emailIsSample ? (
               <>
                 <br />
                 <a href={`mailto:${site.email}`} className="lab-footer__plain">
@@ -75,6 +76,7 @@ export function SiteFooter() {
           <span className="lab-t-caption">
             © {year} {brand.name} · {site.university} {site.department}
           </span>
+          <FooterTop />
         </div>
       </div>
     </footer>

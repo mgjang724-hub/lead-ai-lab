@@ -1,6 +1,7 @@
 'use client';
 /**
- * ProjectShowcase — 텍스트 비중이 큰 행 목록. 왼쪽 카드형 썸네일(4/3, 포인터 쪽으로 ≤4° 틸트) + 오른쪽 제목·기간·지원 기관·분야.
+ * ProjectShowcase — 텍스트 비중이 큰 행 목록. 제목·기간·지원 기관·분야. 사진(media)이 있는 과제만 왼쪽에 카드형 썸네일(4/3, 포인터 쪽으로 ≤4° 틸트)이 붙고,
+ *   없는 과제는 글만 보입니다(빈 자리 채움용 사각형·순번 없음, 2026-11-15).
  * Home 피드(2건)·Research(최근 4건)·/projects(전체)가 같은 컴포넌트를 씁니다. ProjectTimeline — 연도 축 위 과제 막대(현재 미사용).
  */
 import { useRef } from 'react';
@@ -11,9 +12,7 @@ import { areaById } from '@/content/research-areas';
 import { MediaFrame } from '@/components/motion/MediaFrame';
 import { TransitionLink } from '@/components/nav/TransitionLink';
 
-const pad = (n: number) => String(n).padStart(2, '0');
-
-function ProjectItem({ item, index }: { item: Project; index: number }) {
+function ProjectItem({ item }: { item: Project }) {
   const media = useRef<HTMLDivElement>(null);
   const meta = useRef<HTMLDivElement>(null);
   useTilt(media, { max: 4 });
@@ -21,16 +20,17 @@ function ProjectItem({ item, index }: { item: Project; index: number }) {
   const areas = item.areas.map((id) => areaById[id]).filter(Boolean);
   const primary = areas[0];
   return (
-    <li className="lab-project" id={item.id}>
+    <li className={cx('lab-project', !item.media && 'lab-project--text')} id={item.id}>
       <div className="lab-project__link">
-        <div ref={media} className="lab-project__media">
-          <div data-tilt-depth="1" className="lab-project__layer">
-            <MediaFrame ratio="4/3" label={item.media ? undefined : 'Project'} src={item.media} alt={item.media ? item.title : undefined} sizes="(min-width: 1024px) 25vw, (min-width: 768px) 220px, 280px" />
+        {item.media ? (
+          <div ref={media} className="lab-project__media">
+            <div data-tilt-depth="1" className="lab-project__layer">
+              <MediaFrame ratio="4/3" src={item.media} alt={item.title} sizes="(min-width: 1024px) 25vw, (min-width: 768px) 220px, 280px" />
+            </div>
           </div>
-        </div>
+        ) : null}
         <div ref={meta} className="lab-project__meta" data-reveal="">
           <div className="lab-project__tags">
-            <span className="lab-t-index">{pad(index + 1)}</span>
             <span className={cx('lab-status', item.status === 'ongoing' && 'is-live')}>{item.status === 'ongoing' ? 'Ongoing' : 'Completed'}</span>
           </div>
           <h3 className="lab-t-h3 lab-project__title">{item.title}</h3>
@@ -69,8 +69,8 @@ function ProjectItem({ item, index }: { item: Project; index: number }) {
 export function ProjectShowcase({ items, className }: { items: Project[]; className?: string }) {
   return (
     <ul className={cx('lab-projects lab-container', className)} role="list">
-      {items.map((it, i) => (
-        <ProjectItem key={it.id} item={it} index={i} />
+      {items.map((it) => (
+        <ProjectItem key={it.id} item={it} />
       ))}
     </ul>
   );

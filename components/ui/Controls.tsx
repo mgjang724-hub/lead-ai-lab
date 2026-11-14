@@ -165,7 +165,6 @@ export function Accordion(p: { items: { title: ReactNode; content: ReactNode }[]
           <div key={i} className={cx('lab-acc__item', on && 'is-open')}>
             <h3 className="lab-acc__h">
               <button type="button" className="lab-acc__btn" aria-expanded={on} aria-controls={`${base}-${i}`} id={`${base}-b${i}`} onClick={() => tog(i)}>
-                <span className="lab-t-index lab-acc__idx">{String(i + 1).padStart(2, '0')}</span>
                 <span className="lab-acc__title lab-t-h5">{it.title}</span>
                 <span className="lab-plus" aria-hidden="true" />
               </button>
